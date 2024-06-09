@@ -11,11 +11,9 @@ class ConnectionController
     //routes
     #[Route('/')]
 
-    public function homepage(){
+    public function homepage()
+    {
 
         return new Response('<strong>Starshop</strong>: your monopoly-busting option for Starship parts!');
     }
-
 }
-
-?>
