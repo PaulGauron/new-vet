@@ -67,6 +67,7 @@ Encore
     //.enableIntegrityHashes(Encore.isProduction())
       .enablePostCssLoader()
 
+      .addStyleEntry('app', 'assets/styles/app.css')
     // uncomment if you're having problems with a jQuery plugin
     //.autoProvidejQuery()
 ;
