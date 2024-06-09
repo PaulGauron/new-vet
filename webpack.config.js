@@ -21,7 +21,7 @@ Encore
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
     .addEntry('app', './assets/app.js')
-
+    .addStyleEntry('tailwind', './assets/styles/app.css')
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
 
@@ -67,6 +67,7 @@ Encore
     //.enableIntegrityHashes(Encore.isProduction())
       .enablePostCssLoader()
 
+      
     // uncomment if you're having problems with a jQuery plugin
     //.autoProvidejQuery()
 ;

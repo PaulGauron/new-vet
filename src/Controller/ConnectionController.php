@@ -13,7 +13,7 @@ class ConnectionController
 
     public function homepage(){
 
-        return new Response('<strong>Starshop</strong>: your monopoly-busting option for Starship parts!');
+        return new Response('<strong>Starshop</strong>ll: your monopoly-busting option for Starship parts!');
     }
 
 }
