@@ -20,13 +20,8 @@ Encore
      * Each entry will result in one JavaScript file (e.g. app.js)
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
-<<<<<<< HEAD
     .addEntry("app", "./assets/app.js")
 
-=======
-    .addEntry('app', './assets/app.js')
-    .addStyleEntry('tailwind', './assets/styles/app.css')
->>>>>>> 8b1fc255ff6c121a9fdfd12b48bbefc96a792534
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
 
@@ -72,14 +67,7 @@ Encore
     //.enableIntegrityHashes(Encore.isProduction())
     .enablePostCssLoader();
 
-<<<<<<< HEAD
 // uncomment if you're having problems with a jQuery plugin
 //.autoProvidejQuery()
-=======
-      
-    // uncomment if you're having problems with a jQuery plugin
-    //.autoProvidejQuery()
-;
->>>>>>> 8b1fc255ff6c121a9fdfd12b48bbefc96a792534
 
 module.exports = Encore.getWebpackConfig();
