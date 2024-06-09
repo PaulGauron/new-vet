@@ -8,8 +8,8 @@ use Symfony\Component\Routing\Attribute\Route;
 class ConnectionController
 {
 
-    //routes
-    #[Route('/')]
+    //route
+    #[Route('/connexion')]
 
     public function homepage()
     {

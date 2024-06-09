@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Mon site Symfony{% endblock %}</title>
+    {% block stylesheets %}
+        {# Ajoute tes fichiers CSS ici #}
+        <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    {% endblock %}
+</head>
+<body>
+    {# <header>
+        <nav>
+            <ul>
+                <li><a href="{{ path('accueil') }}">Accueil</a></li>
+            </ul>
+        </nav>
+    </header> #}
+<header class="bg-gray-800 py-4">
+    <div class="container mx-auto flex justify-between items-center">
+        <h1 class="text-white text-2xl font-bold">Mon Site</h1>
+        <nav>
+            <ul class="flex space-x-4">
+                <li><a href="#" class="text-white hover:text-gray-300">Accueil</a></li>
+                <li><a href="#" class="text-white hover:text-gray-300">À Propos</a></li>
+                <li><a href="#" class="text-white hover:text-gray-300">Services</a></li>
+                <li><a href="#" class="text-white hover:text-gray-300">Contact</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
