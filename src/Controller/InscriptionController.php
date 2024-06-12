@@ -5,16 +5,14 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Attribute\Route;
 
-class ConnectionController extends AbstractController
+class InscriptionController extends AbstractController
 {
     //route
-    #[Route('/connexion')]
+    #[Route('/inscription')]
 
     public function connexion()
     {
 
-        return $this->render('/connexion/connexionpage.html.twig');
+        return $this->render('/inscription/inscriptionpage.html.twig');
     }
 }
-
-?>
