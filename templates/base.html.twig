@@ -3,13 +3,14 @@
     <head>
         <meta charset="UTF-8">
         {{ encore_entry_link_tags('app') }}
+        <title>{% block title %}Mon site Symfony{% endblock %}</title>
     </head>
     <body>
         {% include 'header.html.twig' %}
 
-        <main>
+
             {% block body %}{% endblock %}
-        </main>
+   
 
         {% include 'footer.html.twig' %}
     </body>
