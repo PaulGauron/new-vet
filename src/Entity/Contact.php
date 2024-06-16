@@ -12,9 +12,6 @@ class Contact
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
-
-    #[ORM\Column]
     private ?int $id_contact = null;
 
     #[ORM\Column(length: 100)]
@@ -31,7 +28,7 @@ class Contact
 
     public function getId(): ?int
     {
-        return $this->id;
+        return $this->id_contact;
     }
 
     public function getIdContact(): ?int

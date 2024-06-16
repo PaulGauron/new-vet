@@ -11,9 +11,6 @@ class Concerner
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
-
-    #[ORM\Column]
     private ?int $id_produit = null;
 
     #[ORM\Column]
@@ -24,11 +21,6 @@ class Concerner
 
     #[ORM\Column]
     private ?int $quantite = null;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
     public function getIdProduit(): ?int
     {

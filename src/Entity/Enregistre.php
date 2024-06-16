@@ -10,19 +10,12 @@ class Enregistre
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
 
     #[ORM\Column]
     private ?int $id_utilisateur = null;
 
     #[ORM\Column]
     private ?int $id_adresse = null;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
     public function getIdUtilisateur(): ?int
     {

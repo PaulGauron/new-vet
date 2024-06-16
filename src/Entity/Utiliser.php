@@ -10,19 +10,12 @@ class Utiliser
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
 
     #[ORM\Column]
     private ?int $id_produit = null;
 
     #[ORM\Column]
     private ?int $id_materiaux = null;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
     public function getIdProduit(): ?int
     {

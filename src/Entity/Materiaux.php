@@ -11,9 +11,6 @@ class Materiaux
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
-
-    #[ORM\Column]
     private ?int $id_materiaux = null;
 
     #[ORM\Column(length: 255)]
@@ -21,7 +18,7 @@ class Materiaux
 
     public function getId(): ?int
     {
-        return $this->id;
+        return $this->id_materiaux;
     }
 
     public function getIdMateriaux(): ?int

@@ -11,9 +11,6 @@ class Commandes
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
-
-    #[ORM\Column]
     private ?int $id_commandes = null;
 
     #[ORM\Column]
@@ -21,7 +18,7 @@ class Commandes
 
     public function getId(): ?int
     {
-        return $this->id;
+        return $this->id_commandes;
     }
 
     public function getIdCommandes(): ?int

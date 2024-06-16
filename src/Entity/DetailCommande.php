@@ -12,9 +12,6 @@ class DetailCommande
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
-
-    #[ORM\Column]
     private ?int $id_detail_commande = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
@@ -28,7 +25,7 @@ class DetailCommande
 
     public function getId(): ?int
     {
-        return $this->id;
+        return $this->id_detail_commande;
     }
 
     public function getIdDetailCommande(): ?int

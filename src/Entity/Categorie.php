@@ -11,9 +11,6 @@ class Categorie
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
-
-    #[ORM\Column]
     private ?int $id_categorie = null;
 
     #[ORM\Column(length: 255)]
@@ -27,7 +24,7 @@ class Categorie
 
     public function getId(): ?int
     {
-        return $this->id;
+        return $this->id_categorie;
     }
 
     public function getIdCategorie(): ?int

@@ -14,9 +14,6 @@ class Utilisateur
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
-
-    #[ORM\Column]
     private ?int $id_utilisateur = null;
 
     #[ORM\Column(length: 50)]
@@ -33,7 +30,7 @@ class Utilisateur
 
     public function getId(): ?int
     {
-        return $this->id;
+        return $this->id_utilisateur;
     }
 
     public function getIdUtilisateur(): ?int
