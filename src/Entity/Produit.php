@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Repository\ProduitRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity(repositoryClass: ProduitRepository::class)]
 class Produit
@@ -13,6 +15,9 @@ class Produit
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id_produit = null;
+
+    #[ORM\OneToMany(targetEntity:"App\Entity\Concerner",mappedBy:"produit")]
+    private ?int $concernes;
 
     #[ORM\Column(length: 255)]
     private ?string $nom_prod = null;
@@ -94,5 +99,9 @@ class Produit
         return $this;
     }
 
+    public function __construct()
+    {
+        $this->concernes = new ArrayCollection();
+    }
   
 }

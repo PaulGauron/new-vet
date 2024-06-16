@@ -9,12 +9,12 @@ use Doctrine\ORM\Mapping as ORM;
 class Concerner
 {
     #[ORM\Id]
-    #[ORM\ManyToOne(targetEntity:"App\Entity\Produit")]
+    #[ORM\ManyToOne(targetEntity:"App\Entity\Produit",inversedBy:"concernes")]
     #[ORM\JoinColumn(nullable:false)]
     private ?int $id_produit = null;
 
     #[ORM\Id]
-    #[ORM\ManyToOne(targetEntity:"App\Entity\Commandes")]
+    #[ORM\ManyToOne(targetEntity:"App\Entity\Commandes",inversedBy:"concernes")]
     #[ORM\JoinColumn(nullable:false)]
     private ?int $id_commandes = null;
 
