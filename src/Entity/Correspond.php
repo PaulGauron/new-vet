@@ -8,24 +8,20 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: CorrespondRepository::class)]
 class Correspond
 {
+    
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id_commande = null;
+    #[ORM\ManyToOne(targetEntity:"App\Entity\Commandes",inversedBy:"concernes")]
+    #[ORM\JoinColumn(nullable:false)]
+    private ?int $id_commandes = null;
 
-    #[ORM\Column]
+    #[ORM\Id]
+    #[ORM\ManyToOne(targetEntity:"App\Entity\Adresse",inversedBy:"adresse")]
+    #[ORM\JoinColumn(nullable:false)]
     private ?int $id_adresse = null;
 
     public function getIdCommande(): ?int
     {
-        return $this->id_commande;
-    }
-
-    public function setIdCommande(int $id_commande): static
-    {
-        $this->id_commande = $id_commande;
-
-        return $this;
+        return $this->id_commandes;
     }
 
     public function getIdAdresse(): ?int
@@ -33,10 +29,4 @@ class Correspond
         return $this->id_adresse;
     }
 
-    public function setIdAdresse(int $id_adresse): static
-    {
-        $this->id_adresse = $id_adresse;
-
-        return $this;
-    }
 }

@@ -33,15 +33,6 @@ class Adresse
         return $this->id_adresse;
     }
 
- 
-
-    public function setIdAdresse(int $id_adresse): static
-    {
-        $this->id_adresse = $id_adresse;
-
-        return $this;
-    }
-
     public function getLibelleVoie(): ?string
     {
         return $this->libelle_voie;

@@ -62,16 +62,4 @@ class Categorie
 
         return $this;
     }
-
-    public function getIdImages(): ?int
-    {
-        return $this->id_images;
-    }
-
-    public function setIdImages(int $id_images): static
-    {
-        $this->id_images = $id_images;
-
-        return $this;
-    }
 }

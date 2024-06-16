@@ -9,11 +9,13 @@ use Doctrine\ORM\Mapping as ORM;
 class Concerner
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\ManyToOne(targetEntity:"App\Entity\Produit")]
+    #[ORM\JoinColumn(nullable:false)]
     private ?int $id_produit = null;
 
-    #[ORM\Column]
+    #[ORM\Id]
+    #[ORM\ManyToOne(targetEntity:"App\Entity\Commandes")]
+    #[ORM\JoinColumn(nullable:false)]
     private ?int $id_commandes = null;
 
     #[ORM\Column]
@@ -27,24 +29,12 @@ class Concerner
         return $this->id_produit;
     }
 
-    public function setIdProduit(int $id_produit): static
-    {
-        $this->id_produit = $id_produit;
-
-        return $this;
-    }
-
+   
     public function getIdCommandes(): ?int
     {
         return $this->id_commandes;
     }
 
-    public function setIdCommandes(int $id_commandes): static
-    {
-        $this->id_commandes = $id_commandes;
-
-        return $this;
-    }
 
     public function getPrixCalcul(): ?float
     {

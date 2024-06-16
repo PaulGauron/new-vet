@@ -34,18 +34,6 @@ class Produit
         return $this->id_produit;
     }
 
-    public function getIdProduit(): ?int
-    {
-        return $this->id_produit;
-    }
-
-    public function setIdProduit(int $id_produit): static
-    {
-        $this->id_produit = $id_produit;
-
-        return $this;
-    }
-
     public function getNomProd(): ?string
     {
         return $this->nom_prod;
@@ -105,4 +93,6 @@ class Produit
 
         return $this;
     }
+
+  
 }

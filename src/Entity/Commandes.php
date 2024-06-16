@@ -21,18 +21,6 @@ class Commandes
         return $this->id_commandes;
     }
 
-    public function getIdCommandes(): ?int
-    {
-        return $this->id_commandes;
-    }
-
-    public function setIdCommandes(int $id_commandes): static
-    {
-        $this->id_commandes = $id_commandes;
-
-        return $this;
-    }
-
     public function getIdUtilisateur(): ?int
     {
         return $this->id_utilisateur;
