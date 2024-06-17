@@ -3,30 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Mon site Symfony{% endblock %}</title>
+    <title>{% block title %}NewVet{% endblock %}</title>
     {% block stylesheets %}
-        {# Ajoute tes fichiers CSS ici #}
+        {# Ajouter fichiers CSS ici #}
         <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     {% endblock %}
 </head>
 <body>
-    {# <header>
-        <nav>
-            <ul>
-                <li><a href="{{ path('accueil') }}">Accueil</a></li>
-            </ul>
-        </nav>
-    </header> #}
 <header class="bg-gray-800 py-4">
-    <div class="container mx-auto flex justify-between items-center">
-        <h1 class="text-white text-2xl font-bold">Mon Site</h1>
+    <div class="px-4 flex justify-between items-center">
+        <div class="flex items-center space-x-4">
+            <img src="{{ asset('images/newvet_logo.png') }}" alt="Logo" class="h-10">
+            {# <h1 class="text-white text-2xl font-bold">Mon Site</h1> #}
+        </div>
+        <div class="flex items-center space-x-4">
+            <input type="text" placeholder="Rechercher..." class="px-4 py-2 rounded-md text-xl font-bold">
+            <button class="bg-orange-400 text-white px-4 py-2 rounded-md hover:bg-orange-500">Rechercher</button>
+        </div>
         <nav>
-            <ul class="flex space-x-4">
-                <li><a href="#" class="text-white hover:text-gray-300">Accueil</a></li>
-                <li><a href="#" class="text-white hover:text-gray-300">À Propos</a></li>
-                <li><a href="#" class="text-white hover:text-gray-300">Services</a></li>
-                <li><a href="#" class="text-white hover:text-gray-300">Contact</a></li>
+            <ul class="flex space-x-4 items-center text-xl font-bold">
+                <li><a href="#" class="text-white hover:text-gray-300 hover:no-underline">Accueil</a></li>
+                <li><a href="#" class="text-white hover:text-gray-300 hover:no-underline">À Propos</a></li>
+                <li><a href="#" class="text-white hover:text-gray-300 hover:no-underline">Services</a></li>
+                <li><a href="#" class="text-white hover:text-gray-300 hover:no-underline">Contact</a></li>
+                <li>
+                    {# <a href="{{ path('cart') }}" class="text-white hover:text-gray-300 flex items-center">
+                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5H2m1 8h16a1 1 0 010 2H7a1 1 0 110-2z"></path>
+                        </svg>
+                        <span class="ml-2">Panier</span>
+                    </a> #}
+                </li>
             </ul>
         </nav>
     </div>
 </header>
+
+{% block body %}{% endblock %}
+{% block javascripts %}
+{{ encore_entry_script_tags('app') }}
+{% endblock %}
+</body>
+</html>

@@ -1,9 +1,18 @@
-    <footer>
-        <p>&copy; 2024 NewVet</p>
-    </footer>
-    {% block javascripts %}
-        {# Ajouter fichiers JavaScript ici #}
-        <script></script>
-    {% endblock %}
+<footer class="bg-gray-800 py-4 mt-10">
+    <div class="px-4 flex justify-between items-center">
+        <div class="text-white">
+            <p>&copy; 2024 NewVet. Tous droits réservés.</p>
+        </div>
+        <div class="flex space-x-4 text-white">
+            <a href="#" class="hover:text-gray-300">Mentions Légales</a>
+            <a href="#" class="hover:text-gray-300">Politique de Confidentialité</a>
+            <a href="#" class="hover:text-gray-300">Conditions d'Utilisation</a>
+        </div>
+    </div>
+</footer>
+
+{% block javascripts %}
+{{ encore_entry_script_tags('app') }}
+{% endblock %}
 </body>
 </html>
