@@ -17,7 +17,7 @@ class Produit
     private ?int $id_produit = null;
 
     #[ORM\OneToMany(targetEntity:"App\Entity\Concerner",mappedBy:"produit")]
-    private ?int $concernes;
+    private ?int $id;
 
     #[ORM\Column(length: 255)]
     private ?string $nom_prod = null;
@@ -103,5 +103,5 @@ class Produit
     {
         $this->concernes = new ArrayCollection();
     }
-  
+
 }

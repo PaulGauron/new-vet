@@ -6,12 +6,13 @@ use App\Repository\ConcernerRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ConcernerRepository::class)]
+#[ORM\Table(name:"concerner")]
 class Concerner
 {
     #[ORM\Id]
-    #[ORM\ManyToOne(targetEntity:"App\Entity\Produit",inversedBy:"concernes")]
+    #[ORM\ManyToOne(targetEntity:"App\Entity\Produit",inversedBy:"id")]
     #[ORM\JoinColumn(nullable:false)]
-    private ?int $id_produit = null;
+    private ?int $id = null;
 
     #[ORM\Id]
     #[ORM\ManyToOne(targetEntity:"App\Entity\Commandes",inversedBy:"concernes")]
@@ -29,7 +30,7 @@ class Concerner
         return $this->id_produit;
     }
 
-   
+
     public function getIdCommandes(): ?int
     {
         return $this->id_commandes;
