@@ -8,13 +8,13 @@
         {# Ajouter fichiers CSS ici #}
         <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     {% endblock %}
+    <link rel="icon" href="{{ asset('images/newvet_logo.ico') }}" type="image/x-icon">
 </head>
 <body>
 <header class="bg-gray-800 py-4">
     <div class="px-4 flex justify-between items-center">
         <div class="flex items-center space-x-4">
             <img src="{{ asset('images/newvet_logo.png') }}" alt="Logo" class="h-10">
-            {# <h1 class="text-white text-2xl font-bold">Mon Site</h1> #}
         </div>
         <div class="flex items-center space-x-4">
             <input type="text" placeholder="Rechercher..." class="px-4 py-2 rounded-md text-xl font-bold">
@@ -22,7 +22,7 @@
         </div>
         <nav>
             <ul class="flex space-x-4 items-center text-xl font-bold">
-                <li><a href="#" class="text-white hover:text-gray-300 hover:no-underline">Accueil</a></li>
+                <li><a href="#" class="text-white hover:text-gray-400 hover:no-underline">Accueil</a></li>
                 <li><a href="#" class="text-white hover:text-gray-300 hover:no-underline">À Propos</a></li>
                 <li><a href="#" class="text-white hover:text-gray-300 hover:no-underline">Services</a></li>
                 <li><a href="#" class="text-white hover:text-gray-300 hover:no-underline">Contact</a></li>
