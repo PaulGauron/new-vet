@@ -1,43 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}NewVet{% endblock %}</title>
-    {% block stylesheets %}
-        {# Ajouter fichiers CSS ici #}
-        <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-    {% endblock %}
-    <link rel="icon" href="{{ asset('images/newvet_logo.ico') }}" type="image/x-icon">
-</head>
 <body>
 <header class="bg-gray-800 py-4">
-    <div class="px-4 flex justify-between items-center">
+    <div class="container mx-auto px-4 flex justify-between items-center">
         <div class="flex items-center space-x-4">
             <img src="{{ asset('images/newvet_logo.png') }}" alt="Logo" class="h-10">
+            {# <h1 class="text-white text-2xl font-bold">NewVet</h1> #}
         </div>
-        <div class="flex items-center space-x-4">
+        <div class="hidden md:flex items-center space-x-4">
             <input type="text" placeholder="Rechercher..." class="px-4 py-2 rounded-md text-xl font-bold">
             <button class="bg-orange-400 text-white px-4 py-2 rounded-md hover:bg-orange-500">Rechercher</button>
         </div>
-        <nav>
-            <ul class="flex space-x-4 items-center text-xl font-bold">
-                <li><a href="#" class="text-white hover:text-gray-400 hover:no-underline">Accueil</a></li>
-                <li><a href="#" class="text-white hover:text-gray-300 hover:no-underline">À Propos</a></li>
-                <li><a href="#" class="text-white hover:text-gray-300 hover:no-underline">Services</a></li>
-                <li><a href="#" class="text-white hover:text-gray-300 hover:no-underline">Contact</a></li>
-                <li>
-                    {# <a href="{{ path('cart') }}" class="text-white hover:text-gray-300 flex items-center">
+        <div class="md:hidden flex items-center">
+            <button id="burger-menu" class="text-white focus:outline-none">
+                <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+        <nav class="md:flex hidden mt-4 mb-4">
+            <ul class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 items-center text-xl font-bold">
+                <li><a href="{{ path('accueil') }}" class="text-white hover:text-gray-300">Accueil</a></li>
+                <li><a href="{{ path('categorie') }}" class="text-white hover:text-blue-300">Catégorie</a></li>
+                <li><a href="{{ path('produit') }}" class="text-white hover:text-gray-300">Produit</a></li>
+                <li><a href="#" class="text-white hover:text-gray-300">Contact</a></li>
+                {# <li>
+                    <a href="{{ path('cart') }}" class="text-white hover:text-gray-300 flex items-center">
                         <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5H2m1 8h16a1 1 0 010 2H7a1 1 0 110-2z"></path>
                         </svg>
                         <span class="ml-2">Panier</span>
-                    </a> #}
-                </li>
+                    </a>
+                </li> #}
             </ul>
         </nav>
     </div>
+
 </header>
+
 
 {% block body %}{% endblock %}
 {% block javascripts %}

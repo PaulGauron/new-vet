@@ -1,0 +1,23 @@
+/* Footer collant sur les téléphones uniquement */
+@media (max-width: 767px) {
+    footer {
+        position: fixed;
+        position: sticky;
+        bottom: 0;
+        width: 100%;
+        left: 0;
+        z-index: 999; /* au dessus des autres éléments */
+        .md\:hidden {
+            display: none !important;
+        }
+        .md\:flex {
+            display: flex !important;
+        }
+    }
+
+        /* Centrer menu hamburger */
+        #burger-menu {
+            position: absolute;
+            right: 45%;
+        }
+}
