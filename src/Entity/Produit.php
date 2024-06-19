@@ -3,10 +3,10 @@
 namespace App\Entity;
 
 use App\Repository\ProduitRepository;
-use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProduitRepository::class)]
 class Produit
@@ -14,12 +14,9 @@ class Produit
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id_produit = null;
+    private ?int $id = null;
 
-    #[ORM\OneToMany(targetEntity:"App\Entity\Concerner",mappedBy:"produit")]
-    private ?int $id;
-
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 50)]
     private ?string $nom_prod = null;
 
     #[ORM\Column(length: 255)]
@@ -29,14 +26,32 @@ class Produit
     private ?float $prix_prod = null;
 
     #[ORM\Column]
-    private ?int $en_stock = null;
+    private ?int $stock = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $disponibilite = null;
 
+    /**
+     * @var Collection<int, Images>
+     */
+    #[ORM\OneToMany(targetEntity: Images::class, mappedBy: 'id_prod', orphanRemoval: true)]
+    private Collection $images;
+
+    /**
+     * @var Collection<int, ProduitCommandes>
+     */
+    #[ORM\OneToMany(targetEntity: ProduitCommandes::class, mappedBy: 'id_produit', orphanRemoval: true)]
+    private Collection $produit_commande;
+
+    public function __construct()
+    {
+        $this->images = new ArrayCollection();
+        $this->produit_commande = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
-        return $this->id_produit;
+        return $this->id;
     }
 
     public function getNomProd(): ?string
@@ -75,14 +90,14 @@ class Produit
         return $this;
     }
 
-    public function getEnStock(): ?int
+    public function getStock(): ?int
     {
-        return $this->en_stock;
+        return $this->stock;
     }
 
-    public function setEnStock(int $en_stock): static
+    public function setStock(int $stock): static
     {
-        $this->en_stock = $en_stock;
+        $this->stock = $stock;
 
         return $this;
     }
@@ -99,9 +114,63 @@ class Produit
         return $this;
     }
 
-    public function __construct()
+    /**
+     * @return Collection<int, Images>
+     */
+    public function getImages(): Collection
     {
-        $this->concernes = new ArrayCollection();
+        return $this->images;
     }
 
+    public function addImage(Images $image): static
+    {
+        if (!$this->images->contains($image)) {
+            $this->images->add($image);
+            $image->setIdProd($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImage(Images $image): static
+    {
+        if ($this->images->removeElement($image)) {
+            // set the owning side to null (unless already changed)
+            if ($image->getIdProd() === $this) {
+                $image->setIdProd(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ProduitCommandes>
+     */
+    public function getProduitCommande(): Collection
+    {
+        return $this->produit_commande;
+    }
+
+    public function addProduitCommande(ProduitCommandes $produitCommande): static
+    {
+        if (!$this->produit_commande->contains($produitCommande)) {
+            $this->produit_commande->add($produitCommande);
+            $produitCommande->setIdProduit($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduitCommande(ProduitCommandes $produitCommande): static
+    {
+        if ($this->produit_commande->removeElement($produitCommande)) {
+            // set the owning side to null (unless already changed)
+            if ($produitCommande->getIdProduit() === $this) {
+                $produitCommande->setIdProduit(null);
+            }
+        }
+
+        return $this;
+    }
 }

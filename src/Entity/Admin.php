@@ -7,20 +7,20 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AdminRepository::class)]
 class Admin extends Utilisateur
-{    
+{
 
     #[ORM\Column]
-    private ?bool $access = null;
+    private ?bool $acces = null;
 
-   
-    public function isAccess(): ?bool
+
+    public function isAcces(): ?bool
     {
-        return $this->access;
+        return $this->acces;
     }
 
-    public function setAccess(bool $access): static
+    public function setAcces(bool $acces): static
     {
-        $this->access = $access;
+        $this->acces = $acces;
 
         return $this;
     }

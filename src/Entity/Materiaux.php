@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\MateriauxRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: MateriauxRepository::class)]
@@ -11,36 +13,65 @@ class Materiaux
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id_materiaux = null;
+    private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $nom_mat = null;
+    #[ORM\Column(length: 50)]
+    private ?string $nom__mat = null;
+
+    /**
+     * @var Collection<int, ProduitMateriaux>
+     */
+    #[ORM\OneToMany(targetEntity: ProduitMateriaux::class, mappedBy: 'id_materiaux', orphanRemoval: true)]
+    private Collection $materiaux_produit;
+
+    public function __construct()
+    {
+        $this->materiaux_produit = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
-        return $this->id_materiaux;
-    }
-
-    public function getIdMateriaux(): ?int
-    {
-        return $this->id_materiaux;
-    }
-
-    public function setIdMateriaux(int $id_materiaux): static
-    {
-        $this->id_materiaux = $id_materiaux;
-
-        return $this;
+        return $this->id;
     }
 
     public function getNomMat(): ?string
     {
-        return $this->nom_mat;
+        return $this->nom__mat;
     }
 
-    public function setNomMat(string $nom_mat): static
+    public function setNomMat(string $nom__mat): static
     {
-        $this->nom_mat = $nom_mat;
+        $this->nom__mat = $nom__mat;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ProduitMateriaux>
+     */
+    public function getMateriauxProduit(): Collection
+    {
+        return $this->materiaux_produit;
+    }
+
+    public function addMateriauxProduit(ProduitMateriaux $materiauxProduit): static
+    {
+        if (!$this->materiaux_produit->contains($materiauxProduit)) {
+            $this->materiaux_produit->add($materiauxProduit);
+            $materiauxProduit->setIdMateriaux($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMateriauxProduit(ProduitMateriaux $materiauxProduit): static
+    {
+        if ($this->materiaux_produit->removeElement($materiauxProduit)) {
+            // set the owning side to null (unless already changed)
+            if ($materiauxProduit->getIdMateriaux() === $this) {
+                $materiauxProduit->setIdMateriaux(null);
+            }
+        }
 
         return $this;
     }

@@ -3,15 +3,18 @@
 namespace App\Entity;
 
 use App\Repository\ClientRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ClientRepository::class)]
 class Client extends Utilisateur
-{   
-    #[ORM\Column(length: 255)]
+{
+
+    #[ORM\Column(length: 50)]
     private ?string $methode_paiement = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 50)]
     private ?string $nom_carte = null;
 
     #[ORM\Column(length: 255)]
@@ -22,6 +25,18 @@ class Client extends Utilisateur
 
     #[ORM\Column(length: 255)]
     private ?string $CVV = null;
+
+    /**
+     * @var Collection<int, AdresseClient>
+     */
+    #[ORM\OneToMany(targetEntity: AdresseClient::class, mappedBy: 'id_utilisateur', orphanRemoval: true)]
+    private Collection $client_adresse;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->client_adresse = new ArrayCollection();
+    }
 
     public function getMethodePaiement(): ?string
     {
@@ -79,6 +94,36 @@ class Client extends Utilisateur
     public function setCVV(string $CVV): static
     {
         $this->CVV = $CVV;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, AdresseClient>
+     */
+    public function getAdresseClient(): Collection
+    {
+        return $this->client_adresse;
+    }
+
+    public function addAdresseClient(AdresseClient $adresseClient): static
+    {
+        if (!$this->client_adresse->contains($adresseClient)) {
+            $this->client_adresse->add($adresseClient);
+            $adresseClient->setIdUtilisateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAdresseClient(AdresseClient $adresseClient): static
+    {
+        if ($this->client_adresse->removeElement($adresseClient)) {
+            // set the owning side to null (unless already changed)
+            if ($adresseClient->getIdUtilisateur() === $this) {
+                $adresseClient->setIdUtilisateur(null);
+            }
+        }
 
         return $this;
     }

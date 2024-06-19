@@ -11,32 +11,17 @@ class Categorie
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id_categorie = null;
+    private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 50)]
     private ?string $nom_cat = null;
 
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
-    #[ORM\Column]
-    private ?int $id_images = null;
-
     public function getId(): ?int
     {
-        return $this->id_categorie;
-    }
-
-    public function getIdCategorie(): ?int
-    {
-        return $this->id_categorie;
-    }
-
-    public function setIdCategorie(int $id_categorie): static
-    {
-        $this->id_categorie = $id_categorie;
-
-        return $this;
+        return $this->id;
     }
 
     public function getNomCat(): ?string

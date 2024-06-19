@@ -12,35 +12,24 @@ class Contact
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id_contact = null;
+    private ?int $id = null;
 
-    #[ORM\Column(length: 100)]
+    #[ORM\Column(length: 255)]
     private ?string $sujet = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $texte = null;
+    private ?string $contenu = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $date_contact = null;
 
-    #[ORM\Column]
-    private ?int $id_utilisateur = null;
+    #[ORM\ManyToOne(inversedBy: 'id_util')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Utilisateur $id_util = null;
 
     public function getId(): ?int
     {
-        return $this->id_contact;
-    }
-
-    public function getIdContact(): ?int
-    {
-        return $this->id_contact;
-    }
-
-    public function setIdContact(int $id_contact): static
-    {
-        $this->id_contact = $id_contact;
-
-        return $this;
+        return $this->id;
     }
 
     public function getSujet(): ?string
@@ -55,14 +44,14 @@ class Contact
         return $this;
     }
 
-    public function getTexte(): ?string
+    public function getContenu(): ?string
     {
-        return $this->texte;
+        return $this->contenu;
     }
 
-    public function setTexte(string $texte): static
+    public function setContenu(string $contenu): static
     {
-        $this->texte = $texte;
+        $this->contenu = $contenu;
 
         return $this;
     }
@@ -79,14 +68,14 @@ class Contact
         return $this;
     }
 
-    public function getIdUtilisateur(): ?int
+    public function getIdUtil(): ?Utilisateur
     {
-        return $this->id_utilisateur;
+        return $this->id_util;
     }
 
-    public function setIdUtilisateur(int $id_utilisateur): static
+    public function setIdUtil(?Utilisateur $id_util): static
     {
-        $this->id_utilisateur = $id_utilisateur;
+        $this->id_util = $id_util;
 
         return $this;
     }
