@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\BOController;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class BOajouterProduit extends AbstractController
+class BOajouterProduitController extends AbstractController
 {
 
     #[Route('/addProduct', name: 'addProduct')]
     public function index(): Response
     {
-        return $this->render('/BOajouterProduit.html.twig');
+        return $this->render('./BO/BOajouterProduit.html.twig');
     }
 }

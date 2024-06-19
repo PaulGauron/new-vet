@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\BOController;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class BOtableauBord extends AbstractController
+class BOtableauBordController extends AbstractController
 {
 
     #[Route('/Dashbord', name: 'Dashbord')]
     public function index(): Response
     {
-        return $this->render('/BOtableauBord.html.twig');
+        return $this->render('./BO/BOtableauBord.html.twig');
     }
 }
