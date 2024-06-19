@@ -2,18 +2,19 @@
 
 namespace App\Controller;
 
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Attribute\Route;
 
-class ConnectionController
+class ConnectionController extends AbstractController
 {
-
     //route
     #[Route('/connexion')]
 
-    public function homepage()
+    public function connexion()
     {
 
-        return new Response('<strong>Starshop</strong>: your monopoly-busting option for Starship parts!');
+        return $this->render('/connexion/connexionpage.html.twig');
     }
 }
+
+?>
