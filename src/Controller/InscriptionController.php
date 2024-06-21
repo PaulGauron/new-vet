@@ -13,11 +13,11 @@ class InscriptionController extends AbstractController
     //route
     #[Route('/inscription')]
 
-    /*public function connexion()
+    public function inscription()
     {
 
         return $this->render('/inscription/inscriptionpage.html.twig');
-    }*/
+    }
 
     public function createUser(EntityManagerInterface $entityManager): Response
     {
@@ -25,9 +25,8 @@ class InscriptionController extends AbstractController
         $produit->setNomProd('Keyboard');
         $produit->setPrixProd(1999);
         $produit->setDescriptionProd('Ergonomic and stylish!');
-        $produit->setEnStock(50);
+        $produit->setStock(50);
         $produit->setDisponibilite(1);
-        $produit->setIdProduit(1);
 
         // tell Doctrine you want to (eventually) save the Product (no queries yet)
         $entityManager->persist($produit);
