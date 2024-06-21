@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProduitRepository::class)]
 class Produit
@@ -14,15 +15,33 @@ class Produit
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Assert\Type(
+        type: 'integer',
+        message: 'La valeur {{ value }} n\'est pas valide',
+    )]
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank]
+    #[Assert\Type(
+        type: 'string',
+        message: 'La valeur {{ value }} n\'est pas valide',
+    )]
     private ?string $nom_prod = null;
-
+    
     #[ORM\Column(length: 255)]
+    #[Assert\Type(
+        type: 'string',
+        message: 'La valeur {{ value }} n\'est pas valide',
+    )]
     private ?string $description_prod = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank]
+    #[Assert\Type(
+        type: 'integer',
+        message: 'La valeur {{ value }} n\'est pas valide',
+    )]
     private ?float $prix_prod = null;
 
     #[ORM\Column]

@@ -6,6 +6,7 @@ use App\Repository\MateriauxRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MateriauxRepository::class)]
 class Materiaux
@@ -16,6 +17,10 @@ class Materiaux
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\Type(
+        type: 'string',
+        message: 'La valeur {{ value }} n\'est pas valide',
+    )]
     private ?string $nom__mat = null;
 
     /**
