@@ -21,3 +21,7 @@
             right: 45%;
         }
 }
+/* Texte bordures noires */
+.text-border-black {
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
