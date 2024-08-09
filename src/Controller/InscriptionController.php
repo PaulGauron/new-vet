@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\Produit;
+use App\Entity\Utilisateur;
+use App\Form\UtilisateurType;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -13,27 +15,17 @@ class InscriptionController extends AbstractController
     //route
     #[Route('/inscription')]
 
-    public function inscription()
+    public function RequeteInscription(ManagerRegistry $doctorine): Response
     {
+        $entityManager = $doctorine->getManager();
+        $user = new Utilisateur();
+        $form = $this->createForm(UtilisateurType::class, $user);
 
-        return $this->render('/inscription/inscriptionpage.html.twig');
+        return $this->render('/inscription/inscriptionpage.html.twig', [
+        'form' => $form->createView()
+    ]);
+    
     }
 
-    public function createUser(EntityManagerInterface $entityManager): Response
-    {
-        $produit = new Produit();
-        $produit->setNomProd('Keyboard');
-        $produit->setPrixProd(1999);
-        $produit->setDescriptionProd('Ergonomic and stylish!');
-        $produit->setStock(50);
-        $produit->setDisponibilite(1);
-
-        // tell Doctrine you want to (eventually) save the Product (no queries yet)
-        $entityManager->persist($produit);
-
-        // actually executes the queries (i.e. the INSERT query)
-        $entityManager->flush();
-
-        return new Response('Saved new product with id '.$produit->getId());
-    }
+    
 }
