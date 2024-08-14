@@ -30,7 +30,7 @@ class UtilisateurType extends AbstractType
                 'attr' => ['class' => 'mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-orange-500 focus:ring focus:ring-orange-200']
                 ])
             ->add('mdp', PasswordType::class , [
-                'label' => 'mot de passe',
+                'label' => 'Mot de passe',
                 'attr' => ['class' => 'mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-orange-500 focus:ring focus:ring-orange-200']
                 ])
             ->add('mdp_comfirmation' , PasswordType::class, [

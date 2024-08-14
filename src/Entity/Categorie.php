@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CategorieRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CategorieRepository::class)]
@@ -18,6 +20,17 @@ class Categorie
 
     #[ORM\Column(length: 255)]
     private ?string $description = null;
+
+    /**
+     * @var Collection<int, Produit>
+     */
+    #[ORM\OneToMany(targetEntity: Produit::class, mappedBy: 'id_categorie')]
+    private Collection $produit_categorie;
+
+    public function __construct()
+    {
+        $this->produit_categorie = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -44,6 +57,36 @@ class Categorie
     public function setDescription(string $description): static
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Produit>
+     */
+    public function getProduitCategorie(): Collection
+    {
+        return $this->produit_categorie;
+    }
+
+    public function addProduitCategorie(Produit $produitCategorie): static
+    {
+        if (!$this->produit_categorie->contains($produitCategorie)) {
+            $this->produit_categorie->add($produitCategorie);
+            $produitCategorie->setIdCategorie($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduitCategorie(Produit $produitCategorie): static
+    {
+        if ($this->produit_categorie->removeElement($produitCategorie)) {
+            // set the owning side to null (unless already changed)
+            if ($produitCategorie->getIdCategorie() === $this) {
+                $produitCategorie->setIdCategorie(null);
+            }
+        }
 
         return $this;
     }

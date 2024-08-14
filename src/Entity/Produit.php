@@ -62,6 +62,10 @@ class Produit
     #[ORM\OneToMany(targetEntity: ProduitCommandes::class, mappedBy: 'id_produit', orphanRemoval: true)]
     private Collection $produit_commande;
 
+    #[ORM\ManyToOne(inversedBy: 'produit_categorie')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Categorie $categorie = null;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
@@ -189,6 +193,18 @@ class Produit
                 $produitCommande->setIdProduit(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getIdCategorie(): ?Categorie
+    {
+        return $this->categorie;
+    }
+
+    public function setIdCategorie(?Categorie $id_categorie): static
+    {
+        $this->categorie = $id_categorie;
 
         return $this;
     }

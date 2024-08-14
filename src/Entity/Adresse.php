@@ -33,11 +33,7 @@ class Adresse
     #[ORM\Column(length: 50)]
     private ?string $pays = null;
 
-    /**
-     * @var Collection<int, AdresseCommandes>
-     */
-    #[ORM\OneToMany(targetEntity: AdresseCommandes::class, mappedBy: 'id_adresse', orphanRemoval: true)]
-    private Collection $id_adresse;
+
 
     /**
      * @var Collection<int, AdresseClient>
@@ -45,10 +41,18 @@ class Adresse
     #[ORM\OneToMany(targetEntity: AdresseClient::class, mappedBy: 'id_adresse', orphanRemoval: true)]
     private Collection $adresse_client;
 
+    /**
+     * @var Collection<int, Commandes>
+     */
+    #[ORM\OneToMany(targetEntity: Commandes::class, mappedBy: 'id_adresse')]
+    private Collection $commandes_adresse;
+
+   
+
     public function __construct()
     {
-        $this->id_adresse = new ArrayCollection();
         $this->adresse_client = new ArrayCollection();
+        $this->commandes_adresse = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -128,35 +132,7 @@ class Adresse
         return $this;
     }
 
-    /**
-     * @return Collection<int, AdresseCommandes>
-     */
-    public function getIdAdresse(): Collection
-    {
-        return $this->id_adresse;
-    }
 
-    public function addIdAdresse(AdresseCommandes $idAdresse): static
-    {
-        if (!$this->id_adresse->contains($idAdresse)) {
-            $this->id_adresse->add($idAdresse);
-            $idAdresse->setIdAdresse($this);
-        }
-
-        return $this;
-    }
-
-    public function removeIdAdresse(AdresseCommandes $idAdresse): static
-    {
-        if ($this->id_adresse->removeElement($idAdresse)) {
-            // set the owning side to null (unless already changed)
-            if ($idAdresse->getIdAdresse() === $this) {
-                $idAdresse->setIdAdresse(null);
-            }
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, AdresseClient>
@@ -187,4 +163,35 @@ class Adresse
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Commandes>
+     */
+    public function getCommandesAdresse(): Collection
+    {
+        return $this->commandes_adresse;
+    }
+
+    public function addCommandesAdresse(Commandes $commandesAdresse): static
+    {
+        if (!$this->commandes_adresse->contains($commandesAdresse)) {
+            $this->commandes_adresse->add($commandesAdresse);
+            $commandesAdresse->setIdAdresse($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommandesAdresse(Commandes $commandesAdresse): static
+    {
+        if ($this->commandes_adresse->removeElement($commandesAdresse)) {
+            // set the owning side to null (unless already changed)
+            if ($commandesAdresse->getIdAdresse() === $this) {
+                $commandesAdresse->setIdAdresse(null);
+            }
+        }
+
+        return $this;
+    }
+
 }
