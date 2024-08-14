@@ -10,7 +10,7 @@
 
 
         <h1 class="text-3xl font-bold mb-6">Inscription</h1>
-        <form action="#" method="post" class="bg-gray-100 p-8 rounded shadow-md max-w-lg px-32 mx-auto">
+        <form action={{ path('inscription') }} method="post" class="bg-gray-100 p-8 rounded shadow-md max-w-lg px-32 mx-auto">
             <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
                 <div>
                     {{ form_label(form.nom) }}

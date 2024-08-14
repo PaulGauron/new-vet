@@ -30,7 +30,7 @@ class Utilisateur
     #[ORM\Column(length: 255)]
     private ?string $mdp = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: 'integer', nullable: true)]
     private ?int $telephone = null;
 
     /**
