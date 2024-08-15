@@ -9,22 +9,14 @@ use Doctrine\ORM\Mapping as ORM;
 class ProduitMateriaux
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
-
-    #[ORM\ManyToOne(inversedBy: 'materiaux_produit')]
+    #[ORM\ManyToOne(targetEntity:Materiaux::class, inversedBy: 'materiaux_produit')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Materiaux $id_materiaux = null;
 
-    #[ORM\ManyToOne(inversedBy: 'Produit_Materiaux')]
+    #[ORM\Id]
+    #[ORM\ManyToOne(targetEntity:Produit::class, inversedBy: 'Produit_Materiaux')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Produit $id_produit = null;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
     public function getIdMateriaux(): ?Materiaux
     {
