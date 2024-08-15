@@ -50,11 +50,6 @@ class Produit
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $disponibilite = null;
 
-    /**
-     * @var Collection<int, Images>
-     */
-    #[ORM\OneToMany(targetEntity: Images::class, mappedBy: 'id_prod', orphanRemoval: true)]
-    private Collection $images;
 
     /**
      * @var Collection<int, ProduitCommandes>
@@ -62,14 +57,30 @@ class Produit
     #[ORM\OneToMany(targetEntity: ProduitCommandes::class, mappedBy: 'id_produit', orphanRemoval: true)]
     private Collection $produit_commande;
 
+    #[ORM\OneToMany(targetEntity: ProduitMateriaux::class, mappedBy: 'id_produit', orphanRemoval: true)]
+    private Collection $produit_materiaux;
+
     #[ORM\ManyToOne(inversedBy: 'produit_categorie')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Categorie $categorie = null;
 
+    #[ORM\Column]
+    private ?bool $is_highlander = null;
+
+    #[ORM\Column]
+    private ?int $ordre = null;
+
+    /**
+     * @var Collection<int, ImagesProduit>
+     */
+    #[ORM\OneToMany(targetEntity: ImagesProduit::class, mappedBy: 'produit')]
+    private Collection $imagesProduits;
+
     public function __construct()
     {
-        $this->images = new ArrayCollection();
         $this->produit_commande = new ArrayCollection();
+        $this->imagesProduits = new ArrayCollection();
+        $this->produit_materiaux = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -136,36 +147,38 @@ class Produit
 
         return $this;
     }
+   
 
-    /**
-     * @return Collection<int, Images>
+/**
+     * @return Collection<int, ProduitCommandes>
      */
-    public function getImages(): Collection
+    public function getProduitMateriaux(): Collection
     {
-        return $this->images;
+        return $this->produit_materiaux;
     }
 
-    public function addImage(Images $image): static
+    public function addProduitMateriaux(ProduitMateriaux $produitMateriaux): static
     {
-        if (!$this->images->contains($image)) {
-            $this->images->add($image);
-            $image->setIdProd($this);
+        if (!$this->produit_materiaux->contains($produitMateriaux)) {
+            $this->produit_materiaux->add($produitMateriaux);
+            $produitMateriaux->setIdProduit($this);
         }
 
         return $this;
     }
 
-    public function removeImage(Images $image): static
+    public function removeProduitMateriaux(ProduitMateriaux $produitMateriaux): static
     {
-        if ($this->images->removeElement($image)) {
+        if ($this->produit_materiaux->removeElement($produitMateriaux)) {
             // set the owning side to null (unless already changed)
-            if ($image->getIdProd() === $this) {
-                $image->setIdProd(null);
+            if ($produitMateriaux->getIdProduit() === $this) {
+                $produitMateriaux->setIdProduit(null);
             }
         }
 
         return $this;
     }
+
 
     /**
      * @return Collection<int, ProduitCommandes>
@@ -205,6 +218,60 @@ class Produit
     public function setIdCategorie(?Categorie $id_categorie): static
     {
         $this->categorie = $id_categorie;
+
+        return $this;
+    }
+
+    public function isHighlander(): ?bool
+    {
+        return $this->is_highlander;
+    }
+
+    public function setHighlander(bool $is_highlander): static
+    {
+        $this->is_highlander = $is_highlander;
+
+        return $this;
+    }
+
+    public function getOrdre(): ?int
+    {
+        return $this->ordre;
+    }
+
+    public function setOrdre(int $ordre): static
+    {
+        $this->ordre = $ordre;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ImagesProduit>
+     */
+    public function getImagesProduits(): Collection
+    {
+        return $this->imagesProduits;
+    }
+
+    public function addImagesProduit(ImagesProduit $imagesProduit): static
+    {
+        if (!$this->imagesProduits->contains($imagesProduit)) {
+            $this->imagesProduits->add($imagesProduit);
+            $imagesProduit->setProduit($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImagesProduit(ImagesProduit $imagesProduit): static
+    {
+        if ($this->imagesProduits->removeElement($imagesProduit)) {
+            // set the owning side to null (unless already changed)
+            if ($imagesProduit->getProduit() === $this) {
+                $imagesProduit->setProduit(null);
+            }
+        }
 
         return $this;
     }

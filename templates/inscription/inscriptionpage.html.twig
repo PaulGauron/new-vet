@@ -8,9 +8,9 @@
 
 {% block body %}
 
-
+        <div class="p-8 rounded shadow-md max-w-lg px-24 mx-auto">
         <h1 class="text-3xl font-bold mb-6">Inscription</h1>
-        <form action="#" method="post" class="bg-gray-100 p-8 rounded shadow-md max-w-lg px-32 mx-auto">
+        <form action={{ path('inscription') }} method="post" class="bg-gray-100 rounded shadow-md mx-auto">
             <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
                 <div>
                     {{ form_label(form.nom) }}
@@ -35,7 +35,7 @@
                 <button type="submit" class="w-full bg-orange-400 text-white py-2 rounded-md hover:bg-orange-600">S'inscrire</button>
             </div>
         </form>
-
+        </div>
 
 {% endblock %}
 

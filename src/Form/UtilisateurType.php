@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\EqualTo;
 
 class UtilisateurType extends AbstractType
 {
@@ -30,13 +31,20 @@ class UtilisateurType extends AbstractType
                 'attr' => ['class' => 'mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-orange-500 focus:ring focus:ring-orange-200']
                 ])
             ->add('mdp', PasswordType::class , [
-                'label' => 'Mot de passe',
+                'label' => 'Mot de passe (nombre de charatères min 8, au moins 1 minuscule, 1 majuscule,1 nombre et 1 charactère spécial',
                 'attr' => ['class' => 'mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-orange-500 focus:ring focus:ring-orange-200']
                 ])
             ->add('mdp_comfirmation' , PasswordType::class, [
                 'mapped' => false, // This field is not mapped to the entity
                 'label' => 'Confirmation de mot de passe',
-                'attr' => ['class' => 'mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-orange-500 focus:ring focus:ring-orange-200'],])
+                'attr' => ['class' => 'mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-orange-500 focus:ring focus:ring-orange-200'],
+                'constraints' => [
+                    new EqualTo([
+                        'propertyPath' => 'parent.all[mdp].data',
+                        'message' => 'Les mots de passe doivent correspondre.',
+                    ])
+                    ]
+                ])
 
             ->add('telephone', NumberType::class ,[
                 'label' => 'téléphone',
