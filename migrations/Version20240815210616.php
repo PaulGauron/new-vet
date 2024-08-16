@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20240815205811 extends AbstractMigration
+final class Version20240815210616 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -31,6 +31,7 @@ final class Version20240815205811 extends AbstractMigration
         $this->addSql('DROP INDEX `primary` ON produit_materiaux');
         $this->addSql('ALTER TABLE produit_materiaux DROP id');
         $this->addSql('ALTER TABLE produit_materiaux ADD PRIMARY KEY (id_materiaux_id, id_produit_id)');
+        $this->addSql('ALTER TABLE utilisateur CHANGE telephone telephone INT DEFAULT NULL');
     }
 
     public function down(Schema $schema): void
@@ -44,5 +45,6 @@ final class Version20240815205811 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_E01FBE6ADF559605 ON images (id_prod_id)');
         $this->addSql('ALTER TABLE produit DROP is_highlander, DROP ordre');
         $this->addSql('ALTER TABLE produit_materiaux ADD id INT AUTO_INCREMENT NOT NULL, DROP PRIMARY KEY, ADD PRIMARY KEY (id)');
+        $this->addSql('ALTER TABLE utilisateur CHANGE telephone telephone INT NOT NULL');
     }
 }

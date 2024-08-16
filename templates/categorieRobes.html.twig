@@ -1,15 +1,8 @@
-{# templates/robe/list.html.twig #}
-{% extends 'base.html.twig' %}
-
-{% block body %}
-    <h1 class="text-center text-3xl md:text-4xl lg:text-5xl font-bold text-orange-500 mt-12">
-        Nos Robes
-    </h1>
-    <div class="container mx-auto mt-5">
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
 {% for robe in robes %}
     <div class="max-w-sm rounded overflow-hidden shadow-lg bg-white">
-        <img class="w-full" src="{{ asset('images/robes/' ~ robe.getNomRobe() ~ '.jpg') }}" alt="{{ robe.getNomProd() }}">
+        {% for image_roduit in robe.getImagesProduit() %}
+            <img class="w-full" src="{{ asset('images/robes/' ~ images_produit.getNomImage() ~ '.jpg') }}" alt="{{ robe.getNomProd() }}">
+        {% endfor %}
         <div class="px-6 py-4">
             <div class="font-bold text-xl mb-2">{{ robe.getNomProd() }}</div>
             <p class="text-gray-700 text-base">
@@ -21,10 +14,6 @@
             <span class="inline-block bg-orange-500 rounded-full px-3 py-1 text-sm font-semibold text-white mr-2 mb-2">#Robes</span>
         </div>
     </div>
-    {% else %}
-        <p class="text-center text-gray-500">Aucune robe disponible pour le moment.</p>
-    {% endfor %}
-
-        </div>
-    </div>
-{% endblock %}
+{% else %}
+    <p class="text-center text-gray-500">Aucune robe disponible pour le moment.</p>
+{% endfor %}

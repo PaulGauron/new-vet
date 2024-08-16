@@ -16,15 +16,30 @@ class ProduitRepository extends ServiceEntityRepository
         parent::__construct($registry, Produit::class);
     }
 
+    // public function findAllDresses(): array
+    // {
+    //     return $this->createQueryBuilder('p')
+    //         ->innerJoin('p.categorie', 'c') // Jointure avec la table categorie
+    //         ->andWhere('c.id = :id_categorie') // Filtrer par l'ID de la catégorie
+    //         ->setParameter('id_categorie', 1) // 1 correspond à la catégorie des robes
+    //         ->getQuery()
+    //         ->getResult();
+    // }
+
+/**
+     * @return Produit[]
+     */
     public function findAllDresses(): array
     {
         return $this->createQueryBuilder('p')
-            ->innerJoin('p.categorie', 'c') // Jointure avec la table categorie
-            ->andWhere('c.id = :id_categorie') // Filtrer par l'ID de la catégorie
-            ->setParameter('id_categorie', 1) // 1 correspond à la catégorie des robes
+            ->innerJoin('p.images_produit', 'ip') // Jointure avec images_produit
+            ->innerJoin('ip.image', 'i') // Jointure avec images
+            ->andWhere('p.categorie = :categorie') // Filtrer par la catégorie
+            ->setParameter('categorie', 1) // 1 correspond à la catégorie des robes
             ->getQuery()
             ->getResult();
     }
+    
 
     public function findAllTops(): array
     {
