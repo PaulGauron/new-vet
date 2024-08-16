@@ -1,7 +1,7 @@
 {% for robe in robes %}
     <div class="max-w-sm rounded overflow-hidden shadow-lg bg-white">
         {% for image_roduit in robe.getImagesProduit() %}
-            <img class="w-full" src="{{ asset('images/robes/' ~ images_produit.getNomImage() ~ '.jpg') }}" alt="{{ robe.getNomProd() }}">
+            <img class="w-full" src="{{ asset('images/robes/' ~ imagesProduit.getNomImage() ~ '.jpg') }}" alt="{{ robe.getNomProd() }}">
         {% endfor %}
         <div class="px-6 py-4">
             <div class="font-bold text-xl mb-2">{{ robe.getNomProd() }}</div>
