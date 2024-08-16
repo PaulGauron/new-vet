@@ -50,11 +50,12 @@ class UtilisateurType extends AbstractType
                 'label' => 'téléphone',
                 'attr' => ['class' => 'mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-orange-500 focus:ring focus:ring-orange-200']
                 ])
-            ->add('inscription', SubmitType::class ,[
+                
+            ->add('submit', SubmitType::class ,[
+                'mapped' => false, // This field is not mapped to the entity
                 'label' => 'S\'inscrire',
                 'attr' => ['class' => 'w-full bg-orange-400 text-white py-2 px-4 rounded-md hover:bg-orange-400']
-                ])
-        ;
+                ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

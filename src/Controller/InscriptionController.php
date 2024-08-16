@@ -77,9 +77,9 @@ class InscriptionController extends AbstractController
             $entityManager->flush();
     
             // Rediriger vers la page de connexion
-            return $this->redirectToRoute('/connexion'); 
+            return $this->redirectToRoute('connexion'); 
         }else{
-            $this->addFlash('error', 'Le mot de passe n\'est pas assez fort.\n il doit contenir au moins 8 charactères, une minuscule, une majuscule,un nombre et un charactère spéciale.');
+            $this->addFlash('errorMdp', 'Le mot de passe n\'est pas assez fort.\n il doit contenir au moins 8 charactères, une minuscule, une majuscule,un nombre et un charactère spéciale.');
             return $this->render('/inscription/inscriptionpage.html.twig', [
                 'form' => $form->createView(),
             ]);
