@@ -32,13 +32,14 @@ class ProduitRepository extends ServiceEntityRepository
     public function findAllDresses(): array
     {
         return $this->createQueryBuilder('p')
-            ->innerJoin('p.images_produit', 'ip') // Jointure avec images_produit
+            ->innerJoin('p.imagesProduits', 'ip') // Jointure avec images_produit
             ->innerJoin('ip.image', 'i') // Jointure avec images
             ->andWhere('p.categorie = :categorie') // Filtrer par la catégorie
             ->setParameter('categorie', 1) // 1 correspond à la catégorie des robes
             ->getQuery()
             ->getResult();
     }
+    
     
 
     public function findAllTops(): array

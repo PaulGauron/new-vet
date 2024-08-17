@@ -16,7 +16,7 @@ class ProduitController extends AbstractController
         return $this->render('produit.html.twig');
     }
 
-    #[Route('/categorie/robes', name: 'categorie_robes')]
+    #[Route('/produit/robes', name: 'categorie_robes')]
     public function afficherRobes(ProduitRepository $produitRepository): Response
     {
         // Appel de la méthode findAllDresses depuis le repository
