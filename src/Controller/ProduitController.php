@@ -27,4 +27,58 @@ class ProduitController extends AbstractController
         ]);
     }
 
+    #[Route('/produit/tops', name: 'categorie_tops')]
+    public function afficherTops(ProduitRepository $produitRepository): Response
+    {
+        // Appel de la méthode findAllTops depuis le repository
+        $tops = $produitRepository->findAllTops();
+
+        return $this->render('categorieTops.html.twig', [
+            'tops' => $tops,
+        ]);
+    }
+
+    #[Route('/produit/pantalons', name: 'categorie_pantalons')]
+    public function afficherPantalons(ProduitRepository $produitRepository): Response
+    {
+        // Appel de la méthode findAllPants depuis le repository
+        $pantalons = $produitRepository->findAllPants();
+
+        return $this->render('categoriePantalons.html.twig', [
+            'pantalons' => $pantalons,
+        ]);
+    }
+
+    #[Route('/produit/vestes', name: 'categorie_vestes')]
+    public function afficherVestes(ProduitRepository $produitRepository): Response
+    {
+        // Appel de la méthode findAllJackets depuis le repository
+        $vestes = $produitRepository->findAllJackets();
+
+        return $this->render('categorieVestes.html.twig', [
+            'vestes' => $vestes,
+        ]);
+    }
+
+    #[Route('/produit/chaussures', name: 'categorie_chaussures')]
+    public function afficherChaussures(ProduitRepository $produitRepository): Response
+    {
+        // Appel de la méthode findAllShoes depuis le repository
+        $chaussures = $produitRepository->findAllShoes();
+
+        return $this->render('categorieChaussures.html.twig', [
+            'chaussures' => $chaussures,
+        ]);
+    }
+
+    #[Route('/produit/accessoires', name: 'categorie_accessoires')]
+    public function afficherAccessoires(ProduitRepository $produitRepository): Response
+    {
+        // Appel de la méthode findAllAccessories depuis le repository
+        $accessoires = $produitRepository->findAllAccessories();
+
+        return $this->render('categorieAccessoires.html.twig', [
+            'accessoires' => $accessoires,
+        ]);
+    }
 }
