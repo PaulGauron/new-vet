@@ -62,7 +62,7 @@ class InscriptionController extends AbstractController
         $passwordConfirmation = $form->get('mdp_comfirmation')->getData();
 
         if ($password !== $passwordConfirmation) {
-            $this->addFlash('error', 'Le mot de passe et la cofirmation de mot de passe ne correspondent pas.');
+            $this->addFlash('errorConfimMdp', 'Le mot de passe et la cofirmation de mot de passe ne correspondent pas.');
             return $this->render('/inscription/inscriptionpage.html.twig', [
                 'form' => $form->createView(),
             ]);

@@ -52,7 +52,6 @@ class UtilisateurType extends AbstractType
                 ])
                 
             ->add('submit', SubmitType::class ,[
-                'mapped' => false, // This field is not mapped to the entity
                 'label' => 'S\'inscrire',
                 'attr' => ['class' => 'w-full bg-orange-400 text-white py-2 px-4 rounded-md hover:bg-orange-400']
                 ]);
