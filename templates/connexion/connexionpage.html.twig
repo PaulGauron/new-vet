@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Connexion
-{% endblock %}
+{% block title %}Connexion{% endblock %}
+
 
 {% block body %}
 
@@ -12,7 +12,25 @@
 				<h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
 					Authentifie toi à ton compte
 				</h1>
+
+				   {% if test is defined %}
+        <p>{{ test }}</p>
+    {% else %}
+        <p>La variable test n'est pas définie.</p>
+    {% endif %}
+
+				<!-- Affichage des messages d'erreur -->
+                {% for message in app.flashes('error') %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endfor %}
+
 				<form action={{ path('connexion') }} method="post" class="space-y-4 md:space-y-6" >
+				 	{{ form_row(form._token) }}
 					<div>
 						{{ form_label(form.ConnectEmail) }}
 						{{ form_widget(form.ConnectEmail)}}
@@ -26,7 +44,7 @@
 						</div>
 						<a href="#" class="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Mot de passe oublié ?</a>
 					</div>
-					<button type="submit" class="w-full text-white bg-orange-400 text-white py-2 rounded-md hover:bg-orange-600 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">Se Connecter</button>
+					{{ form_widget(form.submit) }}
 					<p class="text-sm font-light text-gray-500 dark:text-gray-400">
 						Tu n'as pas de compte 
 						<a href={{ path('inscription') }} class="font-medium text-primary-600 hover:underline dark:text-primary-500">Inscrit toi</a>
@@ -35,6 +53,9 @@
 			</div>
 		</div>
 	</div>
-
+ <!-- Inclure Bootstrap JS pour le comportement de la pop-up -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 {% endblock %}
