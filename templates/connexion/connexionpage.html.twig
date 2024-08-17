@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Connexion
-{% endblock %}
+{% block title %}Connexion{% endblock %}
+
 
 {% block body %}
 
@@ -30,6 +30,7 @@
                 {% endfor %}
 
 				<form action={{ path('connexion') }} method="post" class="space-y-4 md:space-y-6" >
+				 	{{ form_row(form._token) }}
 					<div>
 						{{ form_label(form.ConnectEmail) }}
 						{{ form_widget(form.ConnectEmail)}}
@@ -43,7 +44,6 @@
 						</div>
 						<a href="#" class="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Mot de passe oublié ?</a>
 					</div>
-					{{ form_label(form.submit) }}
 					{{ form_widget(form.submit) }}
 					<p class="text-sm font-light text-gray-500 dark:text-gray-400">
 						Tu n'as pas de compte 

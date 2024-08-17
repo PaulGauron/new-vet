@@ -62,7 +62,7 @@ class InscriptionController extends AbstractController
         $passwordConfirmation = $form->get('mdp_comfirmation')->getData();
 
         if ($password !== $passwordConfirmation) {
-            $this->addFlash('errorConfimMdp', 'Le mot de passe et la cofirmation de mot de passe ne correspondent pas.');
+            $this->addFlash('errorConfirmMdp', 'Le mot de passe et la cofirmation de mot de passe ne correspondent pas.');
             return $this->render('/inscription/inscriptionpage.html.twig', [
                 'form' => $form->createView(),
             ]);
@@ -76,8 +76,9 @@ class InscriptionController extends AbstractController
             // Exécuter l'instruction SQL (INSERT) pour sauvegarder les données
             $entityManager->flush();
     
+            $test = $user->getMdp();
             // Rediriger vers la page de connexion
-            return $this->redirectToRoute('connexion'); 
+            //return $this->redirectToRoute('connexion'); 
         }else{
             $this->addFlash('errorMdp', 'Le mot de passe n\'est pas assez fort.\n il doit contenir au moins 8 charactères, une minuscule, une majuscule,un nombre et un charactère spéciale.');
             return $this->render('/inscription/inscriptionpage.html.twig', [
@@ -87,7 +88,8 @@ class InscriptionController extends AbstractController
        
 
         return $this->render('/inscription/inscriptionpage.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'test' => $test
         ]);
 
        

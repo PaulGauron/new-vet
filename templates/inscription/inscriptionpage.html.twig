@@ -1,43 +1,59 @@
-
-
 {% extends 'base.html.twig' %}
 
-{% block title %}Inscription{% endblock %}
+{% block title %}Inscription
+{% endblock %}
 
 {% form_theme form 'tailwind_2_layout.html.twig' %}
 
 {% block body %}
 
-        <div class="p-8 rounded shadow-md max-w-lg px-24 mx-auto">
-        <h1 class="text-3xl font-bold mb-6">Inscription</h1>
-        <form action={{ path('inscription') }} method="post" class="bg-gray-100 rounded shadow-md mx-auto">
-            <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
-                <div>
-                    {{ form_label(form.nom) }}
-                    {{ form_widget(form.nom) }}
-                </div>
-                <div>
-                    {{ form_label(form.prenom) }}
-                    {{ form_widget(form.prenom) }}
-                </div>
-                <div>
-                    {{ form_label(form.email) }}
-                    {{ form_widget(form.email) }}
-                </div>
-                <div>
-                    {{ form_label(form.mdp) }}
-                    {{ form_widget(form.mdp) }}
-                </div>
-                <div>
-                    {{ form_label(form.mdp_comfirmation) }}
-                    {{ form_widget(form.mdp_comfirmation) }}
-                </div>
-                {{ form_label(form.submit) }}
-                {{ form_widget(form.submit) }}
-            </div>
-        </form>
-        </div>
+	<div class="p-8 rounded shadow-md max-w-lg px-24 mx-auto">
+		<h1 class="text-3xl font-bold mb-6">Inscription</h1>
+
+		{# {% for message in app.flashes('errorConfirmMdp') %}
+			<div class="alert alert-danger alert-dismissible fade show" role="alert">
+				{{ message }}
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+		{% endfor %}
+
+		{% for message in app.flashes('errorMdp') %}
+			<div class="alert alert-danger alert-dismissible fade show" role="alert">
+				{{ message }}
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+		{% endfor %} #}
+
+		<form action={{ path('inscription') }} method="post" class="bg-gray-100 rounded shadow-md mx-auto">
+			<div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+				<div>
+					{{ form_label(form.nom) }}
+					{{ form_widget(form.nom) }}
+				</div>
+				<div>
+					{{ form_label(form.prenom) }}
+					{{ form_widget(form.prenom) }}
+				</div>
+				<div>
+					{{ form_label(form.email) }}
+					{{ form_widget(form.email) }}
+				</div>
+				<div>
+					{{ form_label(form.mdp) }}
+					{{ form_widget(form.mdp) }}
+				</div>
+				<div>
+					{{ form_label(form.mdp_comfirmation) }}
+					{{ form_widget(form.mdp_comfirmation) }}
+				</div>
+				{{ form_label(form.submit) }}
+				{{ form_widget(form.submit) }}
+			</div>
+		</form>
+	</div>
 
 {% endblock %}
-
-
