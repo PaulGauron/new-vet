@@ -87,6 +87,19 @@ class Produit
     {
         return $this->id;
     }
+    //
+    public function getNomMat(): string
+    {
+    $nomsMat = [];
+    foreach ($this->produit_materiaux as $produitMateriaux) {
+        $materiaux = $produitMateriaux->getIdMateriaux();
+        if ($materiaux) {
+            $nomsMat[] = $materiaux->getNomMat();
+        }
+    }
+    return implode(', ', $nomsMat);
+}
+
 
     public function getNomProd(): ?string
     {

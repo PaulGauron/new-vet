@@ -14,8 +14,7 @@ class ProduitController extends AbstractController
     public function afficherProduits(ProduitRepository $produitRepository): Response
     {
         // Affiche 6 produits de chaque catégorie de façon aléatoire
-        $produits = $produitRepository->findRandomProductsByCategory();
-
+        $produits = $produitRepository->findRandomProductsByCategoryWithMaterials();
         return $this->render('produit.html.twig', [
             'produits' => $produits,
         ]);
