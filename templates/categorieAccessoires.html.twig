@@ -12,10 +12,10 @@
             <div class="flex flex-col max-w-sm rounded overflow-hidden shadow-lg bg-white">
                 <div class="relative w-full h-80">
                     {% for imagesProduit in accessoire.getImagesProduits() %}
-                        <img class="absolute inset-0 w-full h-full object-cover" src="{{ asset('images/accessoires/' ~ imagesProduit.getImage().getNomImage() ~ '.jpg') }}" alt="{{ accessoire.getNomProd() }}">
+                        <img class="absolute inset-0 w-full h-full object-cover" src="{{ asset('images/Produits/' ~ imagesProduit.getImage().getNomImage() ~ '.jpg') }}" alt="{{ accessoire.getNomProd() }}">
                     {% endfor %}
                 </div>
-                <div class="flex-1 px-6 py-4">
+                <div class="flex-1 px-6 py-4 flex flex-col">
                     <div class="text-2xl text-black-700 font-semibold">
                         {{ accessoire.getNomProd() }}
                     </div>
@@ -24,10 +24,20 @@
                     </div>
                     {% if accessoire.getStock() <= 3 %}
                         <p class="text-red-700 text-xl mt-2">Stock épuisé</p>
-                        
                     {% elseif accessoire.getStock() <= 5 %}
                         <p class="text-red-700 text-xl mt-2">Stock bientôt épuisé</p>
                     {% endif %}
+                    <div class="mt-auto">
+                        {% if accessoire.getStock() > 3 %}
+                            <button class="bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 mt-4 w-full">
+                                AJOUTER AU PANIER
+                            </button>
+                        {% else %}
+                            <button class="bg-gray-400 text-gray-700 font-semibold py-2 px-4 rounded cursor-not-allowed opacity-50 mt-4 w-full" disabled>
+                                STOCK ÉPUISÉ
+                            </button>
+                        {% endif %}
+                    </div>
                 </div>
                 <div class="px-6 pt-4 pb-2 bg-gray-100 mt-auto">
                     <span class="inline-block bg-orange-500 rounded-full px-3 py-1 text-sm font-semibold text-white mr-2 mb-2">#Mode</span>

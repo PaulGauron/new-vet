@@ -12,20 +12,25 @@
             <div class="flex flex-col max-w-sm rounded overflow-hidden shadow-lg bg-white">
                 <div class="relative w-full h-80">
                     {% for imagesProduit in veste.getImagesProduits() %}
-                        <img class="absolute inset-0 w-full h-full object-cover" src="{{ asset('images/vestes/' ~ imagesProduit.getImage().getNomImage() ~ '.jpg') }}" alt="{{ veste.getNomProd() }}">
+                        <img class="absolute inset-0 w-full h-full object-cover" src="{{ asset('images/Produits/' ~ imagesProduit.getImage().getNomImage() ~ '.jpg') }}" alt="{{ veste.getNomProd() }}">
                     {% endfor %}
                 </div>
-                <div class="flex-1 px-6 py-4">
+                <div class="flex-1 px-6 py-4 flex flex-col">
                     <div class="text-2xl text-black-700 font-semibold">
                         {{ veste.getNomProd() }}
                     </div>
                     <div class="text-xl text-black-700 font-semibold mt-1">
                         {{ veste.getPrixProd() }} €
                     </div>
-                    {% if veste.getStock() <= 3 %}
-                        <p class="text-red-700 text-xl mt-2">Stock épuisé</p>
-                    {% elseif veste.getStock() <= 5 %}
-                        <p class="text-red-700 text-xl mt-2">Stock bientôt épuisé</p>
+                    <div class="flex-grow"></div> {# Pushes the buttons to the bottom #}
+                    {% if veste.getStock() > 3 %}
+                        <button class="bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 mt-4">
+                            AJOUTER AU PANIER
+                        </button>
+                    {% else %}
+                        <button class="bg-gray-400 text-gray-700 font-semibold py-2 px-4 rounded cursor-not-allowed opacity-50 mt-4" disabled>
+                            STOCK ÉPUISÉ
+                        </button>
                     {% endif %}
                 </div>
                 <div class="px-6 pt-4 pb-2 bg-gray-100 mt-auto">
@@ -34,7 +39,7 @@
                 </div>
             </div>
         {% else %}
-            <p class="text-center text-gray-500">Aucun veste disponible pour le moment.</p>
+            <p class="text-center text-gray-500">Aucune veste disponible pour le moment.</p>
         {% endfor %}
     </div>
 </div>
