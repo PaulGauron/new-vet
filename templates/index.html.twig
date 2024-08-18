@@ -25,6 +25,7 @@ Bootstrap est appelé uniquement sur cette page pour éviter des problèmes de c
 
 {% block body %}
 {% include 'header.html.twig' %}
+
 <h1 class="text-center text-3xl md:text-4xl lg:text-5xl font-bold text-orange-500 mt-12">
     Les Highlanders du moment
 </h1>
@@ -62,7 +63,7 @@ Bootstrap est appelé uniquement sur cette page pour éviter des problèmes de c
 </h1>
 <div class="container mx-auto mt-5">
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        <a href="#" class="group relative block overflow-hidden rounded-lg shadow-md hover:shadow-xl h-full">
+        <a href="{{ path('categorie_robes') }}" class="group relative block overflow-hidden rounded-lg shadow-md hover:shadow-xl h-full">
             <img src="{{ asset('images/categorie1.jpg') }}" alt="Catégorie 1" class="w-full h-full object-cover transition duration-300 transform group-hover:scale-105">
             <div class="absolute inset-0 bg-black opacity-50 transition duration-300 group-hover:opacity-0"></div>
             <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100">
@@ -70,7 +71,7 @@ Bootstrap est appelé uniquement sur cette page pour éviter des problèmes de c
             </div>
         </a>
 
-        <a href="#" class="group relative block overflow-hidden rounded-lg shadow-md hover:shadow-xl h-full">
+        <a href="{{ path('categorie_tops') }}" class="group relative block overflow-hidden rounded-lg shadow-md hover:shadow-xl h-full">
             <img src="{{ asset('images/categorie2.jpg') }}" alt="Catégorie 2" class="w-full h-full object-cover transition duration-300 transform group-hover:scale-105">
             <div class="absolute inset-0 bg-black opacity-50 transition duration-300 group-hover:opacity-0"></div>
             <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100">
@@ -78,7 +79,7 @@ Bootstrap est appelé uniquement sur cette page pour éviter des problèmes de c
             </div>
         </a>
 
-        <a href="#" class="group relative block overflow-hidden rounded-lg shadow-md hover:shadow-xl h-full">
+        <a href="{{ path('categorie_pantalons') }}" class="group relative block overflow-hidden rounded-lg shadow-md hover:shadow-xl h-full">
             <img src="{{ asset('images/categorie3.jpg') }}" alt="Catégorie 3" class="absolute inset-0 w-full h-full object-cover transition duration-300 transform group-hover:scale-105">
             <div class="absolute inset-0 bg-black opacity-50 transition duration-300 group-hover:opacity-0"></div>
             <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100">
@@ -86,7 +87,7 @@ Bootstrap est appelé uniquement sur cette page pour éviter des problèmes de c
             </div>
         </a>
 
-        <a href="#" class="group relative block overflow-hidden rounded-lg shadow-md hover:shadow-xl h-full">
+        <a href="{{ path('categorie_vestes') }}" class="group relative block overflow-hidden rounded-lg shadow-md hover:shadow-xl h-full">
             <img src="{{ asset('images/categorie4.jpg') }}" alt="Catégorie 4" class="inset-0 w-full h-full object-cover transition duration-300 transform group-hover:scale-105">
             <div class="absolute inset-0 bg-black opacity-50 transition duration-300 group-hover:opacity-0"></div>
             <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100">
@@ -94,7 +95,7 @@ Bootstrap est appelé uniquement sur cette page pour éviter des problèmes de c
             </div>
         </a>
 
-        <a href="#" class="group relative block overflow-hidden rounded-lg shadow-md hover:shadow-xl h-full">
+        <a href="{{ path('categorie_chaussures') }}" class="group relative block overflow-hidden rounded-lg shadow-md hover:shadow-xl h-full">
             <img src="{{ asset('images/categorie5.jpg') }}" alt="Catégorie 5" class="inset-0 w-full h-full object-cover transition duration-300 transform group-hover:scale-105">
             <div class="absolute inset-0 bg-black opacity-50 transition duration-300 group-hover:opacity-0"></div>
             <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100">
@@ -102,7 +103,7 @@ Bootstrap est appelé uniquement sur cette page pour éviter des problèmes de c
             </div>
         </a>
 
-        <a href="#" class="group relative block overflow-hidden rounded-lg shadow-md hover:shadow-xl h-full">
+        <a href="{{ path('categorie_accessoires') }}" class="group relative block overflow-hidden rounded-lg shadow-md hover:shadow-xl h-full">
             <img src="{{ asset('images/categorie6.jpg') }}" alt="Catégorie 6" class="absolute inset-0 w-full h-full object-cover transition duration-300 transform group-hover:scale-105">
             <div class="absolute inset-0 bg-black opacity-50 transition duration-300 group-hover:opacity-0"></div>
             <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100">
@@ -112,6 +113,21 @@ Bootstrap est appelé uniquement sur cette page pour éviter des problèmes de c
     </div>
 </div>
 
-{% include 'footer.html.twig' %}
+{# {% include 'footer.html.twig' %} #}
+<footer class="bg-dark py-4 mt-5">
+    <div class="container d-flex justify-content-between align-items-center">
+        <div class="text-white">
+            <p class="mb-0">&copy; 2024 NewVet. Tous droits réservés.</p>
+        </div>
+        <div class="d-flex">
+            <a href="#" class="text-white mx-2 text-decoration-none">Mentions Légales</a>
+            <a href="#" class="text-white mx-2 text-decoration-none">Politique de Confidentialité</a>
+            <a href="#" class="text-white mx-2 text-decoration-none">Conditions d'Utilisation</a>
+        </div>
+    </div>
+</footer>
+
 {% endblock %}
+</body>
 </html>
+

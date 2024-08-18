@@ -93,4 +93,28 @@ class ProduitRepository extends ServiceEntityRepository
         ->getResult();
     }
 
+
+    // parcours les catégories et choisi aléatoirement 6 produits par catégorie
+    public function findRandomProductsByCategory(): array
+    {
+        $categories = [1, 2, 3, 4, 5, 6];
+        $results = [];
+
+        foreach ($categories as $category) {
+            // Récupère tous les produits pour une catégorie spécifique
+            $products = $this->createQueryBuilder('p')
+                ->where('p.categorie = :category')
+                ->setParameter('category', $category)
+                ->getQuery()
+                ->getResult();
+
+            // Mélange les produits et prend les 6 premiers
+            
+            $results = array_merge($results, array_slice($products, 0, 6));
+        }
+        
+        shuffle($results);
+        return $results;
+    }
 }
+

@@ -11,9 +11,14 @@ class ProduitController extends AbstractController
 {
     //route
     #[Route('/produit', name: 'produit')]
-    public function produit(): Response
+    public function afficherProduits(ProduitRepository $produitRepository): Response
     {
-        return $this->render('produit.html.twig');
+        // Affiche 6 produits de chaque catégorie de façon aléatoire
+        $produits = $produitRepository->findRandomProductsByCategory();
+
+        return $this->render('produit.html.twig', [
+            'produits' => $produits,
+        ]);
     }
 
     #[Route('/produit/robes', name: 'categorie_robes')]
@@ -81,4 +86,5 @@ class ProduitController extends AbstractController
             'accessoires' => $accessoires,
         ]);
     }
+
 }

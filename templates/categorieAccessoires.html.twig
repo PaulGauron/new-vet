@@ -24,6 +24,7 @@
                     </div>
                     {% if accessoire.getStock() <= 3 %}
                         <p class="text-red-700 text-xl mt-2">Stock épuisé</p>
+                        
                     {% elseif accessoire.getStock() <= 5 %}
                         <p class="text-red-700 text-xl mt-2">Stock bientôt épuisé</p>
                     {% endif %}

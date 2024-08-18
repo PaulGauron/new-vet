@@ -1,5 +1,37 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-
+<h1 class="text-center text-3xl md:text-4xl lg:text-5xl font-bold text-orange-700 mt-12">
+    Nos Produits
+    </br>
+    </br>
+</h1>
+<div class="container mx-auto mt-5">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        {% for produit in produits %}
+            <div class="flex flex-col max-w-sm rounded overflow-hidden shadow-lg bg-white">
+                <div class="relative w-full h-80">
+                    {% for imagesProduit in produit.imagesProduits %}
+                        <img class="absolute inset-0 w-full h-full object-cover" src="{{ asset('images/produits/' ~ imagesProduit.image.nomImage ~ '.jpg') }}" alt="{{ produit.nomProd }}">
+                    {% endfor %}
+                </div>
+                <div class="flex-1 px-6 py-4">
+                    <div class="text-2xl text-black-700 font-semibold">
+                        {{ produit.nomProd }}
+                    </div>
+                    <div class="text-xl text-black-700 font-semibold mt-1">
+                        {{ produit.prixProd }} €
+                    </div>
+                    {% if produit.stock <= 3 %}
+                        <p class="text-red-700 text-xl mt-2">Stock épuisé</p>
+                    {% elseif produit.stock <= 5 %}
+                        <p class="text-red-700 text-xl mt-2">Stock bientôt épuisé</p>
+                    {% endif %}
+                </div>
+            </div>
+        {% else %}
+            <p class="text-center text-gray-500">Aucun produit disponible pour le moment.</p>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}
