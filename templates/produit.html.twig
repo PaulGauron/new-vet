@@ -12,20 +12,51 @@
             <div class="flex flex-col max-w-sm rounded overflow-hidden shadow-lg bg-white">
                 <div class="relative w-full h-80">
                     {% for imagesProduit in produit.imagesProduits %}
-                        <img class="absolute inset-0 w-full h-full object-cover" src="{{ asset('images/produits/' ~ imagesProduit.image.nomImage ~ '.jpg') }}" alt="{{ produit.nomProd }}">
+                        <img class="absolute inset-0 w-full h-full object-cover" src="{{ asset('images/produits/' ~ imagesProduit.image.nomImage ~ '.jpg') }}" alt="{{ produit.getNomProd() }}">
                     {% endfor %}
                 </div>
-                <div class="flex-1 px-6 py-4">
+                <div class="flex-1 px-6 py-4 flex flex-col">
+                    {# nom produit #}
                     <div class="text-2xl text-black-700 font-semibold">
-                        {{ produit.nomProd }}
+                        {{ produit.getNomProd() }}
                     </div>
+                    {# description #}
+                    <div class="text-xl text-black-700 mt-1">
+                        {{ produit.getDescriptionProd() }}
+                    </div>
+                    {# matériau(x) #}
+                    {% if (!empty($produit.getMateriau()) ) %}
                     <div class="text-xl text-black-700 font-semibold mt-1">
-                        {{ produit.prixProd }} €
+                        Matériau(x):{{ produit.getMateriau() }}
                     </div>
-                    {% if produit.stock <= 3 %}
+                    {% endif %}
+                    {# prix #}
+                    <div class="text-xl text-black-700 font-semibold mt-1">
+                        {{ produit.getPrixProd() }} €
+                    </div>
+
+                    {% if produit.getStock() > 3 %}
+                    <div class="text-xl text-black-700 font-semibold mt-1">
+                        Stock : {{ produit.getStock() }}
+                    </div>
+                        
+                    {% endif %}
+
+                    <div class="flex-1"></div> <!-- Espace flexible pour pousser les boutons vers le bas -->
+                    {% if produit.getStock() <= 3 %}
                         <p class="text-red-700 text-xl mt-2">Stock épuisé</p>
-                    {% elseif produit.stock <= 5 %}
+                    {% elseif produit.getStock() <= 5 %}
                         <p class="text-red-700 text-xl mt-2">Stock bientôt épuisé</p>
+                    {% endif %}
+
+                    {% if produit.getStock() > 3 %}
+                        <button class="bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 mt-4">
+                            AJOUTER AU PANIER
+                        </button>
+                    {% else %}
+                        <button class="bg-gray-400 text-gray-700 font-semibold py-2 px-4 rounded cursor-not-allowed opacity-50 mt-4" disabled>
+                            STOCK ÉPUISÉ
+                        </button>
                     {% endif %}
                 </div>
             </div>
