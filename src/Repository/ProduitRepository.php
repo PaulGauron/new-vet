@@ -109,10 +109,10 @@ class ProduitRepository extends ServiceEntityRepository
                 ->getResult();
 
             // Mélange les produits et prend les 6 premiers
-            
+            shuffle($products);
             $results = array_merge($results, array_slice($products, 0, 6));
         }
-        
+        // Mélange les produits des catégories du tableau
         shuffle($results);
         return $results;
     }
