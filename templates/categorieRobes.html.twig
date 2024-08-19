@@ -29,9 +29,17 @@
                     {% endif %}
                     <div class="mt-auto">
                         {% if robe.getStock() > 3 %}
-                            <button class="bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 mt-4 w-full">
-                                AJOUTER AU PANIER
-                            </button>
+                            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                <form action="{{ path('ajouter_au_panier', {'id': robe.getId()}) }}" method="post">
+                                    <button type="submit" class="bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 mt-4 w-full">
+                                        AJOUTER AU PANIER
+                                    </button>
+                                </form>
+                            {% else %}
+                                <a href="{{ path('connexion') }}" class="bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 mt-4 w-full text-center block">
+                                    CONNECTEZ-VOUS </br> POUR AJOUTER AU PANIER
+                                </a>
+                            {% endif %}
                         {% else %}
                             <button class="bg-gray-400 text-gray-700 font-semibold py-2 px-4 rounded cursor-not-allowed opacity-50 mt-4 w-full" disabled>
                                 STOCK ÉPUISÉ
