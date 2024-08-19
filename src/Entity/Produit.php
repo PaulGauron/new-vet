@@ -39,7 +39,7 @@ class Produit
     #[ORM\Column]
     #[Assert\NotBlank]
     #[Assert\Type(
-        type: 'integer',
+        type: 'float',
         message: 'La valeur {{ value }} n\'est pas valide',
     )]
     private ?float $prix_prod = null;
@@ -65,7 +65,7 @@ class Produit
     private ?Categorie $categorie = null;
 
     #[ORM\Column]
-    private ?bool $is_highlander = null;
+    private ?bool $highlander = null;
 
     #[ORM\Column]
     private ?int $ordre = null;
@@ -210,26 +210,26 @@ class Produit
         return $this;
     }
 
-    public function getIdCategorie(): ?Categorie
+    public function getCategorie(): ?Categorie
     {
         return $this->categorie;
     }
 
-    public function setIdCategorie(?Categorie $id_categorie): static
+    public function setCategorie(?Categorie $categorie): static
     {
-        $this->categorie = $id_categorie;
+        $this->categorie = $categorie;
 
         return $this;
     }
 
-    public function isHighlander(): ?bool
+    public function getHighlander(): ?bool
     {
-        return $this->is_highlander;
+        return $this->highlander;
     }
 
-    public function setHighlander(bool $is_highlander): static
+    public function setHighlander(bool $highlander): static
     {
-        $this->is_highlander = $is_highlander;
+        $this->highlander = $highlander;
 
         return $this;
     }

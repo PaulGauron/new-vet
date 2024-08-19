@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class BOsupprimerProduitController extends AbstractController
 {
 
-    #[Route('/deleteProduct', name: 'deleteProduct')]
+    #[Route('/BO/supprimerProduit', name: 'BO/supprimerProduit')]
     public function index(): Response
     {
         return $this->render('./BO/BOsupprimerProduit.html.twig');

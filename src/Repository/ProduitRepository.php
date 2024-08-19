@@ -30,7 +30,13 @@ class ProduitRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-    
+
+    public function findAll(): array
+    {
+        return $this->createQueryBuilder('p')
+        ->getQuery()
+        ->getResult();
+    }
     
 
     public function findAllTops(): array

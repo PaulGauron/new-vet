@@ -9,9 +9,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class BOtableauBordController extends AbstractController
 {
 
-    #[Route('/Dashbord', name: 'Dashbord')]
-    public function index(): Response
+    #[Route('/dashbord', name: 'dashbord')]
+    public function dashbord(): Response
     {
-        return $this->render('./BO/BOtableauBord.html.twig');
+        return $this->render('/BO/BOtableauBord.html.twig');
     }
 }

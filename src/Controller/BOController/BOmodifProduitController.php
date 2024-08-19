@@ -9,9 +9,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class BOmodifProduitController extends AbstractController
 {
 
-    #[Route('/updateProduct', name: 'updateProduct')]
+    #[Route('/BO/modifProduit', name: 'BO/modifProduit')]
     public function index(): Response
     {
-        return $this->render('./BO/BOmodifProduit.html.twig');
+        return $this->render('/BO/BOmodifProduit.html.twig');
     }
 }
