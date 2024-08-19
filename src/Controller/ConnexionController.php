@@ -17,59 +17,44 @@ class ConnexionController extends AbstractController
     //route
     #[Route('/connexion',name: 'connexion')]
 
-    public function RequeteConnexion(Request $request, ManagerRegistry $doctorine): Response
+    public function RequeteConnexion(Request $request, ManagerRegistry $doctorine, SessionInterface $session): Response
     {
         $entityManager = $doctorine->getManager();
         $form = $this->createForm(ConnexionType::class);
-    
+        
         $form->handleRequest($request);
-        $test ='salut';
     
-        if ($form->isSubmitted() && $form->isValid() ) {
-            //dd($form->isValid(), $form->getErrors(true));
+        if ($form->isSubmitted() && $form->isValid()) {
             $email = $form->get('ConnectEmail')->getData();
             $mdp = $form->get('ConnectMdp')->getData();
-    
-            // Récupérer le repository de l'utilisateur
+        
             $utilisateurRepository = $entityManager->getRepository(Utilisateur::class);
-    
-            // Chercher l'utilisateur par son email
             $utilisateur = $utilisateurRepository->findOneByEmail($email);
-         
-            $test = 'email :'.$email.' mdp : '.$mdp;
-           /* return $this->render('/connexion/connexionpage.html.twig', [
-                'form' => $form->createView(), 
-                'test' => $test,
-            ]);*/
-           
-            if ($utilisateur) {
-                // Récupérer le hash du mot de passe
-                $password_hash = $utilisateur->getMdp();
-                // Vérifier si le mot de passe est correct
-                if (password_verify($mdp, $password_hash)) {
-                    // Mot de passe correct
-                    return $this->redirectToRoute('accueil');
-                } else {
-                    // Mot de passe incorrect
-                    $this->addFlash(
-                        'error', 
-                        'Mot de passe incorrect.'
-                    );
-                }
+        
+            if ($utilisateur && password_verify($mdp, $utilisateur->getMdp())) {
+                // Si le mot de passe est correct, on stocke l'utilisateur dans la session
+                $session->set('utilisateur', $utilisateur->getId());
+    
+                // Redirection vers la page d'accueil ou une autre page après connexion
+                return $this->redirectToRoute('accueil');
             } else {
-                // Utilisateur non trouvé
-                $this->addFlash(
-                    'error', 
-                    'Utilisateur non trouvé.'
-                );
+                $this->addFlash('error', 'Email ou mot de passe incorrect.');
             }
         }
-
-        return $this->render('/connexion/connexionpage.html.twig',[
-            'form' => $form->createView()
+    
+        return $this->render('/connexion/connexionpage.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 
+    #[Route('/deconnexion', name: 'deconnexion')]
+    public function deconnexion(SessionInterface $session): Response
+    {
+        // Déconnecte l'utilisateur
+        $session->remove('utilisateur');
+
+        return $this->redirectToRoute('connexion');
+    }
 
 }
 

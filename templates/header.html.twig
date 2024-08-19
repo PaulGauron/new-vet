@@ -21,7 +21,6 @@
                 <li><a href="{{ path('accueil') }}" class="text-white hover:text-blue-300">Accueil</a></li>
                 <li><a href="{{ path('categorie') }}" class="text-white hover:text-blue-300">Catégorie</a></li>
                 <li><a href="{{ path('produit') }}" class="text-white hover:text-blue-300">Produit</a></li>
-                <li><a href="{{ path('connexion') }}" class="text-white hover:text-blue-300">Connexion</a></li>
                 <li>
                     <a href="{{ path('panier') }}" class="text-white hover:text-gray-300 flex items-center">
                         <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -31,6 +30,11 @@
                     </a>
                 </li>
                 <li><a href="#" class="text-white hover:text-blue-300">Contact</a></li>
+                {% if app.session.get('utilisateur') %}
+                    <li><a href="{{ path('deconnexion') }}" class="text-white hover:text-blue-300">Déconnexion</a></li>
+                {% else %}
+                    <li><a href="{{ path('connexion') }}" class="text-white hover:text-blue-300">Connexion</a></li>
+                {% endif %}
             </ul>
         </nav>
     </div>
