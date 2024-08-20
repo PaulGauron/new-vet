@@ -2,55 +2,62 @@
 
 {% extends 'BO/BObase.html.twig' %}
 
-{% block title %}Ajouter Produit{% endblock %}
+{% block title %}Ajouter Produit
+{% endblock %}
 
 
 {% block body %}
 
-<div class="p-16 rounded shadow-md max-w-lg px-24 mx-auto">
+	<div class="p-16 rounded shadow-md max-w-lg px-24 mx-auto">
 		<h1 class="text-3xl font-bold mb-6">Ajouter un Produit</h1>
 
-		<form action={{ path('BO/ajouterProduit') }} method="post" class="bg-gray-100 rounded shadow-md mx-auto">
-			  {{ form_row(form._token) }}
-              <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
-                <div>
-                    {{ form_label(form.nom_prod) }}
-                    {{ form_widget(form.nom_prod) }}
-                </div>
-                <div>
-                    {{ form_label(form.description_prod) }}
-                    {{ form_widget(form.description_prod) }}
-                </div>
-                <div>
-                    {{ form_label(form.prix_prod) }}
-                    {{ form_widget(form.prix_prod) }}
-                    {{ form_errors(form.prix_prod) }}
-                </div>
-                <div>
-                    {{ form_label(form.stock) }}
-                    {{ form_widget(form.stock) }}
-                </div>
-                    <div class="radio-container">
+		<div class="bg-gray-100 rounded shadow-md mx-auto">
+			{{ form_start(form, {'attr': {'enctype': 'multipart/form-data'}}) }}
+			
+			{{ form_row(form.produit.nom_prod) }}
+		</div>
+		<div>
+			
+			{{ form_row(form.produit.description_prod) }}
+		</div>
+		<div>
+		
+			{{ form_row(form.produit.prix_prod) }}
+			{{ form_errors(form.produit.prix_prod) }}
+		</div>
+		<div>
+			
+			{{ form_row(form.produit.stock) }}
+		</div>
+		<div class="radio-container">
 
-                    {{ form_label(form.disponibilite) }}
-                    {{ form_widget(form.disponibilite) }}
-                </div>
-                <div class="radio-container">
-                    {{ form_label(form.highlander) }}
-                    {{ form_widget(form.highlander) }}
-                </div>
-                <div>
-                    {{ form_label(form.ordre) }}
-                    {{ form_widget(form.ordre) }}
-                </div>
-                <div>
-                    {{ form_label(form.categorie) }}
-                    {{ form_widget(form.categorie) }}
-                </div>
-                <div class="col-span-2">
-                    {{ form_widget(form.submit) }}
-                </div>
-            </div>
-		</form>
+			
+			{{ form_row(form.produit.disponibilite) }}
+		</div>
+		<div class="radio-container">
+			
+			{{ form_row(form.produit.highlander) }}
+		</div>
+		<div>
+			
+			{{ form_row(form.produit.ordre) }}
+		</div>
+		<div>
+			
+			{{ form_row(form.produit.categorie) }}
+		</div>
+
+		<div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+			<div>
+				{{ form_row(form._token) }}
+				{{ form_row(form.images.image) }}
+				{{ form_row(form.images.nom_image) }}
+			</div>
+		</div>
+
+		<div class="col-span-2">
+			{{ form_row(form.submit) }}
+		</div>
 	</div>
-{% endblock %}
+	{{ form_end(form) }}
+</div>{% endblock %}
