@@ -1,63 +1,70 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<h1 class="text-center text-3xl md:text-4xl lg:text-5xl font-bold text-orange-700 mt-12">
+<h1 class="text-center text-3xl md:text-4xl lg:text-5xl font-extrabold text-orange-600 mt-12 shadow-md">
     Nos Produits
-    </br>
-    </br>
+    <br><br>
 </h1>
 <div class="container mx-auto mt-5">
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
         {% for produit in produits %}
-            <div class="flex flex-col max-w-sm rounded overflow-hidden shadow-lg bg-white">
+            <div class="flex flex-col max-w-sm rounded overflow-hidden shadow-lg bg-gray-200">
                 <div class="relative w-full h-80">
                     {% for imagesProduit in produit.imagesProduits %}
                         <img class="absolute inset-0 w-full h-full object-cover" src="{{ asset('images/produits/' ~ imagesProduit.image.nomImage ~ '.jpg') }}" alt="{{ produit.getNomProd() }}">
                     {% endfor %}
                 </div>
                 <div class="flex-1 px-6 py-4 flex flex-col">
-                    {# nom produit #}
+                    <!-- Nom du produit -->
                     <div class="text-2xl text-black-700 font-semibold">
                         {{ produit.getNomProd() }}
                     </div>
-                    {# description #}
+                    <!-- Description -->
                     <div class="text-xl text-black-700 mt-1">
                         {{ produit.getDescriptionProd() }}
                     </div>
-                    {# matériau(x) #}
+                    <!-- Matériau(x) -->
                     {% if produit.getNomMat() is not empty %}
                         <div class="text-xl text-black-700 font-semibold mt-1">
                             Matériau(x) : {{ produit.getNomMat() }}
                         </div>
                     {% endif %}
-                    {# prix #}
+                    <!-- Prix -->
                     <div class="text-xl text-black-700 font-semibold mt-1">
                         {{ produit.getPrixProd() }} €
                     </div>
-
+                    <!-- Stock -->
                     {% if produit.getStock() > 3 %}
-                    <div class="text-xl text-black-700 font-semibold mt-1">
-                        Stock : {{ produit.getStock() }}
-                    </div>
-                        
+                        <div class="text-xl text-black-700 font-semibold mt-1">
+                            Stock : {{ produit.getStock() }}
+                        </div>
                     {% endif %}
-
-                    <div class="flex-1"></div> <!-- Espace flexible pour pousser les boutons vers le bas -->
+                    
+                    <div class="flex-grow"></div> <!-- Espace flexible pour pousser les boutons vers le bas -->
+                    
                     {% if produit.getStock() <= 3 %}
                         <p class="text-red-700 text-xl mt-2">Stock épuisé</p>
                     {% elseif produit.getStock() <= 5 %}
                         <p class="text-red-700 text-xl mt-2">Stock bientôt épuisé</p>
                     {% endif %}
-
+                    
                     {% if produit.getStock() > 3 %}
-                        <button class="bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 mt-4">
-                            AJOUTER AU PANIER
-                        </button>
-                    {% else %}
-                        <button class="bg-gray-400 text-gray-700 font-semibold py-2 px-4 rounded cursor-not-allowed opacity-50 mt-4" disabled>
-                            STOCK ÉPUISÉ
-                        </button>
-                    {% endif %}
+                            {% if app.session.get('utilisateur') %}
+                                <form action="{{ path('panier_ajouter', {'id': produit.getId()}) }}" method="post">
+                                    <button type="submit" class="bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 mt-4 w-full">
+                                        AJOUTER AU PANIER
+                                    </button>
+                                </form>
+                            {% else %}
+                                <a href="{{ path('connexion') }}" class="bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 mt-4 w-full text-center block">
+                                    CONNECTEZ-VOUS</br>POUR AJOUTER AU PANIER
+                                </a>
+                            {% endif %}
+                        {% else %}
+                            <button class="bg-gray-400 text-gray-700 font-semibold py-2 px-4 rounded cursor-not-allowed opacity-50 mt-4 w-full" disabled>
+                                STOCK ÉPUISÉ
+                            </button>
+                        {% endif %}
                 </div>
             </div>
         {% else %}

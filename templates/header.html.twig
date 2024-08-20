@@ -3,7 +3,6 @@
     <div class="container mx-auto px-4 flex justify-between items-center">
         <div class="flex items-center space-x-4">
             <img src="{{ asset('images/newvet_logo.png') }}" alt="Logo" class="h-10">
-            {# <h1 class="text-white text-2xl font-bold">NewVet</h1> #}
         </div>
         <div class="hidden md:flex items-center space-x-4">
             <input type="text" placeholder="Rechercher..." class="px-4 py-2 rounded-md text-xl font-bold">
@@ -18,27 +17,25 @@
         </div>
         <nav class="md:flex hidden mt-4 mb-4">
             <ul class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 items-center text-xl font-bold">
-                <li><a href="{{ path('accueil') }}" class="text-white hover:text-blue-300">Accueil</a></li>
-                <li><a href="{{ path('categorie') }}" class="text-white hover:text-blue-300">Catégorie</a></li>
-                <li><a href="{{ path('produit') }}" class="text-white hover:text-blue-300">Produit</a></li>
+                <li><a href="{{ path('accueil') }}" class="{{ app.request.attributes.get('_route') == 'accueil' ? 'text-gray-300' : 'text-white' }} hover:text-blue-300">Accueil</a></li>
+                <li><a href="{{ path('categorie') }}" class="{{ app.request.attributes.get('_route') == 'categorie' ? 'text-gray-300' : 'text-white' }} hover:text-blue-300">Catégorie</a></li>
+                <li><a href="{{ path('produit') }}" class="{{ app.request.attributes.get('_route') == 'produit' ? 'text-gray-300' : 'text-white' }} hover:text-blue-300">Produit</a></li>
                 <li>
-                    <a href="{{ path('panier') }}" class="text-white hover:text-gray-300 flex items-center">
+                    <a href="{{ path('panier_afficher') }}" class="{{ app.request.attributes.get('_route') == 'panier_afficher' ? 'text-gray-300' : 'text-white' }} hover:text-blue-300 flex items-center">
                         <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5H2m1 8h16a1 1 0 010 2H7a1 1 0 110-2z"></path>
                         </svg>
                         <span class="ml-2">Panier</span>
                     </a>
                 </li>
-                <li><a href="#" class="text-white hover:text-blue-300">Contact</a></li>
                 {% if app.session.get('utilisateur') %}
-                    <li><a href="{{ path('deconnexion') }}" class="text-white hover:text-blue-300">Déconnexion</a></li>
+                    <li><a href="{{ path('deconnexion') }}" class="{{ app.request.attributes.get('_route') == 'deconnexion' ? 'text-gray-300' : 'text-white' }} hover:text-blue-300">Déconnexion</a></li>
                 {% else %}
-                    <li><a href="{{ path('connexion') }}" class="text-white hover:text-blue-300">Connexion</a></li>
+                    <li><a href="{{ path('connexion') }}" class="{{ app.request.attributes.get('_route') == 'connexion' ? 'text-gray-300' : 'text-white' }} hover:text-gray-300">Connexion</a></li>
                 {% endif %}
             </ul>
         </nav>
     </div>
-
 </header>
 
 
