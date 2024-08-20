@@ -58,6 +58,7 @@ class InscriptionController extends AbstractController
         $form->handleRequest($request);
         $user = $form->getData();
 
+        if ($form->isSubmitted() && $form->isValid()) {
         $password = $form->get('mdp')->getData();
         $passwordConfirmation = $form->get('mdp_comfirmation')->getData();
 
@@ -86,7 +87,8 @@ class InscriptionController extends AbstractController
             ]);
         }
        
-
+        }
+        
         return $this->render('/inscription/inscriptionpage.html.twig', [
             'form' => $form->createView(),
             'test' => $test

@@ -1,2 +1,48 @@
 {# Contient la liste des produits ainsi qu'un menu de tri pour tout afficher ou trier par catégorie (sous forme de tableau),
 sélection multiple pour SUPPRESSION UNIQUEMENT possible #}
+{% extends 'BO/BObase.html.twig' %}
+
+
+{% block title %}Liste des Produits
+{% endblock %}
+
+{% block body %}
+	<h1 class="text-2xl font-bold mb-4">Liste des Produits</h1>
+    <p><a href="{{ path('BO/ajouterProduit') }}" class="text-blue-500 hover:underline">Ajouter</a> un produit</p>
+	<table class="min-w-full p-5 bg-white border border-gray-600">
+		<thead>
+			<tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal border border-gray-600">
+				<th class="py-3 px-6 text-left font-semibold text-gray-700 border-r border-gray-600">Id Produit</th>
+				<th class="py-3 px-6 text-left font-semibold text-gray-700 border-r border-gray-600">Nom Produit</th>
+				<th class="py-3 px-6 text-left font-semibold text-gray-700 border-r border-gray-600">Description Produit</th>
+				<th class="py-3 px-6 text-left font-semibold text-gray-700 border-r border-gray-600">Prix Produit</th>
+				<th class="py-3 px-6 text-left font-semibold text-gray-700 border-r border-gray-600">Stock</th>
+				<th class="py-3 px-6 text-left font-semibold text-gray-700 border-r border-gray-600">Disponibilité</th>
+				<th class="py-3 px-6 text-left font-semibold text-gray-700 border-r border-gray-600">Is Highlander</th>
+				<th class="py-3 px-6 text-left font-semibold text-gray-700 border-r border-gray-600">Ordre</th>
+				<th class="py-3 px-6 text-left font-semibold text-gray-700 border-r border-gray-600">Catégorie</th>
+				<th class="py-3 px-6 text-center font-semibold text-gray-700">Actions</th>
+			</tr>
+		</thead>
+		<tbody class="text-gray-600 text-sm font-light">
+			{% for produit in produits %}
+				<tr class="border-b border-gray-600 hover:bg-gray-100">
+					<td class="py-3 px-6 text-left border-r whitespace-nowrap border-gray-600">{{ produit.getId() }}</td>
+					<td class="py-3 px-6 text-left border-r border-gray-600">{{ produit.getNomProd() }}</td>
+					<td class="py-3 px-6 text-left border-r border-gray-600">{{ produit.getDescriptionProd() }}</td>
+					<td class="py-3 px-6 text-left border-r border-gray-600">{{ produit.getPrixProd() }}</td>
+					<td class="py-3 px-6 text-left border-r border-gray-600">{{ produit.getStock() }}</td>
+					<td class="py-3 px-6 text-left border-r border-gray-600">{{ produit.getDisponibilite() ? 'Oui' : 'Non' }}</td>
+					<td class="py-3 px-6 text-left border-r border-gray-600">{{ produit.getHighlander() ? 'Oui' : 'Non' }}</td>
+					<td class="py-3 px-6 text-left border-r border-gray-600">{{ produit.getOrdre() }}</td>
+					<td class="py-3 px-6 text-left border-r border-gray-600">{{ produit.getCategorie().getNomCat() }}</td>
+					<td class="py-3 px-6 text-left border-r border-gray-600">
+						<a href="{{ path('BO/modifProduit', {'id': produit.getId()}) }}" class="text-yellow-500 hover:underline mx-2">Modifier</a>
+						<a href="{{ path('BO/supprimerProduit', {'id': produit.getId()}) }}" class="text-red-500 hover:underline">Supprimer</a>
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+  
+{% endblock %}

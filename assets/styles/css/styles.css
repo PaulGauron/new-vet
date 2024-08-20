@@ -25,3 +25,19 @@
 .text-border-black {
     text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
+
+
+
+.radio-container {
+    display: flex;
+    align-items: center;
+}
+
+.radio-container label {
+    margin-right: 10px; /* Espace entre le label et le bouton radio */
+    margin-bottom: 0; /* Pour s'assurer que le label est bien aligné verticalement */
+}
+
+.radio-container input[type="radio"] {
+    margin-top: 0; /* Supprimez le décalage par défaut si nécessaire */
+}
