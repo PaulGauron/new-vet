@@ -35,7 +35,7 @@ class UtilisateurType extends AbstractType
                 'attr' => ['class' => 'mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-orange-500 focus:ring focus:ring-orange-200']
                 ])
             ->add('mdp_comfirmation' , PasswordType::class, [
-                'mapped' => false, // This field is not mapped to the entity
+                'mapped' => false,
                 'label' => 'Confirmation de mot de passe',
                 'attr' => ['class' => 'mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-orange-500 focus:ring focus:ring-orange-200'],
                 'constraints' => [
