@@ -99,55 +99,18 @@ class ProduitRepository extends ServiceEntityRepository
         ->getResult();
     }
 
-
-    // // parcours les catégories et choisi aléatoirement 6 produits par catégorie
-    // public function findRandomProductsByCategory(): array
-    // {
-    //     $categories = [1, 2, 3, 4, 5, 6];
-    //     $results = [];
-
-    //     foreach ($categories as $category) {
-    //         // Récupère tous les produits pour une catégorie spécifique
-    //         $products = $this->createQueryBuilder('p')
-    //             ->where('p.categorie = :category')
-    //             ->setParameter('category', $category)
-    //             ->getQuery()
-    //             ->getResult();
-
-    //         // Mélange les produits et prend les 6 premiers
-    //         shuffle($products);
-    //         $results = array_merge($results, array_slice($products, 0, 6));
-    //     }
-    //     // Mélange les produits des catégories du tableau
-    //     shuffle($results);
-    //     return $results;
-    // }
-
-
-    // public function findMaterialsByProduct(): array
-    // {
-    //     // Utilisation du QueryBuilder pour construire la requête
-    //     return $this->createQueryBuilder('p')
-    //         ->select('p.id, p.nom_prod, m.nom__mat')
-    //         ->join('p.produit_materiaux', 'pm') // Joindre la relation ProduitMateriaux
-    //         ->join('pm.id_materiaux', 'm') // Joindre la relation Materiaux
-    //         ->getQuery()
-    //         ->getResult();
-    // }
-
     
-    public function findRandomProductsByCategoryWithMaterials(int $selectedCategory): array
+    public function findRandomProductsByCategoryWithMaterials(int $selectedCategory, int $selectedProductId): array
     {
-        // Initialisation du tableau des résultats
-        $results = [];
-    
-        // Récupère tous les produits pour la catégorie sélectionnée avec leurs matériaux
+        // Récupère tous les produits pour la catégorie sélectionnée avec leurs matériaux, exclue le produit sélectionné
         $products = $this->createQueryBuilder('p')
             ->leftJoin('p.produit_materiaux', 'pm') // Joindre la relation ProduitMateriaux
             ->leftJoin('pm.id_materiaux', 'm') // Joindre la relation Materiaux
             ->addSelect('pm', 'm') // Sélectionner les matériaux
             ->where('p.categorie = :category')
+            ->andWhere('p.id != :selectedProductId') // Exclure le produit sélectionné
             ->setParameter('category', $selectedCategory)
+            ->setParameter('selectedProductId', $selectedProductId)
             ->getQuery()
             ->getResult();
     
@@ -157,8 +120,6 @@ class ProduitRepository extends ServiceEntityRepository
     
         return $results;
     }
-    
-    
-    
+
 }
 

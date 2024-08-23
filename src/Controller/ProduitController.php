@@ -92,12 +92,13 @@ class ProduitController extends AbstractController
     {
         // Utilisation de la catégorie du produit pour récupérer des produits similaires
         $categorie = $produit->getCategorie();
-        $produitsSimilaires = $produitRepository->findRandomProductsByCategoryWithMaterials($categorie->getId());
-
+        $produitsSimilaires = $produitRepository->findRandomProductsByCategoryWithMaterials($categorie->getId(), $produit->getId());
+    
         return $this->render('detailsProduit.html.twig', [
             'produit' => $produit,
             'produitsSimilaires' => $produitsSimilaires,
         ]);
     }
+    
 
 }
