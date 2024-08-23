@@ -6,6 +6,7 @@ use App\Repository\ProduitRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\Produit;
 
 class ProduitController extends AbstractController
 {
@@ -83,6 +84,19 @@ class ProduitController extends AbstractController
 
         return $this->render('categorieAccessoires.html.twig', [
             'accessoires' => $accessoires,
+        ]);
+    }
+
+    #[Route('/produit/{id}', name: 'produit_details')]
+    public function afficherDetailsProduit(Produit $produit, ProduitRepository $produitRepository): Response
+    {
+        // Utilisation de la catégorie du produit pour récupérer des produits similaires
+        $categorie = $produit->getCategorie();
+        $produitsSimilaires = $produitRepository->findRandomProductsByCategoryWithMaterials($categorie->getId());
+
+        return $this->render('detailsProduit.html.twig', [
+            'produit' => $produit,
+            'produitsSimilaires' => $produitsSimilaires,
         ]);
     }
 

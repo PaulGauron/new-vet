@@ -19,7 +19,6 @@
             <ul class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 items-center text-xl font-bold">
                 <li><a href="{{ path('accueil') }}" class="{{ app.request.attributes.get('_route') == 'accueil' ? 'text-gray-300' : 'text-white' }} hover:text-blue-300">Accueil</a></li>
                 <li><a href="{{ path('categorie') }}" class="{{ app.request.attributes.get('_route') == 'categorie' ? 'text-gray-300' : 'text-white' }} hover:text-blue-300">Catégorie</a></li>
-                <li><a href="{{ path('produit') }}" class="{{ app.request.attributes.get('_route') == 'produit' ? 'text-gray-300' : 'text-white' }} hover:text-blue-300">Produit</a></li>
                 <li>
                     <a href="{{ path('panier_afficher') }}" class="{{ app.request.attributes.get('_route') == 'panier_afficher' ? 'text-gray-300' : 'text-white' }} hover:text-blue-300 flex items-center">
                         <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
