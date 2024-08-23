@@ -30,9 +30,6 @@ class PaiementType extends AbstractType
             ->add('CVV', PasswordType::class, [
                 'label' => 'CVV',
                 'constraints' => [new NotBlank()],
-            ])
-            ->add('save', SubmitType::class, [
-                'label' => 'Payer maintenant'
             ]);
     }
 

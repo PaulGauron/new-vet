@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container mx-auto mt-12 px-4">
+        <h1 class="text-center text-3xl md:text-4xl lg:text-5xl font-extrabold text-orange-600 mb-12 shadow-md">
+            Paiement
+            </br>
+            </br>
+        </h1>
+
+        {{ form_start(paymentForm, {'attr': {'class': 'bg-gray-100 p-8 rounded-lg shadow-lg max-w-3xl mx-auto'}}) }}
+            <div class="w-full space-y-4">
+                <div class="flex flex-col">
+                    {{ form_label(paymentForm.nom_carte, null, {'label_attr': {'class': 'text-lg font-medium text-gray-700'}}) }}
+                    {{ form_widget(paymentForm.nom_carte, {'attr': {'class': 'border border-gray-300 p-3 rounded-lg w-full placeholder-gray-500'}}) }}
+                </div>
+                <div class="flex flex-col">
+                    {{ form_label(paymentForm.numero_carte, null, {'label_attr': {'class': 'text-lg font-medium text-gray-700'}}) }}
+                    {{ form_widget(paymentForm.numero_carte, {'attr': {'class': 'border border-gray-300 p-3 rounded-lg w-full placeholder-gray-500'}}) }}
+                </div>
+                <div class="flex flex-col">
+                    {{ form_label(paymentForm.date_expiration_carte, null, {'label_attr': {'class': 'text-lg font-medium text-gray-700'}}) }}
+                    {{ form_widget(paymentForm.date_expiration_carte, {'attr': {'class': 'border border-gray-300 p-3 rounded-lg w-full placeholder-gray-500'}}) }}
+                </div>
+                <div class="flex flex-col">
+                    {{ form_label(paymentForm.CVV, null, {'label_attr': {'class': 'text-lg font-medium text-gray-700'}}) }}
+                    {{ form_widget(paymentForm.CVV, {'attr': {'class': 'border border-gray-300 p-3 rounded-lg w-full placeholder-gray-500'}}) }}
+                </div>
+                <button type="submit" class="bg-orange-500 text-white font-semibold py-4 px-8 rounded-lg text-lg hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-opacity-50 mt-6 w-full">
+                    Commander
+                </button>
+            </div>
+        {{ form_end(paymentForm) }}
+    </div>
+{% endblock %}
