@@ -69,25 +69,4 @@ class Categorie
         return $this->produit;
     }
 
-    public function addProduitCategorie(Produit $produitCategorie): static
-    {
-        if (!$this->produit->contains($produitCategorie)) {
-            $this->produit->add($produitCategorie);
-            $produitCategorie->setIdCategorie($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProduitCategorie(Produit $produitCategorie): static
-    {
-        if ($this->produit->removeElement($produitCategorie)) {
-            // set the owning side to null (unless already changed)
-            if ($produitCategorie->getIdCategorie() === $this) {
-                $produitCategorie->setIdCategorie(null);
-            }
-        }
-
-        return $this;
-    }
 }

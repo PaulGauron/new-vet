@@ -10,7 +10,7 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
         {% for produit in produits %}
             <div class="flex flex-col max-w-sm rounded overflow-hidden shadow-lg bg-gray-200">
-                <div class="relative w-full h-64">
+                <div class="relative w-full h-80">
                     <img class="absolute inset-0 w-full h-full object-cover" 
                         src="{{ asset('images/Produits/' ~ produit.nomImage ~ '.jpg') }}" 
                         alt="{{ produit.nomProd }}">
@@ -39,13 +39,19 @@
     </div>
 
     {% if produits is not empty %}
-        <div class="mt-8 text-right">
-            <h2 class="text-2xl font-bold text-gray-800">
-                Total : {{ total }} €
-            </h2>
-            <button class="bg-green-500 text-white font-semibold py-3 px-6 rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-50 mt-4">
-                Passer la commande
-            </button>
+        <div class="mt-8 flex justify-end">
+            <div class="text-right">
+                <!-- Total Price Section -->
+                <div class="mb-4">
+                    <h2 class="text-2xl font-bold text-gray-800">
+                        Total : {{ total }} €
+                    </h2>
+                </div>
+                <!-- Checkout Button Section -->
+                <a href="{{ path('checkout') }}" class="bg-green-500 text-white font-semibold py-3 px-6 rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-50">
+                    Passer la commande
+                </a>
+            </div>
         </div>
     {% endif %}
 </div>

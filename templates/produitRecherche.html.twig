@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container mx-auto mt-12 px-4">
+        <h1 class="text-center text-3xl md:text-4xl lg:text-5xl font-extrabold text-orange-600 mb-12 shadow-md">
+            Recherche de Produits
+            </br>
+            </br>
+        </h1>
+
+        {{ form_start(form) }}
+            <div class="flex flex-col items-center bg-gray-100 p-8 rounded-lg shadow-lg max-w-3xl mx-auto">
+                <div class="w-full space-y-4">
+                    <div class="flex flex-col">
+                        {{ form_label(form.title, null, {'label_attr': {'class': 'text-lg font-medium text-gray-700'}}) }}
+                        {{ form_widget(form.title, {'attr': {'class': 'border border-gray-300 p-3 rounded-lg w-full placeholder-gray-500'}}) }}
+                    </div>
+                    <div class="flex flex-col">
+                        {{ form_label(form.description, null, {'label_attr': {'class': 'text-lg font-medium text-gray-700'}}) }}
+                        {{ form_widget(form.description, {'attr': {'class': 'border border-gray-300 p-3 rounded-lg w-full placeholder-gray-500'}}) }}
+                    </div>
+                    <div class="flex flex-col">
+                        {{ form_label(form.materiaux, null, {'label_attr': {'class': 'text-lg font-medium text-gray-700'}}) }}
+                        {{ form_widget(form.materiaux, {'attr': {'class': 'border border-gray-300 p-3 rounded-lg w-full placeholder-gray-500'}}) }}
+                    </div>
+                    <div class="flex flex-col md:flex-row md:space-x-4">
+                        <div class="flex flex-col flex-1">
+                            {{ form_label(form.prixMin, null, {'label_attr': {'class': 'text-lg font-medium text-gray-700'}}) }}
+                            {{ form_widget(form.prixMin, {'attr': {'class': 'border border-gray-300 p-3 rounded-lg w-full placeholder-gray-500'}}) }}
+                        </div>
+                        <div class="flex flex-col flex-1">
+                            {{ form_label(form.prixMax, null, {'label_attr': {'class': 'text-lg font-medium text-gray-700'}}) }}
+                            {{ form_widget(form.prixMax, {'attr': {'class': 'border border-gray-300 p-3 rounded-lg w-full placeholder-gray-500'}}) }}
+                        </div>
+                    </div>
+                    <div class="flex flex-col">
+                        {{ form_label(form.categories, null, {'label_attr': {'class': 'text-lg font-medium text-gray-700'}}) }}
+                        {{ form_widget(form.categories, {'attr': {'class': 'border border-gray-300 p-3 rounded-lg w-full bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-opacity-50'}}) }}
+                    </div>
+                    <div class="flex flex-col">
+                        {{ form_label(form.inStock, null, {'label_attr': {'class': 'text-lg font-medium text-gray-700'}}) }}
+                        {{ form_widget(form.inStock, {'attr': {'class': 'border border-gray-300 p-3 rounded-lg w-full bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-opacity-50'}}) }}
+                    </div>
+                    <div class="flex flex-col">
+                        {{ form_label(form.sort, null, {'label_attr': {'class': 'text-lg font-medium text-gray-700'}}) }}
+                        {{ form_widget(form.sort, {'attr': {'class': 'border border-gray-300 p-3 rounded-lg w-full bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-opacity-50'}}) }}
+                    </div>
+                </div>
+                <button type="submit" class="bg-orange-500 text-white font-semibold py-4 px-8 rounded-lg text-lg hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-opacity-50 mt-6 w-full">
+                    Rechercher
+                </button>
+            </div>
+        {{ form_end(form) }}
+
+        <h2 class="text-3xl font-bold text-orange-600 mt-12 mb-6 text-center">Résultats de la Recherche</h2>
+
+        <div class="produits grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {% for produit in produits %}
+                <a href="{{ path('produit_details', {'id': produit.id}) }}" class="produit bg-white rounded-lg shadow-lg p-6 flex flex-col transition-transform transform hover:scale-105 hover:shadow-xl">
+                    {% if produit.imagesProduits|length > 0 %}
+                        <img class="w-full h-48 object-cover rounded-t-lg mb-4" src="{{ asset('images/Produits/' ~ produit.imagesProduits[0].image.nomImage ~ '.jpg') }}" alt="{{ produit.nomProd }}">
+                    {% endif %}
+                    <h3 class="text-2xl font-semibold mb-2">{{ produit.nomProd }}</h3>
+                    <p class="text-gray-700 mb-2">{{ produit.descriptionProd }}</p>
+                    <p class="text-xl font-bold text-orange-600 mb-2">Prix: {{ produit.prixProd }} €</p>
+                    <p class="text-gray-600 mb-4">Stock: {{ produit.stock }}</p>
+                </a>
+            {% else %}
+                <p class="text-center text-gray-500">Aucun produit trouvé.</p>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

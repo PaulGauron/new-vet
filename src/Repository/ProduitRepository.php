@@ -3,8 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Produit;
+use App\Entity\Categorie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\QueryBuilder;
 
 /**
  * @extends ServiceEntityRepository<Produit>
@@ -125,68 +127,96 @@ class ProduitRepository extends ServiceEntityRepository
         ->getResult();
     }
 
-
-    // // parcours les catégories et choisi aléatoirement 6 produits par catégorie
-    // public function findRandomProductsByCategory(): array
-    // {
-    //     $categories = [1, 2, 3, 4, 5, 6];
-    //     $results = [];
-
-    //     foreach ($categories as $category) {
-    //         // Récupère tous les produits pour une catégorie spécifique
-    //         $products = $this->createQueryBuilder('p')
-    //             ->where('p.categorie = :category')
-    //             ->setParameter('category', $category)
-    //             ->getQuery()
-    //             ->getResult();
-
-    //         // Mélange les produits et prend les 6 premiers
-    //         shuffle($products);
-    //         $results = array_merge($results, array_slice($products, 0, 6));
-    //     }
-    //     // Mélange les produits des catégories du tableau
-    //     shuffle($results);
-    //     return $results;
-    // }
-
-
-    // public function findMaterialsByProduct(): array
-    // {
-    //     // Utilisation du QueryBuilder pour construire la requête
-    //     return $this->createQueryBuilder('p')
-    //         ->select('p.id, p.nom_prod, m.nom__mat')
-    //         ->join('p.produit_materiaux', 'pm') // Joindre la relation ProduitMateriaux
-    //         ->join('pm.id_materiaux', 'm') // Joindre la relation Materiaux
-    //         ->getQuery()
-    //         ->getResult();
-    // }
-
-    public function findRandomProductsByCategoryWithMaterials(): array
+    
+    public function findRandomProductsByCategoryWithMaterials(int $selectedCategory, int $selectedProductId): array
     {
-        $categories = [1, 2, 3, 4, 5, 6];
-        $results = [];
+        // Récupère tous les produits pour la catégorie sélectionnée avec leurs matériaux, exclue le produit sélectionné
+        $products = $this->createQueryBuilder('p')
+            ->leftJoin('p.produit_materiaux', 'pm') // Joindre la relation ProduitMateriaux
+            ->leftJoin('pm.id_materiaux', 'm') // Joindre la relation Materiaux
+            ->addSelect('pm', 'm') // Sélectionner les matériaux
+            ->where('p.categorie = :category')
+            ->andWhere('p.id != :selectedProductId') // Exclure le produit sélectionné
+            ->setParameter('category', $selectedCategory)
+            ->setParameter('selectedProductId', $selectedProductId)
+            ->getQuery()
+            ->getResult();
     
-        foreach ($categories as $category) {
-            // Récupère tous les produits pour une catégorie spécifique avec leurs matériaux
-            $products = $this->createQueryBuilder('p')
-                ->leftJoin('p.produit_materiaux', 'pm') // Joindre la relation ProduitMateriaux
-                ->leftJoin('pm.id_materiaux', 'm') // Joindre la relation Materiaux
-                ->addSelect('pm', 'm') // Sélectionner aussi les matériaux
-                ->where('p.categorie = :category')
-                ->setParameter('category', $category)
-                ->getQuery()
-                ->getResult();
+        // Mélange les produits et prend les 6 premiers
+        shuffle($products);
+        $results = array_slice($products, 0, 6);
     
-            // Mélange les produits et prend les 6 premiers
-            shuffle($products);
-            $results = array_merge($results, array_slice($products, 0, 6));
-        }
-    
-        // Mélange les produits des catégories du tableau
-        shuffle($results);
         return $results;
     }
     
-    
-}
+    public function search(?string $title, ?string $description, ?string $materiaux, ?float $prixMin, ?float $prixMax, $categories, ?bool $inStock, ?string $sort)
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->leftJoin('p.produit_materiaux', 'pm')
+            ->leftJoin('pm.id_materiaux', 'm')
+            ->where('1=1');
 
+        if ($title) {
+            $qb->andWhere('p.nom_prod LIKE :title')
+                ->setParameter('title', '%' . $title . '%');
+        }
+
+        if ($description) {
+            $qb->andWhere('p.description_prod LIKE :description')
+                ->setParameter('description', '%' . $description . '%');
+        }
+
+        if ($materiaux) {
+            $qb->andWhere('m.nom__mat LIKE :materiaux')
+                ->setParameter('materiaux', '%' . $materiaux . '%');
+        }
+
+        if ($prixMin) {
+            $qb->andWhere('p.prix_prod >= :prixMin')
+                ->setParameter('prixMin', $prixMin);
+        }
+
+        if ($prixMax) {
+            $qb->andWhere('p.prix_prod <= :prixMax')
+                ->setParameter('prixMax', $prixMax);
+        }
+
+        if ($categories) {
+            $qb->andWhere('p.categorie IN (:categories)')
+                ->setParameter('categories', $categories);
+        }
+
+        if ($inStock !== null) {
+            if ($inStock) {
+                $qb->andWhere('p.stock > 3');
+            }
+        }
+
+        if ($sort) {
+            switch ($sort) {
+                case 'price_asc':
+                    $qb->orderBy('p.prix_prod', 'ASC');
+                    break;
+                case 'price_desc':
+                    $qb->orderBy('p.prix_prod', 'DESC');
+                    break;
+                // pas établi
+                // case 'newest':
+                //     $qb->orderBy('p.dateAjout', 'DESC');
+                //     break;
+                case 'in_stock':
+                    $qb->orderBy('p.stock', 'DESC');
+                    break;
+            }
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function findAllCategories()
+    {
+        // Retourne toutes les catégories
+        return $this->getEntityManager()->getRepository(Categorie::class)->findAll();
+    }
+
+}
