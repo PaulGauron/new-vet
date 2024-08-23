@@ -14,7 +14,11 @@ class ProduitRechercheType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $categories = $options['categories'];
+        // Ici, on utilise les noms des catégories au lieu des ID
+        $categories = [];
+        foreach ($options['categories'] as $categorie) {
+            $categories[$categorie->getNomCat()] = $categorie->getId();
+        }
         
         $builder
             ->add('title', TextType::class, [
@@ -40,13 +44,17 @@ class ProduitRechercheType extends AbstractType
             ->add('categories', ChoiceType::class, [
                 'choices' => $categories,
                 'required' => false,
-                'multiple' => true,
-                'expanded' => true,
+                'multiple' => false, // menu déroulant
+                'expanded' => false, // false pour un menu déroulant
                 'label' => 'Catégories'
             ])
-            ->add('inStock', CheckboxType::class, [
+            ->add('inStock', ChoiceType::class, [
+                'choices' => [
+                    'Oui' => true,
+                ],
                 'required' => false,
-                'label' => 'Uniquement produits en stock'
+                'expanded' => false, // Menu déroulant
+                'label' => 'En stock'
             ])
             ->add('sort', ChoiceType::class, [
                 'choices' => [
@@ -63,7 +71,7 @@ class ProduitRechercheType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => null,
-            'categories' => [],
+            'categories' => [], // Par défaut, aucune catégorie n'est définie
         ]);
     }
 }

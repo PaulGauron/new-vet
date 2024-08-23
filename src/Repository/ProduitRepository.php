@@ -122,8 +122,8 @@ class ProduitRepository extends ServiceEntityRepository
     
         return $results;
     }
-
-    public function search(?string $title, ?string $description, ?string $materiaux, ?float $prixMin, ?float $prixMax, ?array $categories, ?bool $inStock, ?string $sort)
+    
+    public function search(?string $title, ?string $description, ?string $materiaux, ?float $prixMin, ?float $prixMax, $categories, ?bool $inStock, ?string $sort)
     {
         $qb = $this->createQueryBuilder('p')
             ->leftJoin('p.produit_materiaux', 'pm')
@@ -160,8 +160,10 @@ class ProduitRepository extends ServiceEntityRepository
                 ->setParameter('categories', $categories);
         }
 
-        if ($inStock) {
-            $qb->andWhere('p.stock > 3');
+        if ($inStock !== null) {
+            if ($inStock) {
+                $qb->andWhere('p.stock > 3');
+            }
         }
 
         if ($sort) {
@@ -185,15 +187,10 @@ class ProduitRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
-    /**
-     * @return Categorie[] Retourne un tableau de catégories
-     */
-    public function findAllCategories(): array
+    public function findAllCategories()
     {
-        // Utilisation du QueryBuilder pour récupérer toutes les catégories
-        return $this->createQueryBuilder('c')
-            ->getQuery()
-            ->getResult();
+        // Retourne toutes les catégories
+        return $this->getEntityManager()->getRepository(Categorie::class)->findAll();
     }
 
 }

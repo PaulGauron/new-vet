@@ -1,5 +1,4 @@
 <?php
-// src/Controller/MenuController.php
 namespace App\Controller;
 
 use App\Repository\ProduitRepository;
@@ -106,8 +105,12 @@ class ProduitController extends AbstractController
     #[Route('/recherche', name: 'produit_recherche')]
     public function search(Request $request, ProduitRepository $produitRepository): Response
     {
+        // Récupération de toutes les catégories depuis le repository
+        $categories = $produitRepository->findAllCategories();
+
+        // Création du formulaire en passant les catégories récupérées
         $form = $this->createForm(ProduitRechercheType::class, null, [
-            'categories' => $produitRepository->findAllCategories() // Méthode pour obtenir toutes les catégories
+            'categories' => $categories,
         ]);
 
         $form->handleRequest($request);
@@ -126,7 +129,7 @@ class ProduitController extends AbstractController
                 $data['sort']
             );
         } else {
-            $produits = $produitRepository->findAll(); // Retourne tous les produits si le formulaire n'est pas soumis
+            $produits = $produitRepository->findAll(); // Retourne tous les produits si le formulaire n'est pas soumis (à améliorer par une limite/pagination )
         }
 
         return $this->render('produitRecherche.html.twig', [
