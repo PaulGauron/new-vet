@@ -16,15 +16,13 @@ class ImagesType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $isEdit = $options['is_edit'] ?? false;
+        if($isEdit){
         $builder
-            ->add('nom_image', TextType::class, [
-                'label' => 'Nom d\'image',
-                'attr' => ['class' => 'mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-orange-500 focus:ring focus:ring-orange-200']
-            ])
-            ->add('image', FileType::class, [
+                ->add('image', FileType::class, [
                 'label' => 'Image du produit (JPG file)',
                 'mapped' => false,
-                'required' => true,
+                'required' => false,
                 'constraints' => [
                     new File([
                         'maxSize' => '2M',
@@ -35,12 +33,34 @@ class ImagesType extends AbstractType
                     ])
                 ],
             ]);
+        }else{
+            $builder
+           
+            ->add('nom_image', TextType::class, [
+                'label' => 'Nom d\'image',
+                'attr' => ['class' => 'mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-orange-500 focus:ring focus:ring-orange-200'],
+            ])
+            ->add('image', FileType::class, [
+                'label' => 'Image du produit (JPG file)',
+                'mapped' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '2M',
+                        'mimeTypes' => [
+                            'image/jpeg',
+                        ],
+                        'mimeTypesMessage' => 'Please upload a valid JPG image',
+                    ])
+                ],
+            ]);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Images::class,
+            'is_edit' => false, // Définir l'option par défaut
         ]);
     }
 }

@@ -47,8 +47,8 @@ class Produit
     #[ORM\Column]
     private ?int $stock = null;
 
-    #[ORM\Column(type: Types::SMALLINT)]
-    private ?int $disponibilite = null;
+    #[ORM\Column]
+    private ?bool $disponibilite = null;
 
 
     /**
@@ -149,12 +149,12 @@ class Produit
         return $this;
     }
 
-    public function getDisponibilite(): ?int
+    public function getDisponibilite(): ?bool
     {
         return $this->disponibilite;
     }
 
-    public function setDisponibilite(int $disponibilite): static
+    public function setDisponibilite(bool $disponibilite): static
     {
         $this->disponibilite = $disponibilite;
 
