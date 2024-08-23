@@ -6,7 +6,10 @@ use App\Repository\ProduitRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Produit;
+use App\Form\ProduitRechercheType;
+
 
 class ProduitController extends AbstractController
 {
@@ -100,5 +103,36 @@ class ProduitController extends AbstractController
         ]);
     }
     
+    #[Route('/recherche', name: 'produit_recherche')]
+    public function search(Request $request, ProduitRepository $produitRepository): Response
+    {
+        $form = $this->createForm(ProduitRechercheType::class, null, [
+            'categories' => $produitRepository->findAllCategories() // Méthode pour obtenir toutes les catégories
+        ]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+
+            $produits = $produitRepository->search(
+                $data['title'],
+                $data['description'],
+                $data['materiaux'],
+                $data['prixMin'],
+                $data['prixMax'],
+                $data['categories'],
+                $data['inStock'],
+                $data['sort']
+            );
+        } else {
+            $produits = $produitRepository->findAll(); // Retourne tous les produits si le formulaire n'est pas soumis
+        }
+
+        return $this->render('produitRecherche.html.twig', [
+            'form' => $form->createView(),
+            'produits' => $produits,
+        ]);
+    }
 
 }

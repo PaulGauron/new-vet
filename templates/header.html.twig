@@ -4,10 +4,11 @@
         <div class="flex items-center space-x-4">
             <img src="{{ asset('images/newvet_logo.png') }}" alt="Logo" class="h-10">
         </div>
-        <div class="hidden md:flex items-center space-x-4">
+        {# <div class="hidden md:flex items-center space-x-4">
             <input type="text" placeholder="Rechercher..." class="px-4 py-2 rounded-md text-xl font-bold">
             <button class="bg-orange-400 text-white px-4 py-2 rounded-md hover:bg-orange-500">Rechercher</button>
-        </div>
+        </div> #}
+
         <div class="md:hidden flex items-center">
             <button id="burger-menu" class="text-white focus:outline-none">
                 <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -19,6 +20,7 @@
             <ul class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 items-center text-xl font-bold">
                 <li><a href="{{ path('accueil') }}" class="{{ app.request.attributes.get('_route') == 'accueil' ? 'text-gray-300' : 'text-white' }} hover:text-blue-300">Accueil</a></li>
                 <li><a href="{{ path('categorie') }}" class="{{ app.request.attributes.get('_route') == 'categorie' ? 'text-gray-300' : 'text-white' }} hover:text-blue-300">Catégorie</a></li>
+                <li><a href="{{ path('produit_recherche') }}" class="{{ app.request.attributes.get('_route') == 'produit_recherche' ? 'text-gray-300' : 'text-white' }} hover:text-blue-300">Recherche</a></li>
                 <li>
                     <a href="{{ path('panier_afficher') }}" class="{{ app.request.attributes.get('_route') == 'panier_afficher' ? 'text-gray-300' : 'text-white' }} hover:text-blue-300 flex items-center">
                         <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
