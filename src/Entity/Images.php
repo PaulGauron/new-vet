@@ -21,7 +21,7 @@ class Images
     /**
      * @var Collection<int, ImagesProduit>
      */
-    #[ORM\OneToMany(targetEntity: ImagesProduit::class, mappedBy: 'image')]
+    #[ORM\OneToMany(targetEntity: ImagesProduit::class, mappedBy: 'image', orphanRemoval: true)]
     private Collection $imagesProduits;
 
     public function __construct()

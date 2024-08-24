@@ -6,6 +6,7 @@ use App\Entity\Produit;
 use App\Entity\Categorie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 
 /**
@@ -13,9 +14,12 @@ use Doctrine\ORM\QueryBuilder;
  */
 class ProduitRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private $entityManager;
+
+    public function __construct(ManagerRegistry $registry, EntityManagerInterface $entityManager)
     {
         parent::__construct($registry, Produit::class);
+        $this->entityManager = $entityManager;
     }
 
 /**
@@ -45,11 +49,9 @@ class ProduitRepository extends ServiceEntityRepository
     
     public function deleteProduit(Produit $produit): void
     {
+        
         // Utilise l'EntityManager pour supprimer l'entité
         $this->entityManager->remove($produit);
-        foreach ($produit->getImagesProduits() as $imagesProduit) {
-        $produit->removeImagesProduit($imagesProduit);
-        }
         // Flushe les changements à la base de données
         $this->entityManager->flush();
     }

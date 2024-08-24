@@ -161,15 +161,17 @@ class BOlisteProduitController extends AbstractController
     }
 
 
-    #[Route('/BO/supprimerProduit/{id}', name: 'BO/suprimerProduit')]
-    public function supprimerProduit(int $id, ProduitRepository $produitRepository): Response
+    #[Route('/BO/supprimerProduit/{id}', name: 'BO/supprimerProduit')]
+    public function supprimerProduit(int $id, ProduitRepository $produitRepository,  ManagerRegistry $doctrine): Response
     {
         // Trouve le produit par son ID
         $produit = $produitRepository->findAllById($id);
 
+
+        $entityManager = $doctrine->getManager();
         if ($produit) {
             // Supprime le produit
-            $produitRepository->deleteProduit($produit[0]);
+           
             $directory = $this->getParameter('images_directory');
 
             foreach ($produit[0]->getImagesProduits() as $imagesProduit) {
@@ -184,13 +186,15 @@ class BOlisteProduitController extends AbstractController
                     }
                 }
             }
+
+            $produitRepository->deleteProduit($produit[0]);
             // Ajoute un message de confirmation
             $this->addFlash('success', 'Produit supprimé avec succès.');
         } else {
             $this->addFlash('error', 'Produit non trouvé.');
         }
 
-        return $this->redirectToRoute('BO/listeProduits');
+        return $this->redirectToRoute('BO/ProductList');
     }
 
 
