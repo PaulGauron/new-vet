@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ClientRepository;
+use DateTime;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -11,19 +13,19 @@ use Doctrine\ORM\Mapping as ORM;
 class Client extends Utilisateur
 {
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(length: 50, nullable: true)]
     private ?string $methode_paiement = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(length: 50, nullable:true)]
     private ?string $nom_carte = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable:true)]
     private ?string $numero_carte = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $date_expiration_carte = null;
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private ?DateTimeInterface $date_expiration_carte = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable:true)]
     private ?string $CVV = null;
 
     /**
@@ -74,16 +76,16 @@ class Client extends Utilisateur
         return $this;
     }
 
-    public function getDateExpirationCarte(): ?string
-    {
-        return $this->date_expiration_carte;
-    }
-
-    public function setDateExpirationCarte(string $date_expiration_carte): static
+    public function setDateExpirationCarte(?\DateTimeInterface $date_expiration_carte): self
     {
         $this->date_expiration_carte = $date_expiration_carte;
 
         return $this;
+    }
+
+    public function getDateExpirationCarte(): ?\DateTimeInterface
+    {
+        return $this->date_expiration_carte;
     }
 
     public function getCVV(): ?string
@@ -126,5 +128,10 @@ class Client extends Utilisateur
         }
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return 'nom : '. $this->getNom() . ' prenom ' . $this->getPrenom() .' id :'. $this->getId() . ' Email : ' . $this->getEmail();
     }
 }

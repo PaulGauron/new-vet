@@ -68,6 +68,20 @@ class ProduitRepository extends ServiceEntityRepository
         ->getResult();
     }
 
+    public function findInfosProduitById(int $id): array
+    {
+        // Creating a query builder instance
+        $qb = $this->createQueryBuilder('p')
+            ->select('i.nom_image', 'p.nom_prod', 'p.prix_prod')
+            ->join('p.imagesProduits', 'ip') // Join the ImagesProduit relation
+            ->join('ip.image', 'i') // Join the Image relation through ImagesProduit
+            ->where('p.id = :id')
+            ->setParameter('id', $id);
+
+        // Return the results
+        return $qb->getQuery()->getResult();
+    }
+
 
     public function findAllTops(): array
     {

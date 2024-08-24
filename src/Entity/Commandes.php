@@ -28,7 +28,7 @@ class Commandes
     /**
      * @var Collection<int, Produit>
      */
-    #[ORM\OneToMany(targetEntity: Produit::class, mappedBy: 'prduitCommande', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Produit::class, mappedBy: 'produitCommande', orphanRemoval: true)]
     private Collection $produitCommande;
 
     #[ORM\ManyToOne(inversedBy: 'commandes_adresse')]

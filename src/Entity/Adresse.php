@@ -24,10 +24,10 @@ class Adresse
     #[ORM\Column(length: 100)]
     private ?string $ville = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(length: 50 , nullable:true)]
     private ?string $type_adresse = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(length: 50, nullable:true)]
     private ?string $preference = null;
 
     #[ORM\Column(length: 50)]

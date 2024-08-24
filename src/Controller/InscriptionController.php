@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Client;
 use App\Entity\Utilisateur;
 use App\Form\UtilisateurType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -52,7 +53,7 @@ class InscriptionController extends AbstractController
         }
 
         $entityManager = $doctorine->getManager();
-        $user = new Utilisateur();
+        $user = new Client();
         $form = $this->createForm(UtilisateurType::class, $user);
 
         $form->handleRequest($request);
@@ -62,6 +63,7 @@ class InscriptionController extends AbstractController
         $password = $form->get('mdp')->getData();
         $passwordConfirmation = $form->get('mdp_comfirmation')->getData();
 
+        
         if ($password !== $passwordConfirmation) {
             $this->addFlash('errorConfirmMdp', 'Le mot de passe et la cofirmation de mot de passe ne correspondent pas.');
             return $this->render('/inscription/inscriptionpage.html.twig', [
@@ -70,7 +72,6 @@ class InscriptionController extends AbstractController
         }
 
         if(passwordCheck($password)){
-
             $user->setMdp(password_hash($user->getMdp(), PASSWORD_BCRYPT));
             $entityManager->persist($user);
     
@@ -79,7 +80,7 @@ class InscriptionController extends AbstractController
     
             $test = $user->getMdp();
             // Rediriger vers la page de connexion
-            //return $this->redirectToRoute('connexion'); 
+            return $this->redirectToRoute('connexion'); 
         }else{
             $this->addFlash('errorMdp', 'Le mot de passe n\'est pas assez fort.\n il doit contenir au moins 8 charactères, une minuscule, une majuscule,un nombre et un charactère spéciale.');
             return $this->render('/inscription/inscriptionpage.html.twig', [
@@ -91,7 +92,6 @@ class InscriptionController extends AbstractController
         
         return $this->render('/inscription/inscriptionpage.html.twig', [
             'form' => $form->createView(),
-            'test' => $test
         ]);
 
        

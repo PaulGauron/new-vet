@@ -36,13 +36,13 @@ class Utilisateur
     /**
      * @var Collection<int, Commandes>
      */
-    #[ORM\OneToMany(targetEntity: Commandes::class, mappedBy: 'id_util', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Commandes::class, mappedBy: 'commmande', orphanRemoval: true)]
     private Collection $commandes;
 
     /**
      * @var Collection<int, Contact>
      */
-    #[ORM\OneToMany(targetEntity: Contact::class, mappedBy: 'id_util', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Contact::class, mappedBy: 'contact', orphanRemoval: true)]
     private Collection $id_util;
 
     public function __construct()
@@ -54,6 +54,13 @@ class Utilisateur
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function setId(int $id): static
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     public function getNom(): ?string

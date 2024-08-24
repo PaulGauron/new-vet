@@ -28,10 +28,10 @@ class AdresseType extends AbstractType
             'label' => 'Ville',
             'constraints' => [new NotBlank()]
         ])
-        ->add('type_adresse', TextType::class, [ 
+        /*->add('type_adresse', TextType::class, [ 
             'label' => 'Type d\'adresse',
             'required' => false
-        ])
+        ])*/
         ->add('pays', ChoiceType::class, [
             'choices' => [
                 'Albanie' => 'Albanie',

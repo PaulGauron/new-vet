@@ -9,12 +9,12 @@ use Doctrine\ORM\Mapping as ORM;
 class AdresseClient
 {
     #[ORM\Id]
-    #[ORM\ManyToOne(inversedBy: 'adresse_client')]
+    #[ORM\ManyToOne(targetEntity:Client::class, inversedBy: 'adresse_client', cascade: ["persist"])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Client $id_utilisateur = null;
 
     #[ORM\Id]
-    #[ORM\ManyToOne(inversedBy: 'adresse_client')]
+    #[ORM\ManyToOne(targetEntity:Adresse::class, inversedBy: 'adresse_client', cascade: ["persist"])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Adresse $id_adresse = null;
 
@@ -41,4 +41,5 @@ class AdresseClient
 
         return $this;
     }
+    
 }
