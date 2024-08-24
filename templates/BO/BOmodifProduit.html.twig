@@ -1,1 +1,59 @@
 {# Contient le produit sélectionné ainsi que ses infos pour le modifier =>GET? #}
+{% extends 'BO/BObase.html.twig' %}
+
+{% block title %}Modifier Produit
+{% endblock %}
+
+
+{% block body %}
+
+	<div class="p-16 rounded shadow-md max-w-lg px-24 mx-auto">
+		<h1 class="text-3xl font-bold mb-6">Modifier un Produit</h1>
+
+		<div class="bg-gray-100 rounded shadow-md mx-auto">
+			{{ form_start(form, {'attr': {'enctype': 'multipart/form-data'}}) }}
+			
+			{{ form_row(form.produit.nom_prod) }}
+		</div>
+		<div class="bg-gray-100 rounded shadow-md mx-auto">
+			
+			{{ form_row(form.produit.description_prod) }}
+		</div>
+		<div class="bg-gray-100 rounded shadow-md mx-auto">
+		
+			{{ form_row(form.produit.prix_prod) }}
+			{{ form_errors(form.produit.prix_prod) }}
+		</div>
+		<div class="bg-gray-100 rounded shadow-md mx-auto">
+
+			{{ form_row(form.produit.stock) }}
+		</div>
+		<div class="bg-gray-100 rounded shadow-md mx-auto">
+			{{ form_row(form.produit.disponibilite) }}
+		</div>
+		<div class="bg-gray-100 rounded shadow-md mx-auto">
+			
+			{{ form_row(form.produit.highlander) }}
+		</div>
+		<div class="bg-gray-100 rounded shadow-md mx-auto">
+			
+			{{ form_row(form.produit.ordre) }}
+		</div>
+		<div class="bg-gray-100 rounded shadow-md mx-auto">
+			
+			{{ form_row(form.produit.categorie) }}
+		</div>
+
+		<div class="bg-gray-100 rounded shadow-md mx-auto p-5">
+			<div>
+				{{ form_row(form._token) }}
+				{{ form_row(form.images.image) }}
+			</div>
+		</div>
+
+		<div class="col-span-2">
+			<input type="submit" value="Modifier" class='w-full text-white bg-orange-400 text-white py-2 rounded-md hover:bg-orange-600 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'>
+		</div>
+	</div>
+	{{ form_end(form) }}
+{% endblock %}

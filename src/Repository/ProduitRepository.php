@@ -36,10 +36,36 @@ class ProduitRepository extends ServiceEntityRepository
     public function findAll(): array
     {
         return $this->createQueryBuilder('p')
+        ->innerJoin('p.imagesProduits', 'ip') // Jointure avec images_produit
+        ->innerJoin('ip.image', 'i') // Jointure avec images
+        ->orderBy('p.id', 'ASC') // Tri par le champ ordre en ordre décroissant
         ->getQuery()
         ->getResult();
     }
     
+    public function deleteProduit(Produit $produit): void
+    {
+        // Utilise l'EntityManager pour supprimer l'entité
+        $this->entityManager->remove($produit);
+        foreach ($produit->getImagesProduits() as $imagesProduit) {
+        $produit->removeImagesProduit($imagesProduit);
+        }
+        // Flushe les changements à la base de données
+        $this->entityManager->flush();
+    }
+
+    public function findAllById($id): array
+    {
+        return $this->createQueryBuilder('p')
+        ->innerJoin('p.imagesProduits', 'ip') // Jointure avec images_produit
+        ->innerJoin('ip.image', 'i') // Jointure avec images
+        ->andWhere('p.id = :id') // Filtrer par id
+        ->setParameter('id', $id) // id correspond à l'id donner en parametre
+        ->orderBy('p.id', 'ASC') // Tri par le champ ordre en ordre décroissant
+        ->getQuery()
+        ->getResult();
+    }
+
 
     public function findAllTops(): array
     {

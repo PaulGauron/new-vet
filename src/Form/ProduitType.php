@@ -21,20 +21,28 @@ class ProduitType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $produit = $options['data'] ?? null;
+
         $builder
             ->add('nom_prod', TextType::class, [
                 'label' => 'Nom du produit',
-                'attr' => ['class' => 'mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-orange-500 focus:ring focus:ring-orange-200']
+                'label_attr' => ['class'=> 'block text-gray-700 font-bold mb-2'],
+                'attr' => ['class' => 'w-full p-3 border rounded-md focus:outline-none focus:ring focus:ring-orange-200'],
+                'data' => $produit ? $produit->getNomProd() : ''
                 ])
             ->add('description_prod',TextareaType::class,[
                 'label' => 'Description du produit',
-                'attr' => ['class' => 'mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-orange-500 focus:ring focus:ring-orange-200']
+                'label_attr' => ['class'=> 'block text-gray-700 font-bold mb-2'],
+                'attr' => ['class' => 'w-full p-3 border rounded-md focus:outline-none focus:ring focus:ring-orange-200'],
+                'data' => $produit ? $produit->getDescriptionProd() : ''
                 ])
             ->add('prix_prod', NumberType::class, [
                 'label' => 'prix du produit',
-                'attr' => ['class' => 'mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-orange-500 focus:ring focus:ring-orange-200',
+                'label_attr' => ['class'=> 'block text-gray-700 font-bold mb-2'],
+                'attr' => ['class' => 'w-full p-3 border rounded-md focus:outline-none focus:ring focus:ring-orange-200',
                 'step' => '0.01', // Permet les nombres avec des décimales
                 'min' => '9.99', 
+                'data' => $produit ? $produit->getPrixProd() : 'min'
             ],
             'constraints' => [
                 new Assert\NotBlank(), // Assure que le champ n'est pas vide
@@ -47,32 +55,39 @@ class ProduitType extends AbstractType
             ])
             ->add('stock', NumberType::class, [
                 'label' => 'Stock',
+                'label_attr' => ['class'=> 'block text-gray-700 font-bold mb-2'],
                 'attr' => [
-                    'class' => 'mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-orange-500 focus:ring focus:ring-orange-200',
+                    'class' => 'w-full p-3 border rounded-md focus:outline-none focus:ring focus:ring-orange-200',
                     'style' => 'margin-top:0;',
+                    'data' => $produit ? $produit->getStock() : ''
                     ]
             ])
             ->add('disponibilite', CheckboxType::class,[
                 'label' => 'Disponible ?',
+                'label_attr' => ['class'=> 'block text-gray-700 font-bold mb-2'],
                 'required' => false,
                 'label_attr' => ['class' => 'inline-block mr-2'],
-                'attr' => ['class' => 'mt-1 inline-block w-full border-gray-300 rounded-md shadow-sm focus:border-orange-500 focus:ring focus:ring-orange-200']
+                'attr' => ['class' => 'w-full p-3 border rounded-md focus:outline-none focus:ring focus:ring-orange-200']
             ])
             ->add('highlander', CheckboxType::class,[
                 'label' => 'Highlander ?',
+                'label_attr' => ['class'=> 'block text-gray-700 font-bold mb-2'],
                 'required' => false,
                 'label_attr' => ['class' => 'inline-block mr-2'],
-                'attr' => ['class' => 'mt-1 inline-block w-full border-gray-300 rounded-md shadow-sm focus:border-orange-500 focus:ring focus:ring-orange-200']
+                'attr' => ['class' => 'w-full p-3 border rounded-md focus:outline-none focus:ring focus:ring-orange-200']
             ])
             ->add('ordre', NumberType::class, [
                 'label' => 'N° d\'ordre',
-                'attr' => ['class' => 'mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-orange-500 focus:ring focus:ring-orange-200']
+                'label_attr' => ['class'=> 'block text-gray-700 font-bold mb-2'],
+                'attr' => ['class' => 'w-full p-3 border rounded-md focus:outline-none focus:ring focus:ring-orange-200'],
+                'data' => $produit ? $produit->getOrdre() : '1000'
             ])
             ->add('categorie', EntityType::class, [
                 'class' => Categorie::class,
                 'choice_label' => function (Categorie $categorie) {
                     return $categorie->getId() . ' - ' . $categorie->getNomCat();
                 },
+                'data' => $produit ? $produit->getCategorie() : null, // Sélectionne la catégorie du produit si elle existe
             ]);
     }
 
@@ -80,6 +95,7 @@ class ProduitType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Produit::class,
+            'is_edit' => false, // Option personnalisée
         ]);
     }
 }

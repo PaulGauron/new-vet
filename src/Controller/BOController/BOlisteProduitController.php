@@ -12,6 +12,7 @@ use App\Entity\Produit;
 use App\Entity\ProduitMateriaux;
 use App\Form\ImagesType;
 use App\Form\MainAddProductType;
+use App\Form\MainModifyProductType;
 use App\Form\ProduitType;
 use App\Repository\ProduitRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -42,7 +43,7 @@ class BOlisteProduitController extends AbstractController
     }
 
     #[Route('/BO/ajouterProduit', name: 'BO/ajouterProduit')]
-    public function addPersonne(Request $request, ManagerRegistry $doctrine, SluggerInterface $slugger): Response
+    public function addProduit(Request $request, ManagerRegistry $doctrine, SluggerInterface $slugger): Response
     {
         $entityManager = $doctrine->getManager();
         $produit = new Produit;
@@ -59,16 +60,12 @@ class BOlisteProduitController extends AbstractController
 
             $produit = $data['produit'];
             $images = $data['images'];
-
-            /** @var UploadedFile $imageFile */
             $imageFile = $form->get('images')->get('image')->getData();
+
             if ($imageFile) {
-                // Cette ligne est nécessaire pour inclure le nom du fichier dans l'URL
-                $safeFilename = $slugger->slug($form->get('images')->get('nom_image')->getData());
-                $entityManager->persist($images);
-                $entityManager->flush();
-                $newFilename = $safeFilename . $images->getId() . '.' . $imageFile->guessExtension();
-                // Déplace le fichier dans le répertoire où les images sont stockées
+                $safeFilename = $slugger->slug($images->getNomImage() . '-' . uniqid());
+                $newFilename = $safeFilename . '.' . $imageFile->guessExtension();
+
                 try {
                     $imageFile->move(
                         $this->getParameter('images_directory'),
@@ -76,9 +73,14 @@ class BOlisteProduitController extends AbstractController
                     );
                 } catch (FileException $e) {
                     // Gérer l'exception si quelque chose se passe mal pendant le téléchargement du fichier
-                    // Par exemple, vous pourriez ajouter un message flash ou logger l'erreur
                 }
+
+                $images->setNomImage($safeFilename);
             }
+
+
+            $entityManager->persist($images);
+            $entityManager->flush();
 
             $entityManager->persist($produit);
             $entityManager->flush();
@@ -91,11 +93,106 @@ class BOlisteProduitController extends AbstractController
             $entityManager->persist($produitImages);
             $entityManager->flush();
 
-             return $this->redirectToRoute('BO/ProductList');
-
+            return $this->redirectToRoute('BO/ProductList');
         }
         return $this->render('/BO/BOajouterProduit.html.twig', [
             'form' => $form->createView()
         ]);
     }
+
+
+    #[Route('/BO/modifierProduit/{id}', name: 'BO/modifierProduit')]
+    public function modifProduit(int $id, Request $request, ManagerRegistry $doctrine, SluggerInterface $slugger): Response
+    {
+        $entityManager = $doctrine->getManager();
+        $produit = $entityManager->getRepository(Produit::class)->findAllById($id);
+        if (!$produit) {
+            throw $this->createNotFoundException(
+                'No product found for id ' . $id
+            );
+        }
+
+
+        $form = $this->createForm(MainModifyProductType::class,$produit);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $imageFile = $form->get('images')->get('image')->getData();
+            $directory = $this->getParameter('images_directory');
+
+            if ($imageFile) {
+                foreach ($produit[0]->getImagesProduits() as $imagesProduit) {
+                    // Get the associated Image entity
+                    $image = $imagesProduit->getImage();
+                    $Filename = $image->getNomImage(). '.' .$imageFile->guessExtension();
+                    $newFilename = $Filename;
+                    // Handle the image upload
+                    if ($Filename) {
+                        $FilePath = $directory . '/' . $Filename;
+                        if (file_exists($FilePath)) {
+                            unlink($FilePath);
+                        }
+                    }
+                    try {
+                        // Move the new image file to the specified directory
+                        $imageFile->move(
+                            $directory,
+                            $newFilename
+                        );
+                    } catch (FileException $e) {
+                        // Handle the exception if something goes wrong during file upload
+                        throw new \RuntimeException('An error occurred while uploading the file.', 0, $e);
+                    }
+                }
+            }
+
+            $entityManager->flush();
+
+            return $this->redirectToRoute('BO/ProductList');
+        }
+
+
+
+        return $this->render('/BO/BOmodifProduit.html.twig', [
+            'form' => $form->createView(),
+            'produit' => $produit,
+
+        ]);
+    }
+
+
+    #[Route('/BO/supprimerProduit/{id}', name: 'BO/suprimerProduit')]
+    public function supprimerProduit(int $id, ProduitRepository $produitRepository): Response
+    {
+        // Trouve le produit par son ID
+        $produit = $produitRepository->findAllById($id);
+
+        if ($produit) {
+            // Supprime le produit
+            $produitRepository->deleteProduit($produit[0]);
+            $directory = $this->getParameter('images_directory');
+
+            foreach ($produit[0]->getImagesProduits() as $imagesProduit) {
+                // Get the associated Image entity
+                $image = $imagesProduit->getImage();
+                $Filename = $image->getNomImage(). '.jpg';
+                // Handle the image upload
+                if ($Filename) {
+                    $FilePath = $directory . '/' . $Filename;
+                    if (file_exists($FilePath)) {
+                        unlink($FilePath);
+                    }
+                }
+            }
+            // Ajoute un message de confirmation
+            $this->addFlash('success', 'Produit supprimé avec succès.');
+        } else {
+            $this->addFlash('error', 'Produit non trouvé.');
+        }
+
+        return $this->redirectToRoute('BO/listeProduits');
+    }
+
+
+    
 }

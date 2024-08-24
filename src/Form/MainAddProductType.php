@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Produit;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -12,19 +13,22 @@ class MainAddProductType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $isEdit = $options['is_edit'] ?? false;
+
         $builder
-            ->add('images' , ImagesType::class)
-            ->add('produit', ProduitType::class)
-            ->add('submit', SubmitType::class, [
-                'label' => 'Ajouter',
-                'attr' => ['class' => 'w-full text-white bg-orange-400 text-white py-2 rounded-md hover:bg-orange-600 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500']
+            ->add('images' , ImagesType::class, [
+                'is_edit' => $isEdit, // Passe l'option is_edit au sous-formulaire ImagesType
+            ])
+            ->add('produit', ProduitType::class, [
+                'is_edit' => $isEdit, // Passe l'option is_edit au sous-formulaire ProduitType
             ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            // Configure your form options here
+            'data_class' => null, // Par défaut, pas de classe de données associée
+            'is_edit' => false, // Définissez l'option par défaut
         ]);
     }
 }

@@ -14,6 +14,7 @@ sélection multiple pour SUPPRESSION UNIQUEMENT possible #}
 			<tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal border border-gray-600">
 				<th class="py-3 px-6 text-left font-semibold text-gray-700 border-r border-gray-600">Id Produit</th>
 				<th class="py-3 px-6 text-left font-semibold text-gray-700 border-r border-gray-600">Nom Produit</th>
+				<th class="py-3 px-6 text-left font-semibold text-gray-700 border-r border-gray-600">Image du produit</th>
 				<th class="py-3 px-6 text-left font-semibold text-gray-700 border-r border-gray-600">Description Produit</th>
 				<th class="py-3 px-6 text-left font-semibold text-gray-700 border-r border-gray-600">Prix Produit</th>
 				<th class="py-3 px-6 text-left font-semibold text-gray-700 border-r border-gray-600">Stock</th>
@@ -29,6 +30,11 @@ sélection multiple pour SUPPRESSION UNIQUEMENT possible #}
 				<tr class="border-b border-gray-600 hover:bg-gray-100">
 					<td class="py-3 px-6 text-left border-r whitespace-nowrap border-gray-600">{{ produit.getId() }}</td>
 					<td class="py-3 px-6 text-left border-r border-gray-600">{{ produit.getNomProd() }}</td>
+					<td class="py-3 px-6 text-left border-r border-gray-600">  
+					{% for imagesProduit in produit.getImagesProduits() %}
+					  <img class="max-w-full max-h-48 object-contain" src="{{ asset('images/Produits/' ~ imagesProduit.getImage().getNomImage() ~ '.jpg') }}" alt="{{ produit.getNomProd() }}">
+					{% endfor %}
+					 </td>
 					<td class="py-3 px-6 text-left border-r border-gray-600">{{ produit.getDescriptionProd() }}</td>
 					<td class="py-3 px-6 text-left border-r border-gray-600">{{ produit.getPrixProd() }}</td>
 					<td class="py-3 px-6 text-left border-r border-gray-600">{{ produit.getStock() }}</td>
@@ -37,12 +43,46 @@ sélection multiple pour SUPPRESSION UNIQUEMENT possible #}
 					<td class="py-3 px-6 text-left border-r border-gray-600">{{ produit.getOrdre() }}</td>
 					<td class="py-3 px-6 text-left border-r border-gray-600">{{ produit.getCategorie().getNomCat() }}</td>
 					<td class="py-3 px-6 text-left border-r border-gray-600">
-						<a href="{{ path('BO/modifProduit', {'id': produit.getId()}) }}" class="text-yellow-500 hover:underline mx-2">Modifier</a>
-						<a href="{{ path('BO/supprimerProduit', {'id': produit.getId()}) }}" class="text-red-500 hover:underline">Supprimer</a>
+						<a href="{{ path('BO/modifierProduit', {'id': produit.getId()}) }}" class="text-yellow-500 hover:underline mx-2">Modifier</a>
+						<a href="{{ path('BO/supprimerProduit', {'id': produit.getId()}) }}" class="supprimer-produit text-red-500 hover:underline">Supprimer</a>
 					</td>
 				</tr>
 			{% endfor %}
 		</tbody>
 	</table>
   
+{% endblock %}
+
+{% block javascripts %}
+<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Gestion de la confirmation de suppression
+            const links = document.querySelectorAll('.supprimer-produit');
+            
+            links.forEach(function(link) {
+                link.addEventListener('click', function(event) {
+                    event.preventDefault(); // Empêche la navigation automatique
+                    const userConfirmed = confirm('Êtes-vous sûr de vouloir supprimer cet élément ?');
+                    
+                    if (userConfirmed) {
+                        window.location.href = this.href; // Redirige vers le lien de suppression
+                    }
+                });
+            });
+
+            // Affichage des messages flash
+            const flashMessages = {{ app.session.flashBag.all|json_encode|raw }};
+            
+            // Boucle sur les types de messages (success, error, etc.)
+            for (const type in flashMessages) {
+                if (flashMessages.hasOwnProperty(type)) {
+                    flashMessages[type].forEach(message => {
+                        // Créer une alerte JS pour chaque message
+                        alert(message);
+                    });
+                }
+            }
+        });
+    </script>
+
 {% endblock %}
