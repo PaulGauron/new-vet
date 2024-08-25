@@ -20,7 +20,7 @@ class CommandeController extends AbstractController
     #[Route('/commande',name: 'Mescommande')]
     public function resumerCommandes(Request $request, ManagerRegistry $doctorine, SessionInterface $session)
     {
-        dd($session->get('panier'));
+      
         $entityManager = $doctorine->getManager();
         $userID = $session->get('utilisateur');
     
