@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1 class="text-center text-3xl md:text-4xl lg:text-5xl font-extrabold text-orange-600 mt-12 shadow-md">
+        Mes Commandes
+    </h1>
+    <div class="container mx-auto mt-5">
+        {% for commande in commandes %}
+            <div class="mb-8 p-6 bg-gray-200 rounded-lg shadow-lg">
+                <h2 class="text-2xl font-bold text-gray-800">Commande n°{{ commande.commande_id }} du {{ commande.date }}</h2>
+                <p class="text-xl font-semibold text-orange-600 mt-2">Prix total: {{ commande.prix_total }}€</p>
+                <p class="mt-2"><strong>Livraison à:</strong> {{ commande.adresse.rue }}, {{ commande.adresse.ville }} - {{ commande.adresse.code_postal }}</p>
+
+                <h3 class="text-xl font-bold text-gray-800 mt-4">Produits commandés :</h3>
+                <ul class="mt-2">
+                    {% for produit in commande.produits %}
+                        <li class="mb-4 flex items-start">
+                            <div class="w-16 h-16 relative mr-4">
+                                {% for image in produit.images %}
+                                    <img class="absolute inset-0 w-full h-full object-cover rounded" src="{{ asset('images/Produits/' ~ image ~ '.jpg') }}" alt="{{ produit.nom }}">
+                                {% endfor %}
+                            </div>
+                            <div>
+                                <div class="text-lg font-bold">{{ produit.nom }}</div>
+                                <div class="text-gray-700">{{ produit.prix }}€ x {{ produit.quantite }}</div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

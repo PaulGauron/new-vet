@@ -34,7 +34,7 @@ class ConnexionController extends AbstractController
             if ($utilisateur && password_verify($mdp, $utilisateur->getMdp())) {
                 // Si le mot de passe est correct, on stocke l'utilisateur dans la session
                 $session->set('utilisateur', $utilisateur->getId());
-    
+                $session->set('user_role', $utilisateur->getDtype());
                 // Redirection vers la page d'accueil ou une autre page après connexion
                 return $this->redirectToRoute('accueil');
             } else {

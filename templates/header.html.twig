@@ -21,6 +21,7 @@
                 <li><a href="{{ path('accueil') }}" class="{{ app.request.attributes.get('_route') == 'accueil' ? 'text-gray-300' : 'text-white' }} hover:text-blue-300">Accueil</a></li>
                 <li><a href="{{ path('categorie') }}" class="{{ app.request.attributes.get('_route') == 'categorie' ? 'text-gray-300' : 'text-white' }} hover:text-blue-300">Catégorie</a></li>
                 <li><a href="{{ path('produit_recherche') }}" class="{{ app.request.attributes.get('_route') == 'produit_recherche' ? 'text-gray-300' : 'text-white' }} hover:text-blue-300">Recherche</a></li>
+                 <li><a href="{{ path('commande') }}" class="{{ app.request.attributes.get('_route') == 'commande' ? 'text-gray-300' : 'text-white' }} hover:text-blue-300">Mes commandes</a></li>
                 <li>
                     <a href="{{ path('panier_afficher') }}" class="{{ app.request.attributes.get('_route') == 'panier_afficher' ? 'text-gray-300' : 'text-white' }} hover:text-blue-300 flex items-center">
                         <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

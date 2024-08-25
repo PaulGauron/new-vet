@@ -21,7 +21,7 @@ class ClientRepository extends ServiceEntityRepository
     {
         // Creating a query builder instance
         $qb = $this->createQueryBuilder('c')
-            ->select('a.libelle_voie', 'a.code_postal', 'a.ville', 'a.pays', 'c.nom', 'c.prenom')
+            ->select('a.libelle_voie', 'a.code_postal', 'a.ville', 'a.pays', 'c.nom', 'c.prenom', 'a.id')
             ->join('c.client_adresse', 'ac') // Join the AdresseClient relation
             ->join('ac.id_adresse', 'a') // Join the Adresse relation through AdresseClient
             ->where('c.id = :id')

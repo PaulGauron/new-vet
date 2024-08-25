@@ -5,20 +5,23 @@ namespace App\Controller;
 use App\Entity\Adresse;
 use App\Entity\AdresseClient;
 use App\Entity\Client;
-use App\Entity\Images;
-use App\Entity\ImagesProduit;
+use App\Entity\Commandes;
+use App\Entity\DetailCommande;
 use App\Entity\Produit;
+use App\Entity\ProduitCommandes;
 use App\Entity\Utilisateur;
 
 
 use App\Form\MainCheckoutType;
-use App\Form\PaiementType;
+use DateTime;
+use DateTimeInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use PhpParser\Node\Expr\Cast\Array_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Doctrine\Persistence\ManagerRegistry;
 
 class CheckoutController extends AbstractController
 {
@@ -122,20 +125,70 @@ class CheckoutController extends AbstractController
         $clientInfos = $this->entityManager->getRepository(Client::class)->findInfosClientById($userId);
         
         $produits = [];
+        $prixProds= [];
         $paniers = $session->get('panier', []);
         foreach($paniers as $key => $panier){
             $infos = $this->entityManager->getRepository(Produit::class)->findInfosProduitById($key);
             $quantite = $panier;
+            $tot =+ $quantite * $infos[0]['prix_prod'];
             array_push($infos,$quantite);
-           array_push($produits,$infos);
+            array_push($produits,$infos);
+            array_push($prixProds, $tot);
         }
-      
-        
+         
+        $total = array_sum($prixProds);
+              
+
         return $this->render('paiement.html.twig',[
             'produits' => $produits,
             'clients' => $clientInfos,
+            'total' => $total,
         ]);
 
+        
+    }
+
+    #[Route('/ajouterCommande', name: 'ajouterCommande')]
+    public function ajouterCommande(Request $request, SessionInterface $session, ManagerRegistry $doctorine)
+    {
+        $entityManager = $doctorine->getManager();
+        $prix_tot = $request->request->get('prix_tot');
+        $id_adresse = $request->request->get('id_adresse');
+        $userId = $session->get('utilisateur');
+      
+        $user = $this->entityManager->getRepository(Client::class)->find($userId);
+        $adresse = $this->entityManager->getRepository(Adresse::class)->find($id_adresse);
+        $paniers = $session->get('panier', []);
+        $date = new \DateTime(); // Récupère la date et l'heure actuelles
+        $commande = new Commandes();
+        $commande->setIdUtil($user);
+        $commande->setIdAdresse($adresse);
+        $detail_commande = new DetailCommande();
+        $detail_commande->setPrixTot($prix_tot);
+        $detail_commande->setDateCommande($date);
+        $detail_commande->setIdCom($commande);
+        $entityManager->persist($commande);
+        $entityManager->persist($detail_commande);
+        $entityManager->flush();
+        foreach($paniers as $key => $panier){
+            $produit = $this->entityManager->getRepository(Produit::class)->find($key);
+            $produitCommande = new ProduitCommandes();
+            $produitCommande->setIdCommande($commande);
+            $produitCommande->setIdProduit($produit);
+            $entityManager->persist($produitCommande);
+            $produitCommande->setQuantite($panier);
+        }
+
+        $entityManager->flush();
+        $session->remove('panier');
+       
+        // Redirection ou autre traitement une fois la commande créée
+        return $this->render('Mescommande.html.twig');
+    }
+
+    #[Route('/anulationCommande', name: 'anulationCommande')]
+    public function anulationCommande(Request $request)
+    {
         
     }
 

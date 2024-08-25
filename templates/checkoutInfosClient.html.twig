@@ -13,19 +13,18 @@
         <div class="mb-4">
             {{ form_label(form.adresse.libelle_voie, null, { 'attr': {'class': 'block text-gray-700 font-bold mb-2'} }) }}
             {{ form_widget(form.adresse.libelle_voie, { 'attr': {'class': 'form-input mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-orange-500 focus:ring focus:ring-orange-500 focus:ring-opacity-50'} }) }}
-            {{ form_errors(form.adresse.libelle_voie) }}
         </div>
         
         <div class="mb-4">
             {{ form_label(form.adresse.code_postal, null, { 'attr': {'class': 'block text-gray-700 font-bold mb-2'} }) }}
             {{ form_widget(form.adresse.code_postal, { 'attr': {'class': 'form-input mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-orange-500 focus:ring focus:ring-orange-500 focus:ring-opacity-50'} }) }}
-            {{ form_errors(form.adresse.code_postal) }}
+           
         </div>
 
         <div class="mb-4">
             {{ form_label(form.adresse.ville, null, { 'attr': {'class': 'block text-gray-700 font-bold mb-2'} }) }}
             {{ form_widget(form.adresse.ville, { 'attr': {'class': 'form-input mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-orange-500 focus:ring focus:ring-orange-500 focus:ring-opacity-50'} }) }}
-            {{ form_errors(form.adresse.ville) }}
+           
         </div>
 
         {# <div class="mb-4">
@@ -37,7 +36,7 @@
         <div class="mb-4">
             {{ form_label(form.adresse.pays, null, { 'attr': {'class': 'block text-gray-700 font-bold mb-2'} }) }}
             {{ form_widget(form.adresse.pays, { 'attr': {'class': 'form-input mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-orange-500 focus:ring focus:ring-orange-500 focus:ring-opacity-50'} }) }}
-            {{ form_errors(form.adresse.pays) }}
+          
         </div>
 
         <div>
@@ -49,9 +48,9 @@
          {{ form_widget(form.client.telephone, { 'attr': {'class': 'form-input mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-orange-500 focus:ring focus:ring-orange-500 focus:ring-opacity-50'} }) }}
         </div>
          <div>
-       {#  {{ form_label(form.client.methode_paiement, null, { 'attr': {'class': 'block text-gray-700 font-bold mb-2'} }) }}
+        {{ form_label(form.client.methode_paiement, null, { 'attr': {'class': 'block text-gray-700 font-bold mb-2'} }) }}
          {{ form_widget(form.client.methode_paiement, { 'attr': {'class': 'form-input mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-orange-500 focus:ring focus:ring-orange-500 focus:ring-opacity-50'} }) }}
-        </div>#}
+        </div>
         <div>
          {{ form_label(form.client.numero_carte, null, { 'attr': {'class': 'block text-gray-700 font-bold mb-2'} }) }}
          {{ form_widget(form.client.numero_carte, { 'attr': {'class': 'form-input mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-orange-500 focus:ring focus:ring-orange-500 focus:ring-opacity-50'} }) }}

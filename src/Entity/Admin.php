@@ -9,16 +9,16 @@ use Doctrine\ORM\Mapping as ORM;
 class Admin extends Utilisateur
 {
 
-    #[ORM\Column]
-    private ?bool $acces = null;
+    #[ORM\Column(nullable:true)]
+    private ?int $acces = null;
 
 
-    public function isAcces(): ?bool
+    public function isAcces(): ?int
     {
         return $this->acces;
     }
 
-    public function setAcces(bool $acces): static
+    public function setAcces(int $acces): static
     {
         $this->acces = $acces;
 

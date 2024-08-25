@@ -21,6 +21,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 
 
@@ -28,9 +29,27 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class BOlisteProduitController extends AbstractController
 {
 
+      // Vérifie si l'utilisateur est admin
+      private function checkAdmin(SessionInterface $session): ?Response
+      {
+          $userId = $session->get('utilisateur'); 
+  
+          
+          $userRole = $session->get('user_role'); // Suppose que le rôle utilisateur est stocké dans la session
+          if (!$userId || $userRole !== 'admin') {
+              return $this->redirectToRoute('accueil'); // Redirigez vers l'accueil si l'utilisateur n'est pas admin
+          }
+  
+          return null; // Retourne null si l'utilisateur est admin
+      }
+
     #[Route('/BO/ProductList', name: 'BO/ProductList')]
-    public function index(ProduitRepository $produitRepository): Response
-    { {
+    public function index(ProduitRepository $produitRepository, SessionInterface $session): Response
+    {
+        if ($response = $this->checkAdmin($session)) {
+            return $response;
+        }
+        
             // Récupérer tous les produits
             $produits = $produitRepository->findAll();
 
@@ -39,12 +58,15 @@ class BOlisteProduitController extends AbstractController
             return $this->render('/BO/BOlisteProduit.html.twig', [
                 'produits' => $produits,
             ]);
-        }
     }
 
     #[Route('/BO/ajouterProduit', name: 'BO/ajouterProduit')]
-    public function addProduit(Request $request, ManagerRegistry $doctrine, SluggerInterface $slugger): Response
+    public function addProduit(Request $request, ManagerRegistry $doctrine, SluggerInterface $slugger, SessionInterface $session): Response
     {
+        if ($response = $this->checkAdmin($session)) {
+            return $response;
+        }
+
         $entityManager = $doctrine->getManager();
         $produit = new Produit;
         $images = new Images;
@@ -102,8 +124,13 @@ class BOlisteProduitController extends AbstractController
 
 
     #[Route('/BO/modifierProduit/{id}', name: 'BO/modifierProduit')]
-    public function modifProduit(int $id, Request $request, ManagerRegistry $doctrine, SluggerInterface $slugger): Response
+    public function modifProduit(int $id, Request $request, ManagerRegistry $doctrine, SluggerInterface $slugger, SessionInterface $session): Response
     {
+
+        if ($response = $this->checkAdmin($session)) {
+            return $response;
+        }
+
         $entityManager = $doctrine->getManager();
         $produit = $entityManager->getRepository(Produit::class)->findAllById($id);
         if (!$produit) {
@@ -162,8 +189,11 @@ class BOlisteProduitController extends AbstractController
 
 
     #[Route('/BO/supprimerProduit/{id}', name: 'BO/supprimerProduit')]
-    public function supprimerProduit(int $id, ProduitRepository $produitRepository,  ManagerRegistry $doctrine): Response
+    public function supprimerProduit(int $id, ProduitRepository $produitRepository,  ManagerRegistry $doctrine, SessionInterface $session): Response
     {
+        if ($response = $this->checkAdmin($session)) {
+            return $response;
+        }
         // Trouve le produit par son ID
         $produit = $produitRepository->findAllById($id);
 
@@ -195,6 +225,13 @@ class BOlisteProduitController extends AbstractController
         }
 
         return $this->redirectToRoute('BO/ProductList');
+    }
+
+    #[Route('/BO/tableauBord', name: 'BO/tableauBord')]
+    public function tableaudeBord(ManagerRegistry $doctrine): Response
+    {
+
+        return $this->render('/BO/BOtableauBord.html.twig');
     }
 
 

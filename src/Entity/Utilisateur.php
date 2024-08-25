@@ -51,6 +51,20 @@ class Utilisateur
         $this->id_util = new ArrayCollection();
     }
 
+    public function getDtype(): ?string
+    {
+        return array_search(static::class, self::getDiscriminatorMap(), true) ?: null;
+    }
+
+    private static function getDiscriminatorMap(): array
+    {
+        return [
+            'utilisateur' => Utilisateur::class,
+            'admin' => Admin::class,
+            'client' => Client::class,
+        ];
+    }
+
     public function getId(): ?int
     {
         return $this->id;

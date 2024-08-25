@@ -1,53 +1,100 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<div class="container mx-auto mt-12 px-4">
-	<h1 class="text-center text-3xl md:text-4xl lg:text-5xl font-extrabold text-orange-600 mb-12 shadow-md">
-		Paiement
-	</br>
-</br></h1>{% if produits is not empty %}
-{% for productGroup in produits %}
-	{% set produit = productGroup[0] %}
-		<div>
-			<strong>Nom de l'image:</strong>
-			{{ produit.nom_image }}<br>
-			<strong>Nom du produit:</strong>
-			{{ produit.nom_prod }}<br>
-			<strong>Prix du produit:</strong>
-			{{ produit.prix_prod }}<br>
-		</div>
-{% set produit = productGroup[1] %}
-         <div>
-    <p>quantite</p>
-        {{ produit }}
-        </div>
-		<hr>
-	
-  
-{% endfor %}
-{% else %}
-<p>No products found.</p>
-{% endif %}
+    <h1 class="text-center text-3xl md:text-4xl lg:text-5xl font-extrabold text-orange-600 mt-12 shadow-md">
+        Récapitulatif du Panier
+    </h1>
+    <div class="container mx-auto mt-5">
+        {% if produits is not empty %}
+            <form id="checkout-form" action="{{ path('ajouterCommande') }}" method="post">
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                    {% for productGroup in produits %}
+                        {% set produit = productGroup[0] %}
+                        <div class="flex flex-col max-w-sm rounded overflow-hidden shadow-lg bg-gray-200">
+                            <div class="relative w-full h-80">
+                                <img class="absolute inset-0 w-full h-full object-cover" src="{{ asset('images/Produits/' ~ produit.nom_image ~ '.jpg') }}" alt="{{ produit.nom_prod }}">
+                            </div>
+                            <div class="flex-1 px-6 py-4 flex flex-col">
+                                <div class="text-2xl text-black-700 font-semibold">
+                                    {{ produit.nom_prod }}
+                                </div>
+                                <div class="text-xl text-black-700 font-semibold mt-1">
+                                    {{ produit.prix_prod }} €
+                                </div>
+                                <div class="text-xl text-black-700 font-semibold mt-1">
+                                    Quantité : {{ productGroup[1] }}
+                                </div>
+                                <!-- Champs cachés pour les données du produit -->
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
 
-{% if clients is not empty %}
+                <!-- Détails du client -->
+                {% if clients is not empty %}
+                    <div class="mt-12">
+                        <h2 class="text-2xl font-bold text-orange-600">Détails</h2>
+                        <p><strong>Nom :</strong> {{ clients[0].nom }}</p>
+                        <p><strong>Prénom :</strong> {{ clients[0].prenom }}</p>
+                        <div class="border-4 border-black p-4 rounded-lg mt-4 inline-block">
+                            <p class="text-xl md:text-2xl lg:text-3xl font-bold text-gray-800">
+                                <strong>Prix de la commande :</strong>
+                                <span class="text-orange-600">{{ total }} €</span>
+                            </p>
+							 <input type="hidden" name="prix_tot" value="{{ total }}">
+                        </div>
+                        {% for client in clients %}
+                            <div class="mt-4 p-4 bg-gray-100 rounded shadow-lg">
+                                <input type="radio" id="client_{{ loop.index }}" name="id_adresse" value="{{ client.id }}" class="mr-2">
+                                <label for="client_{{ loop.index }}" class="font-bold">Sélectionner cette adresse</label>
+                                <p><strong>Adresse :</strong> {{ client.libelle_voie }}</p>
+                                <p><strong>Code Postal :</strong> {{ client.code_postal }}</p>
+                                <p><strong>Ville :</strong> {{ client.ville }}</p>
+                                <p><strong>Pays :</strong> {{ client.pays }}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p class="text-center text-gray-500 mt-12">Aucun détail client trouvé.</p>
+                {% endif %}
 
-{% for client in clients %}
-<div>
-	<strong>Libellé Voie:</strong>
-	{{ client.libelle_voie }}<br>
-	<strong>Code Postal:</strong>
-	{{ client.code_postal }}<br>
-	<strong>Ville:</strong>
-	{{ client.ville }}<br>
-	<strong>Pays:</strong>
-	{{ client.pays }}<br>
-	<strong>Nom:</strong>
-	{{ client.nom }}<br>
-	<strong>Prénom:</strong>
-	{{ client.prenom }}<br>
-</div>
-<hr>{% endfor %}{% else %}<p>No client details found.</p>{% endif %}
-</div>
+                <!-- Bouton de soumission -->
+                <button type="submit" class="bg-orange-500 text-white font-semibold py-3 px-6 rounded hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-opacity-50 mt-4 block flex items-center justify-center">
+                    Valider paiement
+                </button>
+            </form>
+        {% else %}
+            <p class="text-center text-gray-500">Aucun produit dans le panier.</p>
+        {% endif %}
 
+        <a href="{{ path('anulationCommande') }}" class="bg-orange-500 text-white font-semibold rounded hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-100 focus:ring-opacity-50 mt-4 block w-[170px] h-[40px] flex items-center justify-center">
+            Annuler Commande
+        </a>
+    </div>
 
+{% endblock %}
+
+{% block javascripts %}
+<script>
+document.getElementById('checkout-form').addEventListener('submit', function (event) {
+    event.preventDefault(); // Empêche l'envoi immédiat du formulaire
+
+    // Récupère les données du formulaire
+    const formData = new FormData(this);
+    console.log('Données du formulaire:', Array.from(formData.entries()));
+
+    // Envoie les données au serveur via une requête POST
+    fetch(this.action, {
+        method: 'POST',
+        body: formData
+    }).then(response => response.json()).then(data => {
+        console.log('Réponse du serveur:', data);
+        if (data.success) {
+            window.location.href = '{{ path("paiement") }}';
+        } else {
+            alert('Une erreur est survenue lors de la validation de la commande.');
+        }
+    }).catch(error => console.error('Erreur:', error));
+});
+</script>
 {% endblock %}

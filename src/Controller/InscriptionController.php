@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Admin;
 use App\Entity\Client;
 use App\Entity\Utilisateur;
 use App\Form\UtilisateurType;
@@ -57,9 +58,11 @@ class InscriptionController extends AbstractController
         $form = $this->createForm(UtilisateurType::class, $user);
 
         $form->handleRequest($request);
-        $user = $form->getData();
+      
 
+      
         if ($form->isSubmitted() && $form->isValid()) {
+        $user = $form->getData();
         $password = $form->get('mdp')->getData();
         $passwordConfirmation = $form->get('mdp_comfirmation')->getData();
 
@@ -78,7 +81,6 @@ class InscriptionController extends AbstractController
             // Exécuter l'instruction SQL (INSERT) pour sauvegarder les données
             $entityManager->flush();
     
-            $test = $user->getMdp();
             // Rediriger vers la page de connexion
             return $this->redirectToRoute('connexion'); 
         }else{

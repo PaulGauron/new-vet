@@ -55,6 +55,7 @@ class PanierController extends AbstractController
             $total = array_sum(array_map(function ($produit) {
                 return $produit['prixProd'] * $produit['quantite'];
             }, $produits));
+
         }
 
         return $this->render('panier.html.twig', [

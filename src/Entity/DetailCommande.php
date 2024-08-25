@@ -17,8 +17,6 @@ class DetailCommande
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $date_commande = null;
 
-    #[ORM\Column]
-    private ?int $quantite = null;
 
     #[ORM\Column]
     private ?float $prix_tot = null;
@@ -40,18 +38,6 @@ class DetailCommande
     public function setDateCommande(\DateTimeInterface $date_commande): static
     {
         $this->date_commande = $date_commande;
-
-        return $this;
-    }
-
-    public function getQuantite(): ?int
-    {
-        return $this->quantite;
-    }
-
-    public function setQuantite(int $quantite): static
-    {
-        $this->quantite = $quantite;
 
         return $this;
     }

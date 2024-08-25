@@ -26,9 +26,9 @@ class Commandes
     private Collection $id_com;
 
     /**
-     * @var Collection<int, Produit>
+     * @var Collection<int, ProduitCommandes>
      */
-    #[ORM\OneToMany(targetEntity: Produit::class, mappedBy: 'produitCommande', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: ProduitCommandes::class, mappedBy: 'commande', orphanRemoval: true)]
     private Collection $produitCommande;
 
     #[ORM\ManyToOne(inversedBy: 'commandes_adresse')]
@@ -39,6 +39,7 @@ class Commandes
     public function __construct()
     {
         $this->id_com = new ArrayCollection();
+        $this->produitCommande = new ArrayCollection();
     }
 
     public function getId(): ?int
