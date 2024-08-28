@@ -187,14 +187,11 @@ class CheckoutController extends AbstractController
     }
 
     #[Route('/anulationCommande', name: 'anulationCommande')]
-    public function anulationCommande(Request $request)
+    public function anulationCommande(Request $request,  SessionInterface $session)
     {
-        
+        $session->remove('panier');
+        return $this->render('accueil.html.twig');
     }
 
-    #[Route('/checkout/confirmation', name: 'checkout_confirmation')]
-    public function confirmation(): Response
-    {
-        return $this->render('checkout/confirmation.html.twig');
-    }
+
 }

@@ -17,7 +17,7 @@ class ConnexionType extends AbstractType
     {
         $builder
             ->add('ConnectEmail', EmailType::class, [
-                'label' => 'ton adresse mail',
+                'label' => 'Adresse mail',
                 'label_attr' => [
                     'class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'
                 ],

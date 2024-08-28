@@ -51,7 +51,7 @@ class ConnexionController extends AbstractController
     public function deconnexion(SessionInterface $session): Response
     {
         // Déconnecte l'utilisateur
-        $session->remove('utilisateur');
+        $session->invalidate();
 
         return $this->redirectToRoute('connexion');
     }

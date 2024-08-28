@@ -22,7 +22,7 @@ class ProduitRepository extends ServiceEntityRepository
         $this->entityManager = $entityManager;
     }
 
-/**
+    /**
      * @return Produit[]
      */
     public function findAllDresses(): array
@@ -37,19 +37,27 @@ class ProduitRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findHighlander(): array
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.highlander = true')
+            ->getQuery()
+            ->getResult();
+    }
+
     public function findAll(): array
     {
         return $this->createQueryBuilder('p')
-        ->innerJoin('p.imagesProduits', 'ip') // Jointure avec images_produit
-        ->innerJoin('ip.image', 'i') // Jointure avec images
-        ->orderBy('p.id', 'ASC') // Tri par le champ ordre en ordre décroissant
-        ->getQuery()
-        ->getResult();
+            ->innerJoin('p.imagesProduits', 'ip') // Jointure avec images_produit
+            ->innerJoin('ip.image', 'i') // Jointure avec images
+            ->orderBy('p.id', 'ASC') // Tri par le champ ordre en ordre décroissant
+            ->getQuery()
+            ->getResult();
     }
-    
+
     public function deleteProduit(Produit $produit): void
     {
-        
+
         // Utilise l'EntityManager pour supprimer l'entité
         $this->entityManager->remove($produit);
         // Flushe les changements à la base de données
@@ -59,13 +67,13 @@ class ProduitRepository extends ServiceEntityRepository
     public function findAllById($id): array
     {
         return $this->createQueryBuilder('p')
-        ->innerJoin('p.imagesProduits', 'ip') // Jointure avec images_produit
-        ->innerJoin('ip.image', 'i') // Jointure avec images
-        ->andWhere('p.id = :id') // Filtrer par id
-        ->setParameter('id', $id) // id correspond à l'id donner en parametre
-        ->orderBy('p.id', 'ASC') // Tri par le champ ordre en ordre décroissant
-        ->getQuery()
-        ->getResult();
+            ->innerJoin('p.imagesProduits', 'ip') // Jointure avec images_produit
+            ->innerJoin('ip.image', 'i') // Jointure avec images
+            ->andWhere('p.id = :id') // Filtrer par id
+            ->setParameter('id', $id) // id correspond à l'id donner en parametre
+            ->orderBy('p.id', 'ASC') // Tri par le champ ordre en ordre décroissant
+            ->getQuery()
+            ->getResult();
     }
 
     public function findInfosProduitById(int $id): array
@@ -98,52 +106,52 @@ class ProduitRepository extends ServiceEntityRepository
     public function findAllPants(): array
     {
         return $this->createQueryBuilder('p')
-        ->innerJoin('p.imagesProduits', 'ip') // Jointure avec images_produit
-        ->innerJoin('ip.image', 'i') // Jointure avec images
-        ->andWhere('p.categorie = :categorie') // Filtrer par la catégorie
-        ->setParameter('categorie', 3) // 3 correspond à la catégorie des pantalons
-        ->orderBy('p.ordre', 'DESC') // Tri par le champ ordre en ordre décroissant
-        ->getQuery()
-        ->getResult();
+            ->innerJoin('p.imagesProduits', 'ip') // Jointure avec images_produit
+            ->innerJoin('ip.image', 'i') // Jointure avec images
+            ->andWhere('p.categorie = :categorie') // Filtrer par la catégorie
+            ->setParameter('categorie', 3) // 3 correspond à la catégorie des pantalons
+            ->orderBy('p.ordre', 'DESC') // Tri par le champ ordre en ordre décroissant
+            ->getQuery()
+            ->getResult();
     }
 
     public function findAllJackets(): array
     {
         return $this->createQueryBuilder('p')
-        ->innerJoin('p.imagesProduits', 'ip') // Jointure avec images_produit
-        ->innerJoin('ip.image', 'i') // Jointure avec images
-        ->andWhere('p.categorie = :categorie') // Filtrer par la catégorie
-        ->setParameter('categorie', 4) // 4 correspond à la catégorie des vestes
-        ->orderBy('p.ordre', 'DESC') // Tri par le champ ordre en ordre décroissant
-        ->getQuery()
-        ->getResult();
+            ->innerJoin('p.imagesProduits', 'ip') // Jointure avec images_produit
+            ->innerJoin('ip.image', 'i') // Jointure avec images
+            ->andWhere('p.categorie = :categorie') // Filtrer par la catégorie
+            ->setParameter('categorie', 4) // 4 correspond à la catégorie des vestes
+            ->orderBy('p.ordre', 'DESC') // Tri par le champ ordre en ordre décroissant
+            ->getQuery()
+            ->getResult();
     }
 
     public function findAllShoes(): array
     {
         return $this->createQueryBuilder('p')
-        ->innerJoin('p.imagesProduits', 'ip') // Jointure avec images_produit
-        ->innerJoin('ip.image', 'i') // Jointure avec images
-        ->andWhere('p.categorie = :categorie') // Filtrer par la catégorie
-        ->setParameter('categorie', 5) // 5 correspond à la catégorie des chaussures
-        ->orderBy('p.ordre', 'DESC') // Tri par le champ ordre en ordre décroissant
-        ->getQuery()
-        ->getResult();
+            ->innerJoin('p.imagesProduits', 'ip') // Jointure avec images_produit
+            ->innerJoin('ip.image', 'i') // Jointure avec images
+            ->andWhere('p.categorie = :categorie') // Filtrer par la catégorie
+            ->setParameter('categorie', 5) // 5 correspond à la catégorie des chaussures
+            ->orderBy('p.ordre', 'DESC') // Tri par le champ ordre en ordre décroissant
+            ->getQuery()
+            ->getResult();
     }
 
     public function findAllAccessories(): array
     {
         return $this->createQueryBuilder('p')
-        ->innerJoin('p.imagesProduits', 'ip') // Jointure avec images_produit
-        ->innerJoin('ip.image', 'i') // Jointure avec images
-        ->andWhere('p.categorie = :categorie') // Filtrer par la catégorie
-        ->setParameter('categorie', 6) // 6 correspond à la catégorie des accessoires
-        ->orderBy('p.ordre', 'DESC') // Tri par le champ ordre en ordre décroissant
-        ->getQuery()
-        ->getResult();
+            ->innerJoin('p.imagesProduits', 'ip') // Jointure avec images_produit
+            ->innerJoin('ip.image', 'i') // Jointure avec images
+            ->andWhere('p.categorie = :categorie') // Filtrer par la catégorie
+            ->setParameter('categorie', 6) // 6 correspond à la catégorie des accessoires
+            ->orderBy('p.ordre', 'DESC') // Tri par le champ ordre en ordre décroissant
+            ->getQuery()
+            ->getResult();
     }
 
-    
+
     public function findRandomProductsByCategoryWithMaterials(int $selectedCategory, int $selectedProductId): array
     {
         // Récupère tous les produits pour la catégorie sélectionnée avec leurs matériaux, exclue le produit sélectionné
@@ -157,14 +165,14 @@ class ProduitRepository extends ServiceEntityRepository
             ->setParameter('selectedProductId', $selectedProductId)
             ->getQuery()
             ->getResult();
-    
+
         // Mélange les produits et prend les 6 premiers
         shuffle($products);
         $results = array_slice($products, 0, 6);
-    
+
         return $results;
     }
-    
+
     public function search(?string $title, ?string $description, ?string $materiaux, ?float $prixMin, ?float $prixMax, $categories, ?bool $inStock, ?string $sort)
     {
         $qb = $this->createQueryBuilder('p')
@@ -216,10 +224,10 @@ class ProduitRepository extends ServiceEntityRepository
                 case 'price_desc':
                     $qb->orderBy('p.prix_prod', 'DESC');
                     break;
-                // pas établi
-                // case 'newest':
-                //     $qb->orderBy('p.dateAjout', 'DESC');
-                //     break;
+                    // pas établi
+                    // case 'newest':
+                    //     $qb->orderBy('p.dateAjout', 'DESC');
+                    //     break;
                 case 'in_stock':
                     $qb->orderBy('p.stock', 'DESC');
                     break;
@@ -234,5 +242,4 @@ class ProduitRepository extends ServiceEntityRepository
         // Retourne toutes les catégories
         return $this->getEntityManager()->getRepository(Categorie::class)->findAll();
     }
-
 }
