@@ -20,3 +20,12 @@ Prérequis :
 - Migration Doctrine (tables...) COMMANDE 1: php bin/console make:migration
 - Migration Doctrine (tables...) COMMANDE 2: php bin/console doctrine:migrations:migrate
 - Importer les données du fichier .sql (fourni avec le projet) 
+- Connexion utilisateur :
+-Client 
+          mail : client@nv.fr
+          mdp : SSdd78**
+-Admin
+          user name : admin@nv.fr
+          mdp : WrG861*ù
+  
+      
