@@ -50,16 +50,18 @@ class CheckoutController extends AbstractController
 
         //Search Client if it exists
         $client = $this->entityManager->getRepository(Client::class)->find($userId);
+        $adresseClient = $this->entityManager->getRepository(Adresse::class)->findAdresseByUserID($userId);
+        
 
         if (!$client) {
-            // If no existing Client, create a new Client instance
-            $client = new Client();
-            $client->setId($userId);  
+            // If no existing Client
+           
         }
 
         $form = $this->createForm(
             MainCheckoutType::class,
             [
+                'adresseClient' => $adresseClient,
                 'adresse' => $adresse,
                 'client' => $client
             ]
@@ -71,8 +73,17 @@ class CheckoutController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
             $client = $data['client'];
-            $adresse = $data['adresse'];
-    
+            $idAdresseExistante = $form->get('adresse')->get('id_adresse')->getData();
+            
+            dd($idAdresseExistante);
+            if ($idAdresseExistante) {
+                $adresse = $this->entityManager->getRepository(Adresse::class)->find($idAdresseExistante);
+            } else {
+                // Sinon, utiliser les données du formulaire pour créer une nouvelle adresse
+                $adresse = $data['adresse'];
+                $this->entityManager->persist($adresse);
+            }    
+
             // Update Client with data from the form
             $client->setNom($utilisateur->getNom());
             $client->setPrenom($utilisateur->getPrenom());
@@ -86,11 +97,7 @@ class CheckoutController extends AbstractController
             $client->setNomCarte($data['client']->getNomCarte());
             $client->setNumeroCarte($data['client']->getNumeroCarte());
     
-            // Persist the address if it's new
-            if ($entityManager->getUnitOfWork()->isScheduledForInsert($adresse)) {
-                $entityManager->persist($adresse);
-            }
-    
+          
             // Persist or update the Client entity
             $entityManager->persist($client);
     
@@ -172,6 +179,8 @@ class CheckoutController extends AbstractController
         $entityManager->flush();
         foreach($paniers as $key => $panier){
             $produit = $this->entityManager->getRepository(Produit::class)->find($key);
+            $stock = $produit->getStock();
+            $produit->setStock($stock - 1);
             $produitCommande = new ProduitCommandes();
             $produitCommande->setIdCommande($commande);
             $produitCommande->setIdProduit($produit);
@@ -183,14 +192,14 @@ class CheckoutController extends AbstractController
         $session->remove('panier');
        
         // Redirection ou autre traitement une fois la commande créée
-        return $this->render('Mescommande.html.twig');
+        return $this->redirectToRoute('Mescommande');
     }
 
     #[Route('/anulationCommande', name: 'anulationCommande')]
-    public function anulationCommande(Request $request,  SessionInterface $session)
+    public function anulationCommande(  SessionInterface $session)
     {
         $session->remove('panier');
-        return $this->render('accueil.html.twig');
+        return $this->redirectToRoute('accueil');
     }
 
 

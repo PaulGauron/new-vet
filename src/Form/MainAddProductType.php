@@ -16,12 +16,8 @@ class MainAddProductType extends AbstractType
         $isEdit = $options['is_edit'] ?? false;
 
         $builder
-            ->add('images' , ImagesType::class, [
-                'is_edit' => $isEdit, // Passe l'option is_edit au sous-formulaire ImagesType
-            ])
-            ->add('produit', ProduitType::class, [
-                'is_edit' => $isEdit, // Passe l'option is_edit au sous-formulaire ProduitType
-            ]);
+            ->add('images' , ImagesType::class)
+            ->add('produit', ProduitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

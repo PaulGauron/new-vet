@@ -13,10 +13,14 @@ class MainCheckoutType extends AbstractType
         
         $client = $options['data']['client'];
         $adresse = $options['data']['adresse'];
+        $adresseClient = $options['data']['adresseClient'];
 
         $builder
             ->add('client' , ClientType::class,['data' => $client])
-            ->add('adresse', AdresseType::class, ['data' => $adresse]);
+            ->add('adresse', AdresseType::class, [
+                'data' => $adresse, // Adresse actuelle ou nouvelle adresse
+                'adressesClient' => $adresseClient, // Adresses déjà existantes à proposer
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

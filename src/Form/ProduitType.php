@@ -95,7 +95,6 @@ class ProduitType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Produit::class,
-            'is_edit' => false, // Option personnalisée
         ]);
     }
 }

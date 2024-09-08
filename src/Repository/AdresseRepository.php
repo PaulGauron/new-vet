@@ -16,6 +16,19 @@ class AdresseRepository extends ServiceEntityRepository
         parent::__construct($registry, Adresse::class);
     }
 
+
+    public function findAdresseByUserID($userId) : array 
+    {
+        return $this->createQueryBuilder('a')
+            ->select('a.libelle_voie, a.code_postal, a.ville, a.pays, a.id')
+            ->innerJoin('a.adresse_client', 'ac')
+            ->innerJoin('ac.id_utilisateur', 'c')
+            ->where('c.id = :userId')
+            ->setParameter('userId', $userId)
+            ->getQuery()
+            ->getResult();
+    }
+
     //    /**
     //     * @return Adresse[] Returns an array of Adresse objects
     //     */
