@@ -75,7 +75,7 @@ class CheckoutController extends AbstractController
             $client = $data['client'];
             $idAdresseExistante = $form->get('adresse')->get('id_adresse')->getData();
             
-            dd($idAdresseExistante);
+            
             if ($idAdresseExistante) {
                 $adresse = $this->entityManager->getRepository(Adresse::class)->find($idAdresseExistante);
             } else {
@@ -83,6 +83,7 @@ class CheckoutController extends AbstractController
                 $adresse = $data['adresse'];
                 $this->entityManager->persist($adresse);
             }    
+            $session->set('adresse',$adresse);
 
             // Update Client with data from the form
             $client->setNom($utilisateur->getNom());
@@ -114,6 +115,7 @@ class CheckoutController extends AbstractController
     
             $entityManager->flush();
     
+           
             return $this->redirectToRoute('paiement');
         }
     
@@ -129,7 +131,9 @@ class CheckoutController extends AbstractController
     {
         $session = $request->getSession();
         $userId = $session->get('utilisateur');
-        $clientInfos = $this->entityManager->getRepository(Client::class)->findInfosClientById($userId);
+        $adresse = $session->get('adresse');
+       // dd($adresse);
+        $clientInfos = $this->entityManager->getRepository(Client::class)->find($userId);
         
         $produits = [];
         $prixProds= [];
@@ -149,6 +153,7 @@ class CheckoutController extends AbstractController
         return $this->render('paiement.html.twig',[
             'produits' => $produits,
             'clients' => $clientInfos,
+            'adresse' => $adresse,
             'total' => $total,
         ]);
 
@@ -160,7 +165,7 @@ class CheckoutController extends AbstractController
     {
         $entityManager = $doctorine->getManager();
         $prix_tot = $request->request->get('prix_tot');
-        $id_adresse = $request->request->get('id_adresse');
+        $id_adresse = $session->get('adresse')->getId();
         $userId = $session->get('utilisateur');
       
         $user = $this->entityManager->getRepository(Client::class)->find($userId);
@@ -190,7 +195,7 @@ class CheckoutController extends AbstractController
 
         $entityManager->flush();
         $session->remove('panier');
-       
+        $session->remove('adresse');
         // Redirection ou autre traitement une fois la commande créée
         return $this->redirectToRoute('Mescommande');
     }
@@ -199,6 +204,7 @@ class CheckoutController extends AbstractController
     public function anulationCommande(  SessionInterface $session)
     {
         $session->remove('panier');
+        $session->remove('adresse');
         return $this->redirectToRoute('accueil');
     }
 
