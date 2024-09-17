@@ -7,8 +7,14 @@ sélection multiple pour SUPPRESSION UNIQUEMENT possible #}
 {% endblock %}
 
 {% block body %}
-	<h1 class="text-2xl font-bold mb-4">Liste des Produits</h1>
-    <p><a href="{{ path('BO/ajouterProduit') }}" class="text-blue-500 hover:underline">Ajouter</a> un produit</p>
+	<h1 class="text-center text-3xl md:text-4xl lg:text-5xl font-extrabold text-orange-600 mt-12 shadow-md">Liste des Produits</h1>
+	<br><br>
+	<div class="flex items-center justify-center h-screen">
+    <label for="ajouterProd" class="mr-4">Ajouter un produit :</label>
+    <a href="{{ path('BO/ajouterProduit') }}" id="ajouterProd" class="inline-block text-center bg-orange-500 text-white font-semibold py-3 px-6 rounded hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-50">
+        Ajouter
+    </a>
+</div>
 	<table class="min-w-full p-5 bg-white border border-gray-600">
 		<thead>
 			<tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal border border-gray-600">
@@ -54,8 +60,17 @@ sélection multiple pour SUPPRESSION UNIQUEMENT possible #}
 {% endblock %}
 
 {% block javascripts %}
+    {# Inclure le CSS de DataTables #}
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css"/>
+
+    {# Inclure jQuery (si ce n'est pas déjà le cas) et le script DataTables #}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script>
         document.addEventListener('DOMContentLoaded', function() {
+		 	// Activer DataTables sur le tableau
+            $('table').DataTable();
+
             // Gestion de la confirmation de suppression
             const links = document.querySelectorAll('.supprimer-produit');
             

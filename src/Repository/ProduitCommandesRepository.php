@@ -16,6 +16,16 @@ class ProduitCommandesRepository extends ServiceEntityRepository
         parent::__construct($registry, ProduitCommandes::class);
     }
 
+
+    public function findCommandProduct($id): array
+    {
+        return $this->createQueryBuilder('pc')
+            ->where('pc.id_produit = :idProd') 
+            ->setParameter('idProd', $id)
+            ->getQuery()
+            ->getResult();
+    }
+
     //    /**
     //     * @return ProduitCommandes[] Returns an array of ProduitCommandes objects
     //     */

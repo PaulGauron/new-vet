@@ -35,8 +35,6 @@ class ClientType extends AbstractType
                 'choices' => [
                     'Visa' => 'visa',
                     'MasterCard' => 'mastercard',
-                    'PayPal' => 'paypal',
-                    'Paysafecard' => 'paysafecard',
                 ],
                 'expanded' => false, // Si vous voulez un dropdown (déroulant), laissez à false
                 'multiple' => false, // Choix unique, donc false
