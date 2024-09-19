@@ -71,20 +71,20 @@ class BOlisteProduitController extends AbstractController
         $entityManager = $doctrine->getManager();
         $produit = new Produit;
         $images = new Images;
-        $materiaux = new Materiaux;
+        $produitMateriaux = new ProduitMateriaux;
         $produitImages = new ImagesProduit;
 
         $form = $this->createForm(MainAddProductType::class);
         $form->handleRequest($request);
 
 
-
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-
+            $listeMateriaux = $form->get('produit')->get('materiaux')->getData();
             $produit = $data['produit'];
             $images = $data['images'];
             $imageFile = $form->get('images')->get('image')->getData();
+           // dd($listeMateriaux);
 
             if ($imageFile) {
                 $safeFilename = $slugger->slug($images->getNomImage() . '-' . uniqid());
@@ -102,9 +102,15 @@ class BOlisteProduitController extends AbstractController
                 $images->setNomImage($safeFilename);
             }
 
+            foreach( $listeMateriaux as $materiaux){
+                $produitMateriaux->setIdMateriaux($materiaux);
+                $produitMateriaux->setIdProduit($produit);
+                $entityManager->persist($produitMateriaux);
+                $entityManager->flush();    
+            }
 
             $entityManager->persist($images);
-            $entityManager->flush();
+            $entityManager->flush();    
 
             $entityManager->persist($produit);
             $entityManager->flush();

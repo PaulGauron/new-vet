@@ -88,9 +88,9 @@ class ProduitType extends AbstractType
                     return $categorie->getId() . ' - ' . $categorie->getNomCat();
                 },
                 'data' => $produit ? $produit->getCategorie() : null, // Sélectionne la catégorie du produit si elle existe
-            ]);
+            ])
 
-            /*->add('materiaux', EntityType::class, [
+            ->add('materiaux', EntityType::class, [
                 'class' => Materiaux::class, // Entité des matériaux
                 'choice_label' => function (Materiaux $materiaux) {
                     return $materiaux->getId() . ' - ' . $materiaux->getNomMat();
@@ -106,7 +106,8 @@ class ProduitType extends AbstractType
                         'maxMessage' => 'Vous ne pouvez sélectionner que {{ limit }} matériaux au maximum.',
                     ]),
                 ],
-            ]);*/
+                'mapped' => false,
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

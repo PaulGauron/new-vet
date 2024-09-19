@@ -14,7 +14,7 @@ class ProduitMateriaux
     private ?Materiaux $id_materiaux = null;
 
     #[ORM\Id]
-    #[ORM\ManyToOne(targetEntity:Produit::class, inversedBy: 'Produit_Materiaux')]
+    #[ORM\ManyToOne(targetEntity:Produit::class, inversedBy: 'Produit_Materiaux', cascade: ["persist"]  )]
     #[ORM\JoinColumn(nullable: false)]
     private ?Produit $id_produit = null;
 
