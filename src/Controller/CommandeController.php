@@ -7,6 +7,7 @@ use App\Entity\DetailCommande;
 use App\Entity\Utilisateur;
 use App\Form\ConnexionType;
 use App\Repository\UtilisateurRepository;
+use App\Repository\CommandesRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Attribute\Route;

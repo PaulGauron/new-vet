@@ -6,9 +6,6 @@ use App\Entity\Commandes;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * @extends ServiceEntityRepository<Commandes>
- */
 class CommandesRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -16,28 +13,34 @@ class CommandesRepository extends ServiceEntityRepository
         parent::__construct($registry, Commandes::class);
     }
 
-    //    /**
-    //     * @return Commandes[] Returns an array of Commandes objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('c')
-    //            ->andWhere('c.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('c.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function findAllWithDetails()
+    {
+        return $this->createQueryBuilder('c')
+            // Jointure avec l'utilisateur lié à la commande
+            ->leftJoin('c.id_util', 'u')
+            ->addSelect('u')
+            
+            // Jointure avec la relation ProduitCommandes (produits liés à la commande)
+            ->leftJoin('c.produitCommande', 'pc')
+            ->addSelect('pc')
+            
+            // Jointure avec l'entité Produit liée à ProduitCommandes
+            ->leftJoin('pc.id_produit', 'p')
+            ->addSelect('p')
+            
+            ->getQuery()
+            ->getResult();
+    }
+    
 
-    //    public function findOneBySomeField($value): ?Commandes
-    //    {
-    //        return $this->createQueryBuilder('c')
-    //            ->andWhere('c.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    // public function findAllWithDetails(): array
+    // {
+    //     return $this->createQueryBuilder('c')
+    //         ->select('c', 'dc', 'u', 'pc')
+    //         ->join('c.id_util', 'u') // Utilisateur lié à la commande
+    //         ->join('c.id_com', 'dc') // Détails de la commande
+    //         ->join('c.produitCommande', 'pc') // Produits liés à la commande
+    //         ->getQuery()
+    //         ->getResult();
+    // }    
 }
