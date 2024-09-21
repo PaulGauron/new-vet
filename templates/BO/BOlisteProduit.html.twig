@@ -78,8 +78,9 @@ sélection multiple pour SUPPRESSION UNIQUEMENT possible #}
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 	<script>
-		document.addEventListener('DOMContentLoaded', function () { // Activer DataTables sur le tableau
-$('table').DataTable();
+		document.addEventListener('DOMContentLoaded', function () { 
+		// Activer DataTables sur le tableau
+		$('table').DataTable();
 
 // Gestion de la confirmation de suppression
 const links = document.querySelectorAll('.supprimer-produit');

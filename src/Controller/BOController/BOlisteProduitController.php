@@ -71,7 +71,6 @@ class BOlisteProduitController extends AbstractController
         $entityManager = $doctrine->getManager();
         $produit = new Produit;
         $images = new Images;
-        $produitMateriaux = new ProduitMateriaux;
         $produitImages = new ImagesProduit;
 
         $form = $this->createForm(MainAddProductType::class);
@@ -101,20 +100,17 @@ class BOlisteProduitController extends AbstractController
 
                 $images->setNomImage($safeFilename);
             }
+           
+            $entityManager->persist($produit);
 
             foreach( $listeMateriaux as $materiaux){
+                $produitMateriaux = new ProduitMateriaux;
                 $produitMateriaux->setIdMateriaux($materiaux);
                 $produitMateriaux->setIdProduit($produit);
-                $entityManager->persist($produitMateriaux);
-                $entityManager->flush();    
-            }
+                $entityManager->persist($produitMateriaux);                
+            }            
 
             $entityManager->persist($images);
-            $entityManager->flush();    
-
-            $entityManager->persist($produit);
-            $entityManager->flush();
-
             // Associer Produit et Images via ImagesProduit
             $produitImages->setProduit($produit);
             $produitImages->setImage($images);
@@ -146,7 +142,6 @@ class BOlisteProduitController extends AbstractController
                 'No product found for id ' . $id
             );
         }
-
 
         $form = $this->createForm(MainModifyProductType::class,$produit);
         $form->handleRequest($request);

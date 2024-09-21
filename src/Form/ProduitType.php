@@ -107,6 +107,9 @@ class ProduitType extends AbstractType
                     ]),
                 ],
                 'mapped' => false,
+                'data' => $produit ? $produit->getProduitMateriaux()->map(function($produitMateriaux) {
+                    return $produitMateriaux->getIdMateriaux(); // Retourne l'objet Materiaux
+                })->toArray() : null, // Convertir en tableau d'objets Materiaux
             ]);
     }
 
