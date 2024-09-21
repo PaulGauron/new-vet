@@ -36,7 +36,7 @@ class Utilisateur
     /**
      * @var Collection<int, Commandes>
      */
-    #[ORM\OneToMany(targetEntity: Commandes::class, mappedBy: 'commmande', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Commandes::class, mappedBy: 'id_util', orphanRemoval: true)]
     private Collection $commandes;
 
     /**

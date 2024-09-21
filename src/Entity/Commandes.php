@@ -101,7 +101,7 @@ class Commandes
     {
         if (!$this->produitCommande->contains($ProduitCommandes)) {
             $this->produitCommande->add($ProduitCommandes);
-            $ProduitCommandes->setIdCommande($this);
+            $ProduitCommandes->setCommande($this);
         }
 
         return $this;
@@ -111,8 +111,8 @@ class Commandes
     {
         if ($this->produitCommande->removeElement($ProduitCommandes)) {
             // set the owning side to null (unless already changed)
-            if ($ProduitCommandes->getIdCommande() === $this) {
-                $ProduitCommandes->setIdCommande(null);
+            if ($ProduitCommandes->getCommande() === $this) {
+                $ProduitCommandes->setCommande(null);
             }
         }
 

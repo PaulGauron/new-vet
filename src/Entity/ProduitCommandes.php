@@ -22,12 +22,12 @@ class ProduitCommandes
     #[ORM\Column]
     private ?int $quantite = null;
 
-    public function getIdCommande(): ?int
+    public function getCommande(): ?int
     {
         return $this->commande;
     }
 
-    public function setIdCommande(?Commandes $id_commande): static
+    public function setCommande(?Commandes $id_commande): static
     {
         $this->commande = $id_commande;
         return $this;

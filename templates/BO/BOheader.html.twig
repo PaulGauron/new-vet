@@ -5,10 +5,6 @@
             <img src="{{ asset('images/newvet_logo.png') }}" alt="Logo" class="h-10">
             {# <h1 class="text-white text-2xl font-bold">NewVet</h1> #}
         </div>
-        <div class="hidden md:flex items-center space-x-4">
-            <input type="text" placeholder="Rechercher..." class="px-4 py-2 rounded-md text-xl font-bold">
-            <button class="bg-orange-400 text-white px-4 py-2 rounded-md hover:bg-orange-500">Rechercher</button>
-        </div>
         <div class="md:hidden flex items-center">
             <button id="burger-menu" class="text-white focus:outline-none">
                 <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -19,7 +15,9 @@
         <nav class="md:flex hidden mt-4 mb-4">
             <ul class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 items-center text-xl font-bold">
                 <li><a href="{{ path('BO/ProductList') }}" class="text-white hover:text-blue-300">Liste des produits</a></li>
-                <!--<li><a href="{{ path('BO/tableauBord') }}" class="text-white hover:text-blue-300">Tableau de bord</a></li>-->
+                {# <li><a href="{{ path('BO/tableauBord') }}" class="text-white hover:text-blue-300">Tableau de bord</a></li> #}
+                <li><a href="{{ path('BOlisteCommande') }}" class="text-white hover:text-blue-300">Liste des commandes</a></li>
+
             </ul>
         </nav>
     </div>
