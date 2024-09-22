@@ -83,7 +83,7 @@ class CommandeController extends AbstractController
 
 
     #[Route('/supprimerCommande/{id}',name: 'suprimerCommande')]
-    public function suprimerCommande($id, ManagerRegistry $doctrine): Response
+    public function suprimerCommande($id, ManagerRegistry $doctrine,  SessionInterface $session): Response
     {
         $id = intval($id,10);
         $entityManager = $doctrine->getManager();
@@ -101,7 +101,11 @@ class CommandeController extends AbstractController
         $entityManager->remove($commande);
         $entityManager->flush();
 
+        if($session->get('user_role') == 'admin'){
+        return $this->redirectToRoute('BOlisteCommande'); 
+        }else{
         return $this->redirectToRoute('Mescommande');
+        }
         
     }
 

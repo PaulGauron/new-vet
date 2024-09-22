@@ -7,12 +7,12 @@
 {% block body %}
 	<h1 class="text-center text-3xl md:text-4xl lg:text-5xl font-extrabold text-orange-600 mt-12 shadow-md">Liste des Produits</h1>
 	<br><br>
-	<div class="flex items-center justify-center h-screen">
-		<label for="ajouterProd" class="mr-4">Ajouter un produit :</label>
-		<a href="{{ path('BO/ajouterProduit') }}" id="ajouterProd" class="inline-block text-center bg-orange-500 text-white font-semibold py-3 px-6 rounded hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-50">
-			Ajouter
-		</a>
-	</div>
+	<div class="flex items-center justify-center my-8">
+    <label for="ajouterProd" class="mr-4">Ajouter un produit :</label>
+    <a href="{{ path('BO/ajouterProduit') }}" id="ajouterProd" class="inline-block text-center bg-orange-500 text-white font-semibold py-2 px-4 rounded hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-50">
+        Ajouter
+    </a>
+</div>
 	<table class="min-w-full p-5 bg-white border border-gray-600">
 		<thead>
 			<tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal border border-gray-600">
