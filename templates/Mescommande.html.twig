@@ -1,35 +1,65 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1 class="text-center text-3xl md:text-4xl lg:text-5xl font-extrabold text-orange-600 mt-12 shadow-md">
-        Mes Commandes
-         <br><br>
-    </h1>
-   
-    <div class="container mx-auto mt-5">
-        {% for commande in commandes %}
-            <div class="mb-8 p-6 bg-gray-200 rounded-lg shadow-lg">
-                <h2 class="text-2xl font-bold text-gray-800">Commande n°{{ commande.commande_id }} du {{ commande.date }}</h2>
-                <p class="text-xl font-semibold text-orange-600 mt-2">Prix total: {{ commande.prix_total }}€</p>
-                <p class="mt-2"><strong>Livraison à:</strong> {{ commande.adresse.rue }}, {{ commande.adresse.ville }} - {{ commande.adresse.code_postal }}</p>
+	<h1 class="text-center text-3xl md:text-4xl lg:text-5xl font-extrabold text-orange-600 mt-12 shadow-md">
+		Mes Commandes
+		<br><br>
+	</h1>
 
-                <h3 class="text-xl font-bold text-gray-800 mt-4">Produits commandés :</h3>
-                <ul class="mt-2">
-                    {% for produit in commande.produits %}
-                        <li class="mb-4 flex items-start">
-                            <div class="w-16 h-16 relative mr-4">
-                                {% for image in produit.images %}
-                                    <img class="absolute inset-0 w-full h-full object-cover rounded" src="{{ asset('images/Produits/' ~ image ~ '.jpg') }}" alt="{{ produit.nom }}">
-                                {% endfor %}
-                            </div>
-                            <div>
-                                <div class="text-lg font-bold">{{ produit.nom }}</div>
-                                <div class="text-gray-700">{{ produit.prix }}€ x {{ produit.quantite }}</div>
-                            </div>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
-        {% endfor %}
-    </div>
+	<div class="container mx-auto mt-5">
+		{% for commande in commandes %}
+			<div class="mb-8 p-6 bg-gray-200 rounded-lg shadow-lg relative">
+				<h2 class="text-2xl font-bold text-gray-800">Commande n°{{ commande.commande_id }}
+					du
+					{{ commande.date }}</h2>
+				<p class="text-xl font-semibold text-orange-600 mt-2">Prix total:
+					{{ commande.prix_total }}€</p>
+				<p class="mt-2">
+					<strong>Livraison à:</strong>
+					{{ commande.adresse.rue }},
+					{{ commande.adresse.ville }}
+					-
+					{{ commande.adresse.code_postal }}</p>
+
+				<h3 class="text-xl font-bold text-gray-800 mt-4">Produits commandés :</h3>
+				<ul class="mt-2">
+					{% for produit in commande.produits %}
+						<li class="mb-4 flex items-start">
+							<div class="w-16 h-16 relative mr-4">
+								{% for image in produit.images %}
+									<img class="absolute inset-0 w-full h-full object-cover rounded" src="{{ asset('images/Produits/' ~ image ~ '.jpg') }}" alt="{{ produit.nom }}">
+								{% endfor %}
+							</div>
+							<div>
+								<div class="text-lg font-bold">{{ produit.nom }}</div>
+								<div class="text-gray-700">{{ produit.prix }}€ x
+									{{ produit.quantite }}</div>
+							</div>
+						</li>
+					{% endfor %}
+				</ul>
+				<p>
+					<span class="text-xl font-semibold text-orange-600 mt-2">Statut :
+					</span>
+					
+						{% if commande.statut == 'livraison' %}
+							<span class="font-bold text-gray-800 mt-4">En cours de
+								{{ commande.statut }}
+						{% elseif commande.statut == 'traitement' %}
+							<span class="font-bold text-gray-800 mt-4">en cours de
+								{{ commande.statut }}
+						{% else %}
+							<span class="font-bold text-gray-800 mt-4">{{ commande.statut }}
+						{% endif %}
+					</span>
+				</p>
+				{% if commande.statut == 'livraison' or commande.statut == 'traitement' %}
+                    {% set id = commande.commande_id %}
+					<a href="{{ path('suprimerCommande', {'id': id}) }}" class="bg-orange-500 text-white font-semibold rounded hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-100 focus:ring-opacity-50 absolute bottom-0 right-0 mb-4 mr-4 w-[170px] h-[40px] flex items-center justify-center">
+						Annuler Commande
+					</a>
+				{% endif %}
+			</div>
+		{% endfor %}
+	</div>
 {% endblock %}

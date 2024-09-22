@@ -20,10 +20,25 @@ class ProduitCommandesRepository extends ServiceEntityRepository
     public function findCommandProduct($id): array
     {
         return $this->createQueryBuilder('pc')
-            ->where('pc.id_produit = :idProd') 
+            ->where('pc.id_produit = :idProd')
             ->setParameter('idProd', $id)
             ->getQuery()
             ->getResult();
+    }
+
+    public function deleteByIdCommande($id)
+    {
+        $entityManager = $this->getEntityManager();
+
+        // Construire la requête avec QueryBuilder
+        $qb = $entityManager->createQueryBuilder();
+
+        $qb->delete('App\Entity\ProduitCommandes', 'pc')
+            ->where('pc.commande = :id') // Condition sur l'ID
+            ->setParameter('id', $id);
+
+        // Exécuter la requête
+        return $qb->getQuery()->execute();
     }
 
     //    /**

@@ -4,11 +4,13 @@ namespace App\Controller;
 
 use App\Entity\Commandes;
 use App\Entity\DetailCommande;
+use App\Entity\ProduitCommandes;
 use App\Entity\Utilisateur;
 use App\Form\ConnexionType;
 use App\Repository\UtilisateurRepository;
 use App\Repository\CommandesRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use PHPUnit\TextUI\Command;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,8 +35,7 @@ class CommandeController extends AbstractController
         }
     
         // Récupérer les commandes de l'utilisateur
-        $commandes = $entityManager->getRepository(Commandes::class)
-            ->findBy(['id_util' => $utilisateur]);
+        $commandes = $entityManager->getRepository(Commandes::class)->findBy(['id_util' => $utilisateur]);
      
         // Préparer les données à envoyer au template
         $commandesData = [];
@@ -62,7 +63,8 @@ class CommandeController extends AbstractController
      
             $commandesData[] = [
                 'commande_id' => $commande->getId(),
-                'date' => $detailsCommande->first()->getDateCommande()->format('Y/m/d H:i:s'),
+                'date' => $detailsCommande->first()->getDateCommande()->format('Y/m/d'),
+                'statut' => $detailsCommande->first()->getStatut(),
                 'prix_total' => $detailsCommande->first()->getPrixTot(),
                 'adresse' => [
                     'rue' => $adresse->getLibelleVoie(),
@@ -77,6 +79,30 @@ class CommandeController extends AbstractController
         return $this->render('Mescommande.html.twig', [
             'commandes' => $commandesData,
         ]);
+    }
+
+
+    #[Route('/supprimerCommande/{id}',name: 'suprimerCommande')]
+    public function suprimerCommande($id, ManagerRegistry $doctrine): Response
+    {
+        $id = intval($id,10);
+        $entityManager = $doctrine->getManager();
+        $commande = $entityManager->getRepository(Commandes::class)->find($id);
+        $detailsCommandes = $commande->getIdCom();
+        $produitsCommandes = $commande->getIdProduitCommande();
+        foreach($detailsCommandes as $detailsCommande){
+        $entityManager->remove($detailsCommande);
+        }
+        foreach($produitsCommandes as $produitCommande){
+            $stock = $produitCommande->getIdProduit()->getStock();
+            $produitCommande->getIdProduit()->setStock($stock + 1);
+        }
+        $entityManager->getRepository(ProduitCommandes::class)->deleteByIdCommande($id);
+        $entityManager->remove($commande);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('Mescommande');
+        
     }
 
 }

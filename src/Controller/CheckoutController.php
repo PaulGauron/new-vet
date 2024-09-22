@@ -179,6 +179,7 @@ class CheckoutController extends AbstractController
         $detail_commande->setPrixTot($prix_tot);
         $detail_commande->setDateCommande($date);
         $detail_commande->setIdCom($commande);
+        $detail_commande->setStatut('traitement');
         $entityManager->persist($commande);
         $entityManager->persist($detail_commande);
         $entityManager->flush();
