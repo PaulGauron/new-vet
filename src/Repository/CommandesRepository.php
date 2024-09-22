@@ -27,6 +27,10 @@ class CommandesRepository extends ServiceEntityRepository
             // Jointure avec l'entité Produit liée à ProduitCommandes
             ->leftJoin('pc.id_produit', 'p')
             ->addSelect('p')
+    
+            // Détails de la commande (id_com étant une collection)
+            ->leftJoin('c.id_com', 'dc')
+            ->addSelect('dc')
             
             ->getQuery()
             ->getResult();
