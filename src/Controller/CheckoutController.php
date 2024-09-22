@@ -187,7 +187,7 @@ class CheckoutController extends AbstractController
             $stock = $produit->getStock();
             $produit->setStock($stock - 1);
             $produitCommande = new ProduitCommandes();
-            $produitCommande->setIdCommande($commande);
+            $produitCommande->setCommande($commande);
             $produitCommande->setIdProduit($produit);
             $entityManager->persist($produitCommande);
             $produitCommande->setQuantite($panier);
