@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Produit;
+use App\Entity\ProduitCommandes;
 use App\Entity\ProduitMateriaux;
 use App\Form\ImagesType;
 use App\Form\MainAddProductType;
@@ -70,19 +71,20 @@ class BOlisteProduitController extends AbstractController
         $entityManager = $doctrine->getManager();
         $produit = new Produit;
         $images = new Images;
+        $produitMateriaux = new ProduitMateriaux;
         $produitImages = new ImagesProduit;
 
         $form = $this->createForm(MainAddProductType::class);
         $form->handleRequest($request);
 
 
-
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-
+            $listeMateriaux = $form->get('produit')->get('materiaux')->getData();
             $produit = $data['produit'];
             $images = $data['images'];
             $imageFile = $form->get('images')->get('image')->getData();
+           // dd($listeMateriaux);
 
             if ($imageFile) {
                 $safeFilename = $slugger->slug($images->getNomImage() . '-' . uniqid());
@@ -100,9 +102,15 @@ class BOlisteProduitController extends AbstractController
                 $images->setNomImage($safeFilename);
             }
 
+            foreach( $listeMateriaux as $materiaux){
+                $produitMateriaux->setIdMateriaux($materiaux);
+                $produitMateriaux->setIdProduit($produit);
+                $entityManager->persist($produitMateriaux);
+                $entityManager->flush();    
+            }
 
             $entityManager->persist($images);
-            $entityManager->flush();
+            $entityManager->flush();    
 
             $entityManager->persist($produit);
             $entityManager->flush();
@@ -197,9 +205,13 @@ class BOlisteProduitController extends AbstractController
         // Trouve le produit par son ID
         $produit = $produitRepository->findAllById($id);
 
-
         $entityManager = $doctrine->getManager();
-        if ($produit) {
+        $produitCommande = $entityManager->getRepository(ProduitCommandes::class)->findCommandProduct($id);
+       // dd($produitCommande);
+
+        if($produitCommande ){
+                $this->addFlash('error', 'le produit a une commande en cours. Vous ne pouvez pas le supprimer');
+        }else if($produit){            
             // Supprime le produit
            
             $directory = $this->getParameter('images_directory');
@@ -220,9 +232,9 @@ class BOlisteProduitController extends AbstractController
             $produitRepository->deleteProduit($produit[0]);
             // Ajoute un message de confirmation
             $this->addFlash('success', 'Produit supprimé avec succès.');
-        } else {
-            $this->addFlash('error', 'Produit non trouvé.');
-        }
+        }else{
+            $this->addFlash('error', 'le produit n\'existe pas .');
+        }   
 
         return $this->redirectToRoute('BO/ProductList');
     }

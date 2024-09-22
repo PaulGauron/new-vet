@@ -88,6 +88,25 @@ class ProduitType extends AbstractType
                     return $categorie->getId() . ' - ' . $categorie->getNomCat();
                 },
                 'data' => $produit ? $produit->getCategorie() : null, // Sélectionne la catégorie du produit si elle existe
+            ])
+
+            ->add('materiaux', EntityType::class, [
+                'class' => Materiaux::class, // Entité des matériaux
+                'choice_label' => function (Materiaux $materiaux) {
+                    return $materiaux->getId() . ' - ' . $materiaux->getNomMat();
+                },
+                'multiple' => true, // Permet la sélection multiple
+                'expanded' => false, // Définit si le champ est affiché en tant que case à cocher ou en tant que menu déroulant (ici, false pour menu déroulant)
+                'attr' => [
+                    'class' => 'w-full p-3 border rounded-md focus:outline-none focus:ring focus:ring-orange-200',
+                ],
+                'constraints' => [
+                    new Assert\Count([
+                        'max' => 3, // Limite à 3 matériaux maximum
+                        'maxMessage' => 'Vous ne pouvez sélectionner que {{ limit }} matériaux au maximum.',
+                    ]),
+                ],
+                'mapped' => false,
             ]);
     }
 

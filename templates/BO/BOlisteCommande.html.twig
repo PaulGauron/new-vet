@@ -16,9 +16,10 @@
         </tr>
     </thead>
     <tbody>
+
         {% for commande in commandes %}
             <tr>
-                <td>{{ commande.id }}</td>
+                <td>{{ commande.getIdUtil.getNom }} {{ commande.getIdUtil.getPrenom }}</td>
                 <td>{{ commande.id_util.nom }} {{ commande.id_util.prenom }}</td>
 
                 {# Vérification pour afficher la date des détails de la commande #}

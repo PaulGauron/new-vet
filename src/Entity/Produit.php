@@ -54,8 +54,8 @@ class Produit
     /**
      * @var Collection<int, ProduitCommandes>
      */
-    #[ORM\OneToMany(targetEntity: ProduitCommandes::class, mappedBy: 'id_produit', orphanRemoval: true)]
-    private Collection $produit_commande;
+    #[ORM\OneToMany(targetEntity: ProduitCommandes::class, mappedBy: 'commande', orphanRemoval: true)]
+    private Collection $produitCommande;
 
     #[ORM\OneToMany(targetEntity: ProduitMateriaux::class, mappedBy: 'id_produit', orphanRemoval: true)]
     private Collection $produit_materiaux;
@@ -78,7 +78,7 @@ class Produit
 
     public function __construct()
     {
-        $this->produit_commande = new ArrayCollection();
+        $this->produitCommande = new ArrayCollection();
         $this->imagesProduits = new ArrayCollection();
         $this->produit_materiaux = new ArrayCollection();
     }
@@ -198,13 +198,13 @@ class Produit
      */
     public function getProduitCommande(): Collection
     {
-        return $this->produit_commande;
+        return $this->produitCommande;
     }
 
     public function addProduitCommande(ProduitCommandes $produitCommande): static
     {
-        if (!$this->produit_commande->contains($produitCommande)) {
-            $this->produit_commande->add($produitCommande);
+        if (!$this->produitCommande->contains($produitCommande)) {
+            $this->produitCommande->add($produitCommande);
             $produitCommande->setIdProduit($this);
         }
 
@@ -213,7 +213,7 @@ class Produit
 
     public function removeProduitCommande(ProduitCommandes $produitCommande): static
     {
-        if ($this->produit_commande->removeElement($produitCommande)) {
+        if ($this->produitCommande->removeElement($produitCommande)) {
             // set the owning side to null (unless already changed)
             if ($produitCommande->getIdProduit() === $this) {
                 $produitCommande->setIdProduit(null);

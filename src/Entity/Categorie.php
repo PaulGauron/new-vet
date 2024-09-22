@@ -24,12 +24,12 @@ class Categorie
     /**
      * @var Collection<int, Produit>
      */
-    #[ORM\OneToMany(targetEntity: Produit::class, mappedBy: 'id_categorie')]
-    private Collection $produit;
+    #[ORM\OneToMany(targetEntity: Produit::class, mappedBy: 'categorie')]
+    private Collection $produit_categorie;
 
     public function __construct()
     {
-        $this->produit = new ArrayCollection();
+        $this->produit_categorie = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -66,7 +66,7 @@ class Categorie
      */
     public function getProduitCategorie(): Collection
     {
-        return $this->produit;
+        return $this->produit_categorie;
     }
 
 }
