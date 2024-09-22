@@ -3,57 +3,41 @@
 {% block title %}Liste des Commandes{% endblock %}
 
 {% block body %}
-<h1>Liste des Commandes</h1>
-
-<table>
-    <thead>
-        <tr>
-            <th>ID Commande</th>
-            <th>Nom Utilisateur</th>
-            <th>Date de Commande</th>
-            <th>Produits</th>
-            <th>Quantité</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for commande in commandes %}
-            <tr>
-                <td>{{ commande.id }}</td>
-                <td>{{ commande.id_util.nom }} {{ commande.id_util.prenom }}</td>
-
-                {# Vérification pour afficher la date des détails de la commande #}
-                <td>
-                    {% if commande.id_com|length > 0 %}
-                        {{ commande.id_com|first.date_commande|date('d/m/Y') }}
-                    {% else %}
-                        <em>Pas de date de commande</em>
-                    {% endif %}
-                </td>
-
-                <td>
-                    <ul>
-                        {% if commande.produitCommande|length > 0 %}
-                            {% for produitCommande in commande.produitCommande %}
-                                <li>{{ produitCommande.id_produit.nom_prod }}</li>
-                            {% endfor %}
-                        {% else %}
-                            <li>Aucun produit</li>
-                        {% endif %}
-                    </ul>
-                </td>
-                <td>
-                    <ul>
-                        {% if commande.produitCommande|length > 0 %}
-                            {% for produitCommande in commande.produitCommande %}
-                                <li>{{ produitCommande.quantite }}</li>
-                            {% endfor %}
-                        {% else %}
-                            <li>--</li>
-                        {% endif %}
-                    </ul>
-                </td>
+    <h1 class="text-center text-3xl md:text-4xl lg:text-5xl font-extrabold text-orange-600 mt-12 shadow-md">Liste des Commandes</h1>
+    <br/><br/>
+    
+    <table class="min-w-full p-5 bg-white border border-gray-600">
+        <thead>
+            <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal border border-gray-600">
+                <th class="py-3 px-6 text-center font-semibold text-gray-700 border-r border-gray-600 text-lg">ID Commande</th>
+                <th class="py-3 px-6 text-center font-semibold text-gray-700 border-r border-gray-600 text-lg">Nom Utilisateur</th>
+                <th class="py-3 px-6 text-center font-semibold text-gray-700 border-r border-gray-600 text-lg">Date de Commande</th>
+                <th class="py-3 px-6 text-center font-semibold text-gray-700 border-r border-gray-600 text-lg">Produits</th>
+                <th class="py-3 px-6 text-center font-semibold text-gray-700 border-r border-gray-600 text-lg">Supprimer</th>
             </tr>
-        {% endfor %}
-    </tbody>
-</table>
+        </thead>
+        <tbody class="text-gray-600 text-sm font-light">
+            {% for commande in commandes %}
+                <tr class="border-b border-gray-600 hover:bg-gray-100">
+                    <td class="py-3 px-6 text-center border-r border-gray-600 text-lg">{{ commande.getId() }}</td>
+                    <td class="py-3 px-6 text-center border-r border-gray-600 text-lg">{{ commande.getIdUtil().getNom() }} {{ commande.getIdUtil().getPrenom() }}</td>
+                    <td class="py-3 px-6 text-center border-r border-gray-600 text-lg">
+                        {% for detailCommande in commande.getIdCom() %}
+                            {{ detailCommande.dateCommande ? detailCommande.dateCommande|date('Y-m-d') : 'Date non disponible' }}
+                        {% endfor %}
+                    </td>
+                    <td class="py-3 px-6 text-center border-r border-gray-600 text-lg">
+                        <ul>
+                            {% for produitCommande in commande.getIdProduitCommande() %}
+                                <li>{{ produitCommande.getIdProduit().getNomProd() }} [{{ produitCommande.getQuantite() }}]</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td class="py-3 px-6 text-center border-r border-gray-600 text-lg">
+                        <!-- Code pour supprimer -->
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

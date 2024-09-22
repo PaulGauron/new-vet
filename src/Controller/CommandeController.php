@@ -23,7 +23,7 @@ class CommandeController extends AbstractController
     #[Route('/commande',name: 'Mescommande')]
     public function resumerCommandes(Request $request, ManagerRegistry $doctorine, SessionInterface $session)
     {
-      
+
         $entityManager = $doctorine->getManager();
         $userID = $session->get('utilisateur');
     
@@ -44,7 +44,7 @@ class CommandeController extends AbstractController
             $produitsCommandes = $commande->getIdProduitCommande();
             $adresse = $commande->getIdAdresse();
             $produitsData = [];
-           
+
             foreach ($produitsCommandes as $produitCommande) {
                 $produit = $produitCommande->getIdProduit();
                 $images = $produit->getImagesProduits();
@@ -60,7 +60,7 @@ class CommandeController extends AbstractController
                     'images' => $imagesData,
                 ];
             }
-     
+
             $commandesData[] = [
                 'commande_id' => $commande->getId(),
                 'date' => $detailsCommande->first()->getDateCommande()->format('Y/m/d'),
