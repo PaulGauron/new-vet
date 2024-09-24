@@ -24,6 +24,8 @@ class CommandeController extends AbstractController
     public function resumerCommandes(Request $request, ManagerRegistry $doctorine, SessionInterface $session)
     {
 
+        $dateActuelle = new \DateTime();
+        $dateMax = $dateActuelle->modify('-3 years')->format('Y');
         $entityManager = $doctorine->getManager();
         $userID = $session->get('utilisateur');
     
@@ -62,6 +64,7 @@ class CommandeController extends AbstractController
             }
 
             $commandesData[] = [
+                'recapitulatif' => $commande->getRecapitulatif(),
                 'commande_id' => $commande->getId(),
                 'date' => $detailsCommande->first()->getDateCommande()->format('Y/m/d'),
                 'statut' => $detailsCommande->first()->getStatut(),
@@ -78,6 +81,7 @@ class CommandeController extends AbstractController
         // Rendre le template avec les données de la commande
         return $this->render('Mescommande.html.twig', [
             'commandes' => $commandesData,
+            'dateMax' => $dateMax,
         ]);
     }
 

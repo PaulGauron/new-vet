@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ProduitCommandesRepository;
 use Doctrine\ORM\Mapping as ORM;
+use PHPUnit\TextUI\Command;
 
 #[ORM\Entity(repositoryClass: ProduitCommandesRepository::class)]
 class ProduitCommandes
@@ -22,7 +23,7 @@ class ProduitCommandes
     #[ORM\Column]
     private ?int $quantite = null;
 
-    public function getCommande(): ?int
+    public function getCommande(): ?Commandes
     {
         return $this->commande;
     }

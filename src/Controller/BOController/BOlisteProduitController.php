@@ -199,13 +199,24 @@ class BOlisteProduitController extends AbstractController
         }
         // Trouve le produit par son ID
         $produit = $produitRepository->findAllById($id);
-
+        $dateActuelle = new \DateTime();
+        $dateMax = $dateActuelle->modify('-3 years')->format('Y');
         $entityManager = $doctrine->getManager();
-        $produitCommande = $entityManager->getRepository(ProduitCommandes::class)->findCommandProduct($id);
-       // dd($produitCommande);
-
-        if($produitCommande ){
-                $this->addFlash('error', 'le produit a une commande en cours. Vous ne pouvez pas le supprimer');
+        $produitCommandes = $entityManager->getRepository(ProduitCommandes::class)->findCommandProduct($id);
+        $commandeMoinsde3an = false;
+        foreach($produitCommandes as $produitCommande){
+        $detailsCommandes = $produitCommande->getCommande()->getIdCom();
+            foreach($detailsCommandes as $detailsCommande){
+               // dd($detailsCommande->getDateCommande()->format('Y') < $dateMax);
+               if($detailsCommande->getDateCommande()->format('Y') > $dateMax ){
+                $commandeMoinsde3an = true;
+               }else{
+                $commandeMoinsde3an = false;
+               }
+            }
+        }
+        if($produitCommandes && $commandeMoinsde3an ){
+                $this->addFlash('error', 'le produit a une commande en cours de moins de 3ans. Vous ne pouvez pas le supprimer');
         }else if($produit){            
             // Supprime le produit
            

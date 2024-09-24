@@ -35,6 +35,9 @@ class Commandes
     #[ORM\JoinColumn(nullable: false)]
     private ?Adresse $adresse = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $recapitulatif = null;
+
     
     public function __construct()
     {
@@ -127,6 +130,18 @@ class Commandes
     public function setIdAdresse(?Adresse $id_adresse): static
     {
         $this->adresse = $id_adresse;
+
+        return $this;
+    }
+
+    public function getRecapitulatif(): ?string
+    {
+        return $this->recapitulatif;
+    }
+
+    public function setRecapitulatif(?string $recapitulatif): static
+    {
+        $this->recapitulatif = $recapitulatif;
 
         return $this;
     }
