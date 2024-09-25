@@ -41,6 +41,21 @@ class ProduitCommandesRepository extends ServiceEntityRepository
         return $qb->getQuery()->execute();
     }
 
+    public function deleteByIdProduit($id)
+    {
+        $entityManager = $this->getEntityManager();
+
+        // Construire la requête avec QueryBuilder
+        $qb = $entityManager->createQueryBuilder();
+
+        $qb->delete('App\Entity\ProduitCommandes', 'pc')
+            ->where('pc.id_produit = :id') // Condition sur l'ID
+            ->setParameter('id', $id);
+
+        // Exécuter la requête
+        return $qb->getQuery()->execute();
+    }
+
     //    /**
     //     * @return ProduitCommandes[] Returns an array of ProduitCommandes objects
     //     */

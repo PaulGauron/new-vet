@@ -1,0 +1,88 @@
+{% extends 'BO/BObase.html.twig' %}
+
+{% block title %}Liste des Commandes
+{% endblock %}
+
+{% block body %}
+	<h1 class="text-center text-3xl md:text-4xl lg:text-5xl font-extrabold text-orange-600 mt-12 shadow-md">Liste des Commandes</h1>
+	<br/><br/>
+<div class="flex items-center justify-center my-8">
+    <label for="ajouterProd" class="mr-4">Ajouter un produit :</label>
+    <a href="{{ path('BO/ajouterCategorie') }}" id="ajouterCat" class="inline-block text-center bg-orange-500 text-white font-semibold py-2 px-4 rounded hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-50">
+        Ajouter
+    </a>
+</div>
+
+	<table class="min-w-full p-5 bg-white border border-gray-600">
+		<thead>
+			<tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal border border-gray-600">
+				<th class="py-3 px-6 text-center font-semibold text-gray-700 border-r border-gray-600 text-lg">ID Catégorie</th>
+				<th class="py-3 px-6 text-center font-semibold text-gray-700 border-r border-gray-600 text-lg">Nom catégorie</th>
+				<th class="py-3 px-6 text-center font-semibold text-gray-700 border-r border-gray-600 text-lg">Description</th>
+				<th class="py-3 px-6 text-center font-semibold text-gray-700 border-r border-gray-600 text-lg">Supprimer</th>
+			</tr>
+		</thead>
+		<tbody class="text-gray-600 text-sm font-light">
+			{% for categorie in categories %}
+				<tr class="border-b border-gray-600 hover:bg-gray-100">
+					<td class="py-3 px-6 text-center border-r border-gray-600 text-lg">{{ categorie.getId() }}</td>
+					<td class="py-3 px-6 text-center border-r border-gray-600 text-lg">{{ categorie.getNomCat() }}</td>
+					<td class="py-3 px-6 text-center border-r border-gray-600 text-lg">
+						
+					</td>
+					<td class="py-3 px-6 text-center border-r border-gray-600 text-lg">
+						<ul>
+							
+						</ul>
+					</td>
+					<td class="py-3 px-6 text-center border-r border-gray-600 text-lg">
+						{% set id = commande.getId() %}
+						<a href="{{ path('suprimerCategorie', {'id': id}) }}" class="supprimer-produit bg-orange-500 text-white font-semibold rounded hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-100 focus:ring-opacity-50 mx-auto px-4 py-2">
+							Supprimer Commande
+						</a>
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+{% endblock %}
+
+
+{% block javascripts %}
+	{# Inclure le CSS de DataTables #}
+	<link
+	rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css"/>
+	{# Inclure jQuery (si ce n'est pas déjà le cas) et le script DataTables #}
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+	<script>
+		document.addEventListener('DOMContentLoaded', function () { // Activer DataTables sur le tableau
+$('table').DataTable({
+searching: false // Désactiver la barre de recherche
+});
+
+// Gestion de la confirmation de suppression
+$('table').on('click', '.supprimer-produit', function (event) {
+event.preventDefault(); // Empêche la navigation automatique
+const userConfirmed = confirm('Êtes-vous sûr de vouloir supprimer cet élément ?');
+if (userConfirmed) {
+window.location.href = this.href; // Redirige vers le lien de suppression
+}
+});
+
+// Affichage des messages flash
+const flashMessages = {{ app.session.flashBag.all|json_encode|raw }};
+
+// Boucle sur les types de messages (success, error, etc.)
+for (const type in flashMessages) {
+if (flashMessages.hasOwnProperty(type)) {
+flashMessages[type].forEach(message => { // Créer une alerte JS pour chaque message
+alert(message);
+});
+}
+}
+});
+	</script>
+
+{% endblock %}

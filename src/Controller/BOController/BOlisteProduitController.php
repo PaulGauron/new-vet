@@ -15,6 +15,7 @@ use App\Form\ImagesType;
 use App\Form\MainAddProductType;
 use App\Form\MainModifyProductType;
 use App\Form\ProduitType;
+use App\Repository\CommandesRepository;
 use App\Repository\ProduitRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\DomCrawler\Image;
@@ -210,8 +211,7 @@ class BOlisteProduitController extends AbstractController
                // dd($detailsCommande->getDateCommande()->format('Y') < $dateMax);
                if($detailsCommande->getDateCommande()->format('Y') > $dateMax ){
                 $commandeMoinsde3an = true;
-               }else{
-                $commandeMoinsde3an = false;
+                break 2; 
                }
             }
         }
@@ -235,6 +235,17 @@ class BOlisteProduitController extends AbstractController
                 }
             }
 
+            foreach($produit[0]->getProduitMateriaux() as $produitMateriaux){
+                $produit_id = $produitMateriaux->getIdProduit()->getId();
+                $entityManager->getRepository(ProduitMateriaux::class)->deleteMateriauxProduitById($produit_id);
+            }
+           
+            foreach($produitCommandes as $produitCommande_id){
+                $produit_id = $produitCommande_id->getIdProduit()->getId();
+                $entityManager->getRepository(ProduitCommandes::class)->deleteByIdProduit($produit_id);
+            }
+
+            
             $produitRepository->deleteProduit($produit[0]);
             // Ajoute un message de confirmation
             $this->addFlash('success', 'Produit supprimé avec succès.');

@@ -196,7 +196,7 @@ class CheckoutController extends AbstractController
         foreach ($paniers as $key => $panier) {
             $produit = $this->entityManager->getRepository(Produit::class)->find($key);
             $stock = $produit->getStock();
-            $produit->setStock($stock - 1);
+            $produit->setStock($stock - $panier);
             $produitCommande = new ProduitCommandes();
             $produitCommande->setCommande($commande);
             $produitCommande->setIdProduit($produit);

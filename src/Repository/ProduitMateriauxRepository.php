@@ -16,6 +16,21 @@ class ProduitMateriauxRepository extends ServiceEntityRepository
         parent::__construct($registry, ProduitMateriaux::class);
     }
 
+    public function deleteMateriauxProduitById($id)
+    {
+        $entityManager = $this->getEntityManager();
+
+        // Construire la requête avec QueryBuilder
+        $qb = $entityManager->createQueryBuilder();
+
+        $qb->delete('App\Entity\ProduitMateriaux', 'pm')
+            ->where('pm.id_produit = :id') // Condition sur l'ID
+            ->setParameter('id', $id);
+
+        // Exécuter la requête
+        return $qb->getQuery()->execute();
+    }
+
     //    /**
     //     * @return ProduitMateriaux[] Returns an array of ProduitMateriaux objects
     //     */
